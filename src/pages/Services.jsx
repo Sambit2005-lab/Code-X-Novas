@@ -3,7 +3,7 @@ import React from "react";
 import { FiMonitor, FiSmartphone } from "react-icons/fi"; 
 import { motion } from "framer-motion";
 import RightElement from "../assets/Services/RightElement.png"; 
-import MapImage from "../assets/Services/map.png"; 
+import MapImage from "../assets/Services/Map.png"; 
 
 // Services Section- Having a list of services Provided by Code-X-Novas
 const servicesData = [
