@@ -1,0 +1,10 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Disallow admin or build directories if any
+Disallow: /admin/
+Disallow: /.git/
+
+# Sitemap location
+Sitemap: https://codexnovas.in/sitemap.xml
