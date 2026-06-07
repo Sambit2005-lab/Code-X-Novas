@@ -248,7 +248,7 @@ export default function HeroWithNavbar() {
                         >
                             {/* Explore Button */}
                             <button
-                                onClick={() => document.getElementById("products")?.scrollIntoView({ behavior: "smooth" })}
+                                onClick={() => navigate("/products")}
                                 className="min-w-[220px] px-6 py-3 rounded-md font-semibold text-white text-[14px]"
                                 style={{
                                     background: `linear-gradient(90deg,#2352A5 0%,#137DD1 20%,#02A7FD 45%,#42ACEF 70%,#7DE2FF 92%,#B7F1FF 100%)`,
@@ -260,6 +260,7 @@ export default function HeroWithNavbar() {
 
                             {/* Partner Button */}
                             <button
+                                onClick={() => handleNavClick("contact", "/contact")}
                                 className="min-w-[180px] px-6 py-3 rounded-md text-[#1E5FB3] font-semibold text-[14px] border-[2px] border-[#1E5FB3] hover:bg-sky-50 transition-all bg-transparent"
                             >
                                 Partner With Us
@@ -335,10 +336,7 @@ export default function HeroWithNavbar() {
                         transition={{ duration: 0.7, delay: 0.8 }}
                     >
                         <motion.button
-                            onClick={() => {
-                                const section = document.getElementById("products");
-                                if (section) section.scrollIntoView({ behavior: "smooth" });
-                            }}
+                            onClick={() => navigate("/products")}
                             className="px-5 lg:px-6 xl:px-7 py-2.5 lg:py-3 xl:py-3.5 rounded-md font-semibold text-white text-[14px] lg:text-[15px] xl:text-[16px]"
                             style={{
                                 background: `linear-gradient(90deg,#2352A5 0%,#137DD1 20%,#02A7FD 45%,#42ACEF 70%,#7DE2FF 92%,#B7F1FF 100%)`,
@@ -354,6 +352,7 @@ export default function HeroWithNavbar() {
                         </motion.button>
 
                         <motion.button
+                            onClick={() => handleNavClick("contact", "/contact")}
                             className="px-5 lg:px-6 xl:px-7 py-2.5 lg:py-3 xl:py-3.5 rounded-md text-[#1E5FB3] font-medium text-[14px] lg:text-[15px] xl:text-[16px] hover:bg-sky-50 border-[#1E5FB3] border-[2.5px] text-center bg-transparent transition-all"
                             initial={{ x: 20, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
