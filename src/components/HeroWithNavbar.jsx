@@ -207,7 +207,7 @@ export default function HeroWithNavbar() {
                 </div>
             )}
 
-            <div className="relative flex flex-col lg:flex-row items-center justify-between sm:px-6 md:px-12 lg:px-16 xl:px-20 z-10 min-h-[calc(100vh-60px)] sm:min-h-[calc(100vh-70px)] md:min-h-[calc(100vh-80px)] lg:gap-8">
+            <div className="relative flex flex-col lg:flex-row items-center justify-between sm:px-6 md:px-12 lg:px-16 xl:px-20 z-10 min-h-fit lg:min-h-[calc(100vh-80px)] lg:gap-8">
 
                 <img
                     loading="lazy"

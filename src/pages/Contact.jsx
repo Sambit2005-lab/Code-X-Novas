@@ -452,7 +452,7 @@ const Contact = () => {
                                     Products
                                 </li>
                                 <li className="text-gray-600">
-                                    <a href="/products">Synchrotask</a>
+                                    <a href="/products">SAS</a>
                                 </li>
                             </ul>
                         </motion.div>
@@ -470,7 +470,7 @@ const Contact = () => {
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: 0.7 }}
                         >
-                            ©Code-X-Novas 2025 All Rights Reserved
+                            ©Code-X-Novas 2026 All Rights Reserved
                         </motion.p>
                         <motion.div 
                             className="flex ml-2 justify-between text-sm px-2 text-gray-400"
@@ -630,7 +630,7 @@ const Contact = () => {
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.4, delay: 0.6 }}
                             >
-                                <a href="/products">Synchrotask</a>
+                                <a href="/products">SAS</a>
                             </motion.li>
                         </motion.ul>
                     </motion.div>
@@ -649,7 +649,7 @@ const Contact = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.8 }}
                     >
-                        ©Code-X-Novas 2025 All Rights Reserved
+                        ©Code-X-Novas 2026 All Rights Reserved
                     </motion.p>
                     <motion.div 
                         className="flex space-x-6"
