@@ -78,7 +78,12 @@ export default function Hackathon() {
           EMAILJS_TEMPLATE_ID,
           {
             to_name: formData.fullName,
+            name: formData.fullName,
+            user_name: formData.fullName,
             to_email: formData.email,
+            email: formData.email,
+            user_email: formData.email,
+            recipient_email: formData.email,
             phone: formData.phone,
             college_name: formData.collegeName,
             year: formData.year,
