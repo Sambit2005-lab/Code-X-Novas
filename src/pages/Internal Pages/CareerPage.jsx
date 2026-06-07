@@ -123,7 +123,7 @@ export default function CareerPage() {
 
     const handleApplySubmit = async (e) => {
         e.preventDefault();
-        if (selectedCareer?.status === "closed") {
+        if (selectedCareer?.status?.toLowerCase() === "closed") {
             alert("Sorry, applications for this position are now closed.");
             setShowApplyModal(false);
             return;
@@ -341,6 +341,11 @@ export default function CareerPage() {
                                 whileHover={{ y: -8, scale: 1.02 }}
                                 className="relative group overflow-hidden cursor-pointer w-[90%] md:w-[85%] lg:w-[80%] mx-auto"
                             >
+                                {career.status?.toLowerCase() === "closed" && (
+                                    <span className="absolute top-3 right-3 z-20 bg-red-600 text-white text-[10px] font-bold font-mono tracking-wider px-2.5 py-1 rounded animate-pulse">
+                                        CLOSED
+                                    </span>
+                                )}
                                 <img
                                     src={getCareerImg(career.img)}
                                     loading="lazy"
@@ -368,7 +373,7 @@ export default function CareerPage() {
                                         className="opacity-0 group-hover:opacity-100 mt-3 px-5 py-2 bg-white text-gray-800 
                                  font-medium rounded-md shadow-lg transition-all duration-500"
                                     >
-                                        Join Now
+                                        {career.status?.toLowerCase() === "closed" ? "Closed" : "Join Now"}
                                     </motion.button>
                                 </div>
                             </motion.div>
@@ -400,7 +405,7 @@ export default function CareerPage() {
                                     ✕
                                 </button>
 
-                                {selectedCareer?.status === "closed" ? (
+                                {selectedCareer?.status?.toLowerCase() === "closed" ? (
                                     <div className="text-center py-4">
                                         {/* Sleek dual-ring warning icon with animation */}
                                         <div className="relative w-20 h-20 mx-auto mb-6 flex items-center justify-center">
