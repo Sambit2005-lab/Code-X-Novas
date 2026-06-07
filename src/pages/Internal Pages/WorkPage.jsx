@@ -6,8 +6,8 @@ import TextHover from "../../components/TextHover";
 import { db } from "../../firebase";
 import { collection, getDocs } from "firebase/firestore";
 const Synchrotask = "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811311/codexnovas/hbsrqbqnrchliutvrfp6.png";
-const SkillLoop = "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811650/codexnovas/fapho2uecxflb36rc2ej.png";
-const UrbanPilgrim = "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811641/codexnovas/nc7tvhwqkitkpxmk0vkp.png";
+const SkillLoop = "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811641/codexnovas/nc7tvhwqkitkpxmk0vkp.png";
+const UrbanPilgrim = "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811650/codexnovas/fapho2uecxflb36rc2ej.png";
 const Ecommerce = "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811488/codexnovas/lxycwmo9x5efbhgsfmm6.png";
 const TakshilaFM = "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811758/codexnovas/kwzwkydevd5s0baxua7f.png";
 const Animation1 = "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811755/codexnovas/udx6lmctkoouw9y66khr.gif";
@@ -83,8 +83,8 @@ export default function WorkPage() {
     const [projectList, setProjectList] = useState([]);
 
     const workData = [
-        { title: "Synchrotask", subtitle: "AI-Powered Productivity with Human Precision", img: "synchrotask", category: "Website" },
         { title: "Skill Loop", subtitle: "AI-Powered Productivity with Human Precision", img: "skillloop", category: "Website" },
+        { title: "Synchrotask", subtitle: "AI-Powered Productivity with Human Precision", img: "synchrotask", category: "Website" },
         { title: "Urban Pilgrim", subtitle: "Urban Wellness Rooted in Indian Wisdom", img: "urbanpilgrim", category: "Website" },
         { title: "Ecommerce Website", subtitle: "AI-Powered Productivity", img: "ecommerce", category: "Website" },
         { title: "Takshila FM", subtitle: "AI-Powered Productivity", img: "takshilafm", category: "Website" },
@@ -137,19 +137,33 @@ export default function WorkPage() {
         frame12,
     ];
 
+    const sortWorks = (list) => {
+        const skillLoop = list.find(w => w.title?.toLowerCase().trim() === "skill loop");
+        const synchrotask = list.find(w => w.title?.toLowerCase().trim() === "synchrotask");
+        const others = list.filter(w => {
+            const titleLower = w.title?.toLowerCase().trim();
+            return titleLower !== "skill loop" && titleLower !== "synchrotask";
+        });
+        const result = [];
+        if (skillLoop) result.push(skillLoop);
+        if (synchrotask) result.push(synchrotask);
+        result.push(...others);
+        return result;
+    };
+
     useEffect(() => {
         const fetchProjects = async () => {
             try {
                 const snap = await getDocs(collection(db, "works"));
                 const list = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 if (list.length > 0) {
-                    setProjectList(list);
+                    setProjectList(sortWorks(list));
                 } else {
-                    setProjectList(workData);
+                    setProjectList(sortWorks(workData));
                 }
             } catch (err) {
                 console.error("Error loading works: ", err);
-                setProjectList(workData);
+                setProjectList(sortWorks(workData));
             }
         };
         fetchProjects();

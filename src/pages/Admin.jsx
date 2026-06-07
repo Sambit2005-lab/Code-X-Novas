@@ -57,8 +57,8 @@ const getWorkImg = (imgName) => {
   if (typeof imgName !== "string") return imgName;
   const lower = imgName.toLowerCase();
   if (lower.includes("synchrotask")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811311/codexnovas/hbsrqbqnrchliutvrfp6.png";
-  if (lower.includes("skillloop") || lower.includes("skill loop")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811650/codexnovas/fapho2uecxflb36rc2ej.png";
-  if (lower.includes("urbanpilgrim") || lower.includes("urban pilgrim")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811641/codexnovas/nc7tvhwqkitkpxmk0vkp.png";
+  if (lower.includes("skillloop") || lower.includes("skill loop")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811641/codexnovas/nc7tvhwqkitkpxmk0vkp.png";
+  if (lower.includes("urbanpilgrim") || lower.includes("urban pilgrim")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811650/codexnovas/fapho2uecxflb36rc2ej.png";
   if (lower.includes("ecommerce") && !lower.includes("1") && !lower.includes("2")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811488/codexnovas/lxycwmo9x5efbhgsfmm6.png";
   if (lower.includes("takshilafm") || lower.includes("takshila fm")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811758/codexnovas/kwzwkydevd5s0baxua7f.png";
   if (lower.includes("animation5") || lower.includes("water")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811695/codexnovas/qwfko9hy1ren11o8dsol.gif";
@@ -278,8 +278,8 @@ export default function Admin() {
       let worksList = worksSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       
       const defaultWorks = [
-        { title: "Synchrotask", desc: "AI-Powered Productivity with Human Precision", img: "synchrotask", category: "Website", link: "https://synchrotask.com" },
         { title: "Skill Loop", desc: "AI-Powered Productivity with Human Precision", img: "skillloop", category: "Website", link: "https://skillloop.co" },
+        { title: "Synchrotask", desc: "AI-Powered Productivity with Human Precision", img: "synchrotask", category: "Website", link: "https://synchrotask.com" },
         { title: "Urban Pilgrim", desc: "Urban Wellness Rooted in Indian Wisdom", img: "urbanpilgrim", category: "Website", link: "https://urbanpilgrim.in" },
         { title: "Ecommerce Website", desc: "AI-Powered Productivity", img: "ecommerce", category: "Website", link: "https://codexnovas.in" },
         { title: "Takshila FM", desc: "AI-Powered Productivity", img: "takshilafm", category: "Website", link: "https://takshila.fm" },
@@ -315,7 +315,22 @@ export default function Admin() {
           worksList = [...worksList, ...added];
         }
       }
-      setWorks(worksList);
+
+      const sortWorks = (list) => {
+        const skillLoop = list.find(w => w.title?.toLowerCase().trim() === "skill loop");
+        const synchrotask = list.find(w => w.title?.toLowerCase().trim() === "synchrotask");
+        const others = list.filter(w => {
+            const titleLower = w.title?.toLowerCase().trim();
+            return titleLower !== "skill loop" && titleLower !== "synchrotask";
+        });
+        const result = [];
+        if (skillLoop) result.push(skillLoop);
+        if (synchrotask) result.push(synchrotask);
+        result.push(...others);
+        return result;
+      };
+
+      setWorks(sortWorks(worksList));
 
       // Blogs
       const blogsSnap = await getDocs(collection(db, "blogs"));

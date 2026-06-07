@@ -5,8 +5,8 @@ import TextHover from "../components/TextHover";
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 const Synchrotask = "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811311/codexnovas/hbsrqbqnrchliutvrfp6.png";
-const SkillLoop = "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811650/codexnovas/fapho2uecxflb36rc2ej.png";
-const UrbanPilgrim = "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811641/codexnovas/nc7tvhwqkitkpxmk0vkp.png";
+const SkillLoop = "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811641/codexnovas/nc7tvhwqkitkpxmk0vkp.png";
+const UrbanPilgrim = "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811650/codexnovas/fapho2uecxflb36rc2ej.png";
 const Ecommerce = "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811488/codexnovas/lxycwmo9x5efbhgsfmm6.png";
 const TakshilaFM = "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811758/codexnovas/kwzwkydevd5s0baxua7f.png";
 import CurveGlow from "../assets/Works/curve-glow.png";
@@ -60,8 +60,8 @@ const getWorkImg = (imgName) => {
 
 /**Works Section*/
 const projectsData = [
-    { title: "Synchrotask", desc: "AI-Powered Productivity with Human Precision", img: "synchrotask", category: "Website" },
     { title: "Skill Loop", desc: "AI-Powered Productivity with Human Precision", img: "skillloop", category: "Website" },
+    { title: "Synchrotask", desc: "AI-Powered Productivity with Human Precision", img: "synchrotask", category: "Website" },
     { title: "Urban Pilgrim", desc: "Urban Wellness Rooted in Indian Wisdom", img: "urbanpilgrim", category: "Website" },
     { title: "Ecommerce Website", desc: "AI-Powered Productivity", img: "ecommerce", category: "Website" },
     { title: "Takshila FM", desc: "AI-Powered Productivity", img: "takshilafm", category: "Website" },
@@ -94,19 +94,33 @@ const Works = () => {
     const [mobileVisibleCount, setMobileVisibleCount] = useState(3);
     const [projectList, setProjectList] = useState([]);
 
+    const sortWorks = (list) => {
+        const skillLoop = list.find(w => w.title?.toLowerCase().trim() === "skill loop");
+        const synchrotask = list.find(w => w.title?.toLowerCase().trim() === "synchrotask");
+        const others = list.filter(w => {
+            const titleLower = w.title?.toLowerCase().trim();
+            return titleLower !== "skill loop" && titleLower !== "synchrotask";
+        });
+        const result = [];
+        if (skillLoop) result.push(skillLoop);
+        if (synchrotask) result.push(synchrotask);
+        result.push(...others);
+        return result;
+    };
+
     useEffect(() => {
         const fetchProjects = async () => {
             try {
                 const snap = await getDocs(collection(db, "works"));
                 const list = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 if (list.length > 0) {
-                    setProjectList(list);
+                    setProjectList(sortWorks(list));
                 } else {
-                    setProjectList(projectsData);
+                    setProjectList(sortWorks(projectsData));
                 }
             } catch (err) {
                 console.error("Error loading works: ", err);
-                setProjectList(projectsData);
+                setProjectList(sortWorks(projectsData));
             }
         };
         fetchProjects();
