@@ -90,7 +90,7 @@ const Careers = () => {
                 }}
             >
                 {careerList.map((career, idx) => (
-                    <motion.div
+                     <motion.div
                         key={idx}
                         onClick={() => navigate("/career")}
                         className="relative group overflow-hidden cursor-pointer rounded-none md:rounded-md"
@@ -105,6 +105,11 @@ const Careers = () => {
                         }}
                         whileHover={{ y: -10, transition: { duration: 0.3 } }}
                     >
+                        {career.status?.toLowerCase() === "closed" && (
+                            <span className="absolute top-3 right-3 z-20 bg-red-600 text-white text-[10px] font-bold font-mono tracking-wider px-2.5 py-1 rounded">
+                                CLOSED
+                            </span>
+                        )}
                         <motion.img
                             src={getCareerImg(career.img)}
                             loading="lazy"
@@ -126,7 +131,7 @@ const Careers = () => {
                                 }}
                                 className="hidden md:inline-flex mt-3 px-4 py-2 bg-white text-gray-800 font-medium rounded-md shadow-lg transition-all duration-300 md:opacity-0 md:group-hover:opacity-100"
                             >
-                                Join Now
+                                {career.status?.toLowerCase() === "closed" ? "Closed" : "Join Now"}
                             </button>
                         </div>
                     </motion.div>
