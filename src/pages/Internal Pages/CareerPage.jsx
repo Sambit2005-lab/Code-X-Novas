@@ -378,19 +378,19 @@ export default function CareerPage() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+                            className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md"
                         >
                             <motion.div 
                                 initial={{ scale: 0.95, y: 20 }}
                                 animate={{ scale: 1, y: 0 }}
                                 exit={{ scale: 0.95, y: 20 }}
-                                className="w-full max-w-lg bg-zinc-950/90 border border-white/10 rounded-2xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl relative text-white"
+                                className="w-full max-w-lg bg-zinc-950/95 border border-white/10 rounded-2xl p-5 sm:p-8 backdrop-blur-xl shadow-2xl relative text-white max-h-[90vh] overflow-y-auto scrollbar-thin scrollbar-thumb-white/10"
                             >
                                 <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-blue-500/40 to-transparent" />
                                 
                                 <button 
                                     onClick={() => setShowApplyModal(false)}
-                                    className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+                                    className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors text-lg"
                                 >
                                     ✕
                                 </button>
@@ -449,11 +449,11 @@ export default function CareerPage() {
                                     </div>
                                 ) : !appSuccess ? (
                                     <form onSubmit={handleApplySubmit} className="space-y-5">
-                                        <div className="text-center mb-6">
+                                        <div className="text-center mb-5">
                                             <span className="text-[10px] font-mono tracking-widest text-[#4FA3FF] uppercase bg-[#016FAE]/10 border border-[#016FAE]/30 px-2.5 py-0.5 rounded">
                                                 Application Form
                                             </span>
-                                            <h3 className="text-xl font-bold font-sora text-white mt-3">
+                                            <h3 className="text-lg sm:text-xl font-bold font-sora text-white mt-3">
                                                 Apply for {selectedPosition}
                                             </h3>
                                             <p className="text-xs text-gray-400 mt-1">
@@ -511,6 +511,20 @@ export default function CareerPage() {
                                                         className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-[#4FA3FF]"
                                                     />
                                                 </div>
+                                                <div>
+                                                    <label className="block text-gray-400 mb-1.5 uppercase font-mono tracking-wider">Experience Level</label>
+                                                    <select
+                                                        value={appForm.experience}
+                                                        onChange={(e) => setAppForm({ ...appForm, experience: e.target.value })}
+                                                        className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-[#4FA3FF]"
+                                                    >
+                                                        <option>Freshers / Entry Level</option>
+                                                        <option>1-3 Years Experience</option>
+                                                        <option>3+ Years Experience</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                                 <div>
                                                     <label className="block text-gray-400 mb-1.5 uppercase font-mono tracking-wider">Portfolio URL</label>
@@ -518,7 +532,7 @@ export default function CareerPage() {
                                                         type="url"
                                                         value={appForm.portfolioUrl}
                                                         onChange={(e) => setAppForm({ ...appForm, portfolioUrl: e.target.value })}
-                                                        placeholder="https://github.com/username"
+                                                        placeholder="https://github.com/..."
                                                         className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-[#4FA3FF]"
                                                     />
                                                 </div>
@@ -529,26 +543,12 @@ export default function CareerPage() {
                                                         required
                                                         value={appForm.linkedInUrl}
                                                         onChange={(e) => setAppForm({ ...appForm, linkedInUrl: e.target.value })}
-                                                        placeholder="https://linkedin.com/in/username"
+                                                        placeholder="https://linkedin.com/in/..."
                                                         className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-[#4FA3FF]"
                                                     />
                                                 </div>
                                             </div>
-                                            </div>
 
-                                            <div>
-                                                <label className="block text-gray-400 mb-1.5 uppercase font-mono tracking-wider">Experience Level</label>
-                                                <select
-                                                    value={appForm.experience}
-                                                    onChange={(e) => setAppForm({ ...appForm, experience: e.target.value })}
-                                                    className="w-full bg-black border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-[#4FA3FF]"
-                                                >
-                                                    <option>Freshers / Entry Level</option>
-                                                    <option>1-3 Years Experience</option>
-                                                    <option>3+ Years Experience</option>
-                                                </select>
-                                            </div>
- 
                                             {/* Render custom questions if configured */}
                                             {selectedCareer?.customQuestions && selectedCareer.customQuestions.length > 0 && (
                                                 <div className="space-y-4 border-t border-white/5 pt-4">
@@ -579,7 +579,7 @@ export default function CareerPage() {
                                                     onChange={(e) => setAppForm({ ...appForm, coverNote: e.target.value })}
                                                     placeholder="Why do you want to join Code-X-Novas?"
                                                     rows="3"
-                                                    className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-2 text-white placeholder-gray-600 focus:outline-none focus:border-[#4FA3FF]"
+                                                    className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-2 text-white placeholder-gray-600 focus:outline-none focus:border-[#4FA3FF] resize-none"
                                                 />
                                             </div>
                                         </div>

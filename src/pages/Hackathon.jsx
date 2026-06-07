@@ -111,18 +111,18 @@ export default function Hackathon() {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f29370a_1px,transparent_1px),linear-gradient(to_bottom,#1f29370a_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none opacity-40" />
 
         {/* Header */}
-        <header className="sticky top-0 z-50 backdrop-blur-md bg-black/60 border-b border-white/5 px-4 sm:px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.location.href = "/"}>
-            <img src={Logo} alt="Code-X-Novas" className="h-8" />
-            <span className="text-sm tracking-wider font-mono text-cyan-400 bg-cyan-950/50 border border-cyan-800/50 px-2 py-0.5 rounded">
+        <header className="sticky top-0 z-50 backdrop-blur-md bg-black/60 border-b border-white/5 px-3 sm:px-8 py-3.5 flex items-center justify-between">
+          <div className="flex items-center gap-1.5 sm:gap-2 cursor-pointer" onClick={() => window.location.href = "/"}>
+            <img src={Logo} alt="Code-X-Novas" className="h-6 sm:h-8" />
+            <span className="text-[10px] sm:text-sm tracking-wider font-mono text-cyan-400 bg-cyan-950/50 border border-cyan-800/50 px-1.5 sm:px-2 py-0.5 rounded">
               HACKATHON
             </span>
           </div>
           <button 
             onClick={() => scrollToSection("waitlist-form-section")}
-            className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-xs sm:text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-600 group-hover:from-cyan-500 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-800 transition-all duration-300"
+            className="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-[11px] sm:text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-600 hover:text-white focus:outline-none transition-all duration-300"
           >
-            <span className="relative px-3 sm:px-5 py-1.5 transition-all ease-in duration-75 bg-black rounded-md group-hover:bg-opacity-0 font-mono tracking-wide">
+            <span className="relative px-2.5 sm:px-5 py-1.5 transition-all ease-in duration-75 bg-black rounded-md group-hover:bg-opacity-0 font-mono tracking-wide">
               Priority Access
             </span>
           </button>
@@ -251,7 +251,13 @@ export default function Hackathon() {
           </section>
 
           {/* Numbers Section */}
-          <section className="mb-24 sm:mb-32 relative">
+          <motion.section 
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="mb-24 sm:mb-32 relative"
+          >
             <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
               <span className="text-8xl sm:text-[180px] font-black tracking-widest font-mono">CODEX</span>
             </div>
@@ -270,8 +276,11 @@ export default function Hackathon() {
               ].map((stat, idx) => (
                 <motion.div 
                   key={idx}
-                  whileHover={{ y: -5 }}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  whileHover={{ y: -5 }}
                   className="p-6 rounded-xl border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] backdrop-blur-sm transition-all duration-300 relative group overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -283,17 +292,23 @@ export default function Hackathon() {
                 </motion.div>
               ))}
             </div>
-          </section>
+          </motion.section>
 
           {/* What You'll Get Section */}
           <section id="what-you-get" className="mb-24 sm:mb-32 scroll-mt-24">
-            <div className="text-center mb-16">
+            <motion.div 
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.8 }}
+              className="text-center mb-16"
+            >
               <h2 className="text-sm font-mono tracking-widest text-cyan-400 uppercase">Developer Perks</h2>
               <p className="text-3xl sm:text-5xl font-bold mt-2">What You’ll Get</p>
               <p className="text-gray-400 mt-4 max-w-xl mx-auto">
                 No generic hackathon fluff. We focus on real engineering experience and actual resume metrics.
               </p>
-            </div>
+            </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
@@ -372,6 +387,10 @@ export default function Hackathon() {
               ].map((perk, idx) => (
                 <motion.div 
                   key={idx}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: (idx % 3) * 0.1 }}
                   whileHover={{ scale: 1.02 }}
                   className="p-8 rounded-xl border border-white/5 bg-white/[0.01] hover:bg-white/[0.02] hover:border-cyan-500/30 backdrop-blur-md transition-all duration-300 flex flex-col justify-between group"
                 >
@@ -394,7 +413,13 @@ export default function Hackathon() {
           </section>
 
           {/* Campus Ambassador Section */}
-          <section className="mb-24 sm:mb-32 relative rounded-2xl border border-white/5 bg-gradient-to-r from-zinc-950 to-black p-8 sm:p-12 overflow-hidden">
+          <motion.section 
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="mb-24 sm:mb-32 relative rounded-2xl border border-white/5 bg-gradient-to-r from-zinc-950 to-black p-8 sm:p-12 overflow-hidden"
+          >
             <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-cyan-500/5 rounded-full blur-[80px]" />
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -440,10 +465,17 @@ export default function Hackathon() {
                 </ul>
               </div>
             </div>
-          </section>
+          </motion.section>
 
           {/* Waitlist Form Section */}
-          <section id="waitlist-form-section" className="max-w-2xl mx-auto scroll-mt-24">
+          <motion.section 
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            id="waitlist-form-section" 
+            className="max-w-2xl mx-auto scroll-mt-24"
+          >
             <div className="text-center mb-12">
               <span className="px-3 py-1 rounded-full bg-cyan-950/50 border border-cyan-900/50 text-xs text-cyan-400 font-mono uppercase">
                 Priority Registration
@@ -651,7 +683,7 @@ export default function Hackathon() {
                 )}
               </AnimatePresence>
             </div>
-          </section>
+          </motion.section>
         </main>
 
         {/* Footer */}
