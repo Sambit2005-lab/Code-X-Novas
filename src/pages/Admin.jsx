@@ -377,8 +377,17 @@ export default function Admin() {
   // Delete Handler
   const handleDelete = async (type, id) => {
     if (!window.confirm("Are you sure you want to delete this item?")) return;
+    
+    let collectionName = type;
+    if (type === "work") collectionName = "works";
+    else if (type === "blog") collectionName = "blogs";
+    else if (type === "career") collectionName = "careers";
+    else if (type === "contact") collectionName = "contacts";
+    else if (type === "job_app") collectionName = "job_applications";
+    else if (type === "hackathon") collectionName = "hackathon_waitlist";
+
     try {
-      await deleteDoc(doc(db, type === "work" ? "works" : type === "blog" ? "blogs" : "careers", id));
+      await deleteDoc(doc(db, collectionName, id));
       fetchAllData();
     } catch (err) {
       console.error("Error deleting document: ", err);
@@ -851,7 +860,7 @@ export default function Admin() {
                         <th className="py-3 px-4">Email</th>
                         <th className="py-3 px-4">Phone</th>
                         <th className="py-3 px-4">Message</th>
-                        <th className="py-3 px-4 text-right">View</th>
+                        <th className="py-3 px-4 text-right">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-white/5">
@@ -861,9 +870,12 @@ export default function Admin() {
                           <td className="py-3 px-4 text-gray-300">{item.email}</td>
                           <td className="py-3 px-4 text-gray-400">{item.phone || "—"}</td>
                           <td className="py-3 px-4 text-gray-400 truncate max-w-[200px]">{item.message}</td>
-                          <td className="py-3 px-4 text-right">
-                            <button onClick={() => setSelectedSubmission({ ...item, type: "Contact Submission" })} className="p-1 text-cyan-400 hover:text-cyan-300">
+                          <td className="py-3 px-4 text-right space-x-2">
+                            <button onClick={() => setSelectedSubmission({ ...item, type: "Contact Submission" })} className="p-1 text-cyan-400 hover:text-cyan-300" title="View details">
                               <Eye size={14} />
+                            </button>
+                            <button onClick={() => handleDelete("contact", item.id)} className="p-1 text-red-500 hover:text-red-400" title="Delete contact">
+                              <Trash2 size={14} />
                             </button>
                           </td>
                         </tr>
@@ -888,7 +900,7 @@ export default function Admin() {
                         <th className="py-3 px-4">Applied For</th>
                         <th className="py-3 px-4">Email</th>
                         <th className="py-3 px-4">Links</th>
-                        <th className="py-3 px-4 text-right">View</th>
+                        <th className="py-3 px-4 text-right">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-white/5">
@@ -901,9 +913,12 @@ export default function Admin() {
                             {item.resumeUrl && <a href={item.resumeUrl} target="_blank" rel="noreferrer" className="underline hover:text-white">Resume</a>}
                             {item.portfolioUrl && <a href={item.portfolioUrl} target="_blank" rel="noreferrer" className="underline hover:text-white">Portfolio</a>}
                           </td>
-                          <td className="py-3 px-4 text-right">
-                            <button onClick={() => setSelectedSubmission({ ...item, type: "Job Application" })} className="p-1 text-cyan-400 hover:text-cyan-300">
+                          <td className="py-3 px-4 text-right space-x-2">
+                            <button onClick={() => setSelectedSubmission({ ...item, type: "Job Application" })} className="p-1 text-cyan-400 hover:text-cyan-300" title="View details">
                               <Eye size={14} />
+                            </button>
+                            <button onClick={() => handleDelete("job_app", item.id)} className="p-1 text-red-500 hover:text-red-400" title="Delete application">
+                              <Trash2 size={14} />
                             </button>
                           </td>
                         </tr>
@@ -929,7 +944,7 @@ export default function Admin() {
                         <th className="py-3 px-4">Email</th>
                         <th className="py-3 px-4">Tech Stack</th>
                         <th className="py-3 px-4">Role</th>
-                        <th className="py-3 px-4 text-right">View</th>
+                        <th className="py-3 px-4 text-right">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-white/5">
@@ -940,9 +955,12 @@ export default function Admin() {
                           <td className="py-3 px-4 text-gray-300">{item.email}</td>
                           <td className="py-3 px-4 text-gray-400 truncate max-w-[150px]">{item.techStack}</td>
                           <td className="py-3 px-4 text-cyan-400">{item.interestedAs}</td>
-                          <td className="py-3 px-4 text-right">
-                            <button onClick={() => setSelectedSubmission({ ...item, type: "Hackathon Registration" })} className="p-1 text-cyan-400 hover:text-cyan-300">
+                          <td className="py-3 px-4 text-right space-x-2">
+                            <button onClick={() => setSelectedSubmission({ ...item, type: "Hackathon Registration" })} className="p-1 text-cyan-400 hover:text-cyan-300" title="View details">
                               <Eye size={14} />
+                            </button>
+                            <button onClick={() => handleDelete("hackathon", item.id)} className="p-1 text-red-500 hover:text-red-400" title="Delete registrant">
+                              <Trash2 size={14} />
                             </button>
                           </td>
                         </tr>
