@@ -166,15 +166,42 @@ export default function Admin() {
 
   // Submission Detail Modal
   const [selectedSubmission, setSelectedSubmission] = useState(null);
+  // Admin Management States
+  const [adminEmailsList, setAdminEmailsList] = useState([]);
+  const [newAdminEmail, setNewAdminEmail] = useState("");
+  const [isAddingAdmin, setIsAddingAdmin] = useState(false);
 
   // Listen to Auth State
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setAuthChecking(false);
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
-        fetchAllData();
+        const checkEmail = currentUser.email.toLowerCase();
+        let allowed = false;
+        if (checkEmail === "code.x.novas@gmail.com") {
+          allowed = true;
+        } else {
+          try {
+            const adminEmailsSnap = await getDocs(collection(db, "admin_emails"));
+            const allowedEmails = adminEmailsSnap.docs.map(doc => doc.data().email.toLowerCase());
+            if (allowedEmails.includes(checkEmail)) {
+              allowed = true;
+            }
+          } catch (e) {
+            console.error("Error verifying admin status:", e);
+          }
+        }
+
+        if (allowed) {
+          setUser(currentUser);
+          fetchAllData();
+        } else {
+          await signOut(auth);
+          setUser(null);
+        }
+      } else {
+        setUser(null);
       }
+      setAuthChecking(false);
     });
     return () => unsubscribe();
   }, []);
@@ -184,20 +211,49 @@ export default function Admin() {
     setAuthError("");
     setIsLoggingIn(true);
 
-    if (email !== "code.x.novas@gmail.com") {
-      setAuthError("Unauthorized email. Please use the official admin email: code.x.novas@gmail.com");
-      setIsLoggingIn(false);
-      return;
-    }
-
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      // 1. Attempt standard login
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const loggedInUser = userCredential.user;
+
+      // Check authorization
+      const checkEmail = loggedInUser.email.toLowerCase();
+      let allowed = false;
+      if (checkEmail === "code.x.novas@gmail.com") {
+        allowed = true;
+      } else {
+        const adminEmailsSnap = await getDocs(collection(db, "admin_emails"));
+        const allowedEmails = adminEmailsSnap.docs.map(doc => doc.data().email.toLowerCase());
+        if (allowedEmails.includes(checkEmail)) {
+          allowed = true;
+        }
+      }
+
+      if (!allowed) {
+        await signOut(auth);
+        setAuthError("Unauthorized email. You do not have admin privileges.");
+      }
     } catch (err) {
-      // If user doesn't exist, auto-register them to save manual setup time
-      if (err.code === "auth/user-not-found" || err.code === "auth/invalid-credential") {
+      // If user doesn't exist, auto-register them if they are authorized
+      if (err.code === "auth/user-not-found" || err.code === "auth/invalid-credential" || err.code === "auth/invalid-login-credentials") {
         try {
-          // Attempt registration
-          await createUserWithEmailAndPassword(auth, email, password);
+          const checkEmail = email.toLowerCase();
+          let allowed = false;
+          if (checkEmail === "code.x.novas@gmail.com") {
+            allowed = true;
+          } else {
+            const adminEmailsSnap = await getDocs(collection(db, "admin_emails"));
+            const allowedEmails = adminEmailsSnap.docs.map(doc => doc.data().email.toLowerCase());
+            if (allowedEmails.includes(checkEmail)) {
+              allowed = true;
+            }
+          }
+
+          if (allowed) {
+            await createUserWithEmailAndPassword(auth, email, password);
+          } else {
+            setAuthError("Unauthorized email. You do not have admin privileges.");
+          }
         } catch (regErr) {
           setAuthError(regErr.message);
         }
@@ -336,6 +392,10 @@ export default function Admin() {
       const hackathonList = hackathonSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setHackathonList(hackathonList);
 
+      // Authorized Admin Emails
+      const adminEmailsSnap = await getDocs(collection(db, "admin_emails"));
+      const adminEmails = adminEmailsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setAdminEmailsList(adminEmails);
     } catch (err) {
       console.error("Error fetching admin data:", err);
     } finally {
@@ -391,6 +451,54 @@ export default function Admin() {
       fetchAllData();
     } catch (err) {
       console.error("Error deleting document: ", err);
+    }
+  };
+
+  // Admin management Handlers
+  const handleAddAdmin = async (e) => {
+    e.preventDefault();
+    if (!newAdminEmail) return;
+    setIsAddingAdmin(true);
+    try {
+      const emailLower = newAdminEmail.toLowerCase().trim();
+      
+      const alreadyAdmin = adminEmailsList.some(admin => admin.email && admin.email.toLowerCase() === emailLower);
+      if (emailLower === "code.x.novas@gmail.com" || alreadyAdmin) {
+        alert("This email is already an admin!");
+        setIsAddingAdmin(false);
+        return;
+      }
+
+      await addDoc(collection(db, "admin_emails"), {
+        email: emailLower,
+        addedAt: new Date().toISOString()
+      });
+      
+      setNewAdminEmail("");
+      fetchAllData();
+      alert(`Admin email ${emailLower} has been added successfully! They can now log in/register.`);
+    } catch (err) {
+      console.error("Error adding admin: ", err);
+      alert("Failed to add admin email. Check Firestore security rules or logs.");
+    } finally {
+      setIsAddingAdmin(false);
+    }
+  };
+
+  const handleDeleteAdmin = async (id, emailToDelete) => {
+    if (emailToDelete.toLowerCase() === "code.x.novas@gmail.com") {
+      alert("Cannot delete the primary owner admin!");
+      return;
+    }
+    if (!window.confirm(`Are you sure you want to remove ${emailToDelete} from admins?`)) return;
+
+    try {
+      await deleteDoc(doc(db, "admin_emails", id));
+      fetchAllData();
+      alert("Admin email removed successfully.");
+    } catch (err) {
+      console.error("Error deleting admin email: ", err);
+      alert("Failed to delete admin email.");
     }
   };
 
@@ -658,6 +766,23 @@ export default function Admin() {
                   </span>
                 </button>
               ))}
+            </div>
+          </div>
+
+          <div className="mt-4">
+            <div className="px-3 py-2 text-xs font-mono uppercase tracking-widest text-gray-500">Settings</div>
+            <div className="space-y-2">
+              <button
+                onClick={() => { setActiveTab("manage_admins"); setSearchTerm(""); setCategoryFilter("All"); }}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm transition-all ${
+                  activeTab === "manage_admins" 
+                    ? "bg-cyan-500/10 border border-cyan-500/30 text-cyan-400" 
+                    : "bg-white/[0.01] border border-transparent text-gray-400 hover:text-white hover:bg-white/[0.02]"
+                }`}
+              >
+                <Lock size={16} />
+                Manage Admins
+              </button>
             </div>
           </div>
         </aside>
@@ -972,6 +1097,82 @@ export default function Admin() {
                       )}
                     </tbody>
                   </table>
+                </div>
+              )}
+
+              {/* MANAGE ADMINS */}
+              {activeTab === "manage_admins" && (
+                <div className="space-y-6">
+                  {/* Add Admin Form */}
+                  <form onSubmit={handleAddAdmin} className="bg-white/[0.02] border border-white/10 rounded-xl p-6">
+                    <h3 className="text-sm font-bold font-mono tracking-wider text-cyan-400 mb-4 uppercase">
+                      Authorize New Admin Email
+                    </h3>
+                    <p className="text-xs text-gray-400 mb-4 font-mono">
+                      Add an email address to allow them access. They can log in or create a new account using this email.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-4 items-end">
+                      <div className="flex-1 w-full">
+                        <label className="block text-xs text-gray-500 font-mono mb-2 uppercase">Email Address</label>
+                        <input
+                          type="email"
+                          required
+                          value={newAdminEmail}
+                          onChange={(e) => setNewAdminEmail(e.target.value)}
+                          placeholder="admin@codexnovas.in"
+                          className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 font-mono"
+                        />
+                      </div>
+                      <button
+                        type="submit"
+                        disabled={isAddingAdmin}
+                        className="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 text-black text-xs font-semibold rounded-lg font-mono tracking-wide uppercase transition-all shrink-0 w-full sm:w-auto"
+                      >
+                        {isAddingAdmin ? "Authorizing..." : "Add Admin"}
+                      </button>
+                    </div>
+                  </form>
+
+                  {/* Admins Table */}
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-xs font-mono">
+                      <thead>
+                        <tr className="border-b border-white/10 text-gray-500">
+                          <th className="py-3 px-4">Authorized Admin Email</th>
+                          <th className="py-3 px-4">Added Date</th>
+                          <th className="py-3 px-4 text-right">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-white/5">
+                        {/* Always show super owner admin */}
+                        <tr className="hover:bg-white/[0.01]">
+                          <td className="py-3 px-4 text-white font-bold flex items-center gap-2">
+                            code.x.novas@gmail.com
+                            <span className="text-[9px] bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 px-1.5 py-0.5 rounded font-bold uppercase">Owner</span>
+                          </td>
+                          <td className="py-3 px-4 text-gray-500">System Root</td>
+                          <td className="py-3 px-4 text-right text-gray-500 italic text-[10px]">Protected</td>
+                        </tr>
+                        {/* Dynamic list */}
+                        {adminEmailsList.map(item => (
+                          <tr key={item.id} className="hover:bg-white/[0.02]">
+                            <td className="py-3 px-4 text-gray-300 font-bold">{item.email}</td>
+                            <td className="py-3 px-4 text-gray-400">{item.addedAt ? new Date(item.addedAt).toLocaleDateString() : "—"}</td>
+                            <td className="py-3 px-4 text-right">
+                              <button
+                                type="button"
+                                onClick={() => handleDeleteAdmin(item.id, item.email)}
+                                className="p-1 text-red-500 hover:text-red-400"
+                                title="Remove admin"
+                              >
+                                <Trash2 size={14} />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               )}
             </>
