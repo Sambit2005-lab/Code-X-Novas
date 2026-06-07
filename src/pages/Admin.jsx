@@ -1223,12 +1223,12 @@ export default function Admin() {
       {/* SUBMISSION DETAIL VIEW MODAL */}
       {selectedSubmission && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm">
-          <div className="w-full max-w-lg bg-zinc-950 border border-white/10 rounded-2xl p-6 relative">
-            <h3 className="text-base font-bold font-mono tracking-wider text-cyan-400 mb-4 uppercase">
+          <div className="w-full max-w-lg bg-zinc-950 border border-white/10 rounded-2xl p-6 relative max-h-[90vh] flex flex-col">
+            <h3 className="text-base font-bold font-mono tracking-wider text-cyan-400 mb-4 uppercase shrink-0">
               {selectedSubmission.type}
             </h3>
 
-            <div className="space-y-4 text-xs font-mono max-h-[400px] overflow-y-auto pr-2">
+            <div className="space-y-4 text-xs font-mono overflow-y-auto pr-2 flex-1 custom-scrollbar">
               {Object.entries(selectedSubmission).map(([key, val]) => {
                 if (["id", "type"].includes(key)) return null;
                 return (
@@ -1255,7 +1255,7 @@ export default function Admin() {
 
             <button
               onClick={() => setSelectedSubmission(null)}
-              className="w-full mt-6 py-2.5 bg-white/5 border border-white/10 text-white rounded-lg hover:bg-white/10 transition-all font-mono text-xs"
+              className="w-full mt-6 py-2.5 bg-white/5 border border-white/10 text-white rounded-lg hover:bg-white/10 transition-all font-mono text-xs shrink-0"
             >
               CLOSE DETAILS
             </button>
