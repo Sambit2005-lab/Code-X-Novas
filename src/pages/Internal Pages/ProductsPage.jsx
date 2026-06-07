@@ -131,8 +131,8 @@ export default function ProductsPage() {
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.6, delay: 0.7 }}
                         >
-                            SyncroTask
-                        </motion.span> – All-in-One <br className="hidden md:block" /> Productivity Platform
+                            SAS
+                        </motion.span> – Smart Attendance <br className="hidden md:block" /> System
                     </motion.h1>
                     <motion.p
                         className="mb-3 md:mb-[80px] max-w-[550px] text-[#555] font-sora font-normal text-sm sm:text-lg md:text-[17px] leading-[2]"
@@ -141,10 +141,10 @@ export default function ProductsPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.9 }}
                     >
-                        AI + Human Expertise, at a fraction of the cost.
+                        AI-Powered Attendance Automation for Educational Institutions
                     </motion.p>
                 </section>
-
+ 
                 <section
                     className="relative z-10 w-full flex justify-center items-end overflow-hidden mt-[40px] sm:mt-[80px] h-[55vh] sm:h-[100vh]"
                     style={{
@@ -176,15 +176,15 @@ export default function ProductsPage() {
                                 animate={{ opacity: 1 }}
                                 transition={{ duration: 0.8, delay: 1.5 }}
                             >
-                                SyncroTask is your ultimate productivity companion — combining cutting-edge
-                                <br className="hidden md:block" /> AI tools with skilled human expertise to
-                                help you achieve more in less time, <br className="hidden md:block" /> without
-                                breaking the bank.
+                                Replace manual roll calling and costly biometric systems with a smarter,
+                                <br className="hidden md:block" /> faster, and more efficient attendance management solution.
+                                <br className="hidden md:block" /> SAS helps schools, colleges, universities, and coaching institutes automate
+                                <br className="hidden md:block" /> attendance using AI-powered classroom recognition.
                             </motion.p>
                         </motion.div>
                     </div>
                 </section>
-
+ 
                 <motion.div
                     className="shadow-lg px-6 py-6 md:px-8 md:py-8 flex flex-col justify-center mx-auto -mt-[120px] md:-mt-[200px]"
                     style={{
@@ -214,9 +214,9 @@ export default function ProductsPage() {
                     >
                         Key Features
                     </motion.h2>
-
+ 
                     <motion.ul
-                        className="text-[#111] text-[15px] sm:text-[16px] md:text-[20px] leading-[1.25] md:leading-[2.2] list-disc pl-5"
+                        className="text-[#111] text-[15px] sm:text-[16px] md:text-[20px] leading-[1.25] md:leading-[2.2] list-disc pl-5 mb-[30px]"
                         style={{
                             fontFamily: "Sora",
                             fontWeight: 400,
@@ -235,11 +235,12 @@ export default function ProductsPage() {
                         }}
                     >
                         {[
-                            { title: "Resume Creation", desc: "Professional, ATS-friendly resumes in minutes." },
-                            { title: "Blog Writing", desc: "SEO-friendly articles that engage and convert." },
-                            { title: "Pitch Deck Design", desc: "Investor-ready presentations that impress." },
-                            { title: "Website & App Development", desc: "Custom solutions for any business need." },
-                            { title: "AI + Human Collaboration", desc: "Get the speed of AI with the precision of expert review." },
+                            { title: "AI-Powered Attendance", desc: "Generate attendance automatically through classroom photographs in seconds." },
+                            { title: "Teacher Dashboard", desc: "Manage attendance, review records, and resolve attendance disputes with ease." },
+                            { title: "Student Dashboard", desc: "Allow students to view attendance records and raise correction requests when required." },
+                            { title: "Parent Visibility", desc: "Keep parents informed with attendance tracking and reporting features." },
+                            { title: "Institution Analytics", desc: "Monitor attendance trends, reports, and performance insights across departments and classes." },
+                            { title: "No Hardware Required", desc: "No biometric machines, fingerprint scanners, or expensive CCTV infrastructure needed." },
                         ].map((item, idx) => (
                             <motion.li
                                 key={idx}
@@ -256,8 +257,44 @@ export default function ProductsPage() {
                         ))}
                     </motion.ul>
 
+                    <motion.h2
+                        className="text-[#2352A5] text-[32px] md:text-[35px] font-[600] mb-[20px]"
+                        style={{ fontFamily: "Sora" }}
+                    >
+                        Why SAS?
+                    </motion.h2>
+                    <motion.ul
+                        className="text-[#111] text-[15px] sm:text-[16px] md:text-[20px] leading-[1.25] md:leading-[2.2] list-disc pl-5 mb-[30px]"
+                        style={{ fontFamily: "Sora", fontWeight: 400 }}
+                    >
+                        {[
+                            { title: "Save Classroom Time", desc: "Reduce time spent on manual roll calling and focus more on teaching." },
+                            { title: "Affordable for Every Institution", desc: "Starting at just ₹1 per student per month." },
+                            { title: "AI + Human Verification", desc: "Teachers remain in control and can review attendance before final submission." },
+                            { title: "Easy to Deploy", desc: "Works using existing devices and cloud infrastructure with minimal setup." },
+                        ].map((item, idx) => (
+                            <li key={idx} className="mb-2 sm:mb-0">
+                                <b>{item.title}</b> – {item.desc}
+                            </li>
+                        ))}
+                    </motion.ul>
+
+                    <motion.h2
+                        className="text-[#2352A5] text-[28px] md:text-[30px] font-[600] mb-[15px]"
+                        style={{ fontFamily: "Sora" }}
+                    >
+                        Ideal For
+                    </motion.h2>
+                    <div className="flex flex-wrap gap-2.5 mb-[35px]">
+                        {["Schools", "Colleges", "Universities", "Coaching Institutes", "Training Centers"].map((item, idx) => (
+                            <span key={idx} className="bg-blue-50 border border-blue-200 text-[#2352A5] px-3.5 py-1.5 rounded-full font-mono text-xs sm:text-sm font-semibold">
+                                • {item}
+                            </span>
+                        ))}
+                    </div>
+ 
                     <motion.h3
-                        className="text-[#2352A5] text-[28px] md:text-[35px] font-[600] mt-[20px] mb-[10px]"
+                        className="text-[#2352A5] text-[28px] md:text-[35px] font-[600] mt-[10px] mb-[10px]"
                         style={{ fontFamily: "Sora" }}
                         initial={{ opacity: 0, x: -30 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -272,10 +309,15 @@ export default function ProductsPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 3.5 }}
                     >
-                        All services at unbelievably affordable rates — making professional-quality work accessible to everyone.
+                        A modern attendance management platform that combines AI automation, institutional analytics, parent visibility, and administrative control without requiring costly hardware installations.
                     </motion.p>
 
+                    <p className="text-[#555] text-sm sm:text-base mt-6 font-mono leading-relaxed">
+                        Modern Attendance for the AI Era — Improve operational efficiency, enhance transparency, reduce paper-based processes, and provide a better experience for administrators, teachers, students, and parents.
+                    </p>
+ 
                     <motion.button
+                        onClick={() => window.open("https://sas.codexnovas.in", "_blank")}
                         style={{
                             background: `
                 linear-gradient(
@@ -294,7 +336,7 @@ export default function ProductsPage() {
                             fontSize: "16px",
                             padding: "10px 24px",
                             borderRadius: "6px",
-                            marginTop: "70px",
+                            marginTop: "30px",
                             alignSelf: "flex-start",
                         }}
                         initial={{ opacity: 0, scale: 0.8 }}
@@ -317,28 +359,28 @@ export default function ProductsPage() {
                         }}
                         whileTap={{ scale: 0.95 }}
                     >
-                        Try SyncroTask Now
+                        Explore SAS
                     </motion.button>
                 </motion.div>
-
+ 
                 <motion.div
-                    className="px-6 md:px-[2%] lg:px-[1.5%] max-w-[1300px] mx-auto"
+                    className="px-6 md:px-[2%] lg:px-[1.5%] max-w-[1300px] mx-auto text-start mb-[60px]"
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 4.2 }}
                 >
-                    <motion.h2
-                        className="text-[#2352A5] text-[28px] md:text-[30px] font-[600] text-start tracking-wide mb-[60px]"
-                        style={{ fontFamily: "Sora", marginLeft: "10px" }}
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.7, delay: 4.5 }}
-                        whileHover={{ x: 10, scale: 1.02 }}
-                    >
-                        COMING&nbsp;SOON<span style={{ color: "#2352A5" }}>...</span>
-                    </motion.h2>
+                    <h2 className="text-[#2352A5] text-lg sm:text-xl font-bold font-mono uppercase tracking-widest flex items-center gap-2 mb-2">
+                        <span className="flex h-2.5 w-2.5 relative">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+                        </span>
+                        LIVE NOW
+                    </h2>
+                    <a href="https://sas.codexnovas.in" target="_blank" rel="noreferrer" className="text-xl sm:text-2xl text-black hover:text-[#2352A5] transition-colors font-bold underline font-mono">
+                        sas.codexnovas.in
+                    </a>
                 </motion.div>
-
+ 
                 <motion.div
                     ref={contactRef}
                     className="relative z-20 bg-white w-full"
