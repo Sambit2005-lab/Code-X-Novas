@@ -89,7 +89,9 @@ export default function Hackathon() {
             interested_as: formData.interestedAs,
             registration_id: regId
           },
-          EMAILJS_PUBLIC_KEY
+          {
+            publicKey: EMAILJS_PUBLIC_KEY
+          }
         );
         console.log("Confirmation email sent successfully!");
       } catch (mailErr) {
