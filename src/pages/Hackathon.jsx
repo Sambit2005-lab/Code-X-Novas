@@ -567,7 +567,45 @@ export default function Hackathon() {
               <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent" />
               
               <AnimatePresence mode="wait">
-                {!isSuccess ? (
+                {isAlreadyApplied ? (
+                  <motion.div 
+                    key="already-applied"
+                    className="text-center py-8"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                  >
+                    <div className="w-16 h-16 bg-amber-950/45 border border-amber-500/30 rounded-full flex items-center justify-center mx-auto mb-6 text-amber-400">
+                      <Sparkles size={32} />
+                    </div>
+                    <h3 className="text-2xl font-bold mb-2">Spot Already Secured!</h3>
+                    <p className="text-gray-400 text-sm max-w-md mx-auto leading-relaxed">
+                      Hey <span className="text-white font-semibold font-mono">{formData.fullName || "Builder"}</span>, our records show you have already registered with the email <span className="text-cyan-400 font-mono">{formData.email}</span>.
+                    </p>
+
+                    <div className="mt-8 p-4 bg-white/[0.01] border border-white/5 rounded-xl font-mono text-left text-xs max-w-sm mx-auto space-y-2">
+                      <div className="text-gray-500 flex justify-between">
+                        <span>Status:</span>
+                        <span className="text-cyan-400">Waitlist_Priority_Active</span>
+                      </div>
+                      <div className="text-gray-500 flex justify-between">
+                        <span>Registration ID:</span>
+                        <span className="text-white">{registrationId}</span>
+                      </div>
+                    </div>
+
+                    <p className="text-xs text-gray-500 mt-6 max-w-xs mx-auto leading-relaxed">
+                      We have already reserved your spot on the priority queue. No further action is required!
+                    </p>
+
+                    <button
+                      onClick={handleBackToForm}
+                      className="mt-8 text-xs text-gray-500 hover:text-cyan-400 font-mono transition-colors"
+                    >
+                      ← Back to Form
+                    </button>
+                  </motion.div>
+                ) : !isSuccess ? (
                   <motion.form 
                     key="form"
                     onSubmit={handleSubmit} 
@@ -719,44 +757,6 @@ export default function Hackathon() {
                       )}
                     </button>
                   </motion.form>
-                ) : isAlreadyApplied ? (
-                  <motion.div 
-                    key="already-applied"
-                    className="text-center py-8"
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <div className="w-16 h-16 bg-amber-950/45 border border-amber-500/30 rounded-full flex items-center justify-center mx-auto mb-6 text-amber-400">
-                      <Sparkles size={32} />
-                    </div>
-                    <h3 className="text-2xl font-bold mb-2">Spot Already Secured!</h3>
-                    <p className="text-gray-400 text-sm max-w-md mx-auto leading-relaxed">
-                      Hey <span className="text-white font-semibold font-mono">{formData.fullName || "Builder"}</span>, our records show you have already registered with the email <span className="text-cyan-400 font-mono">{formData.email}</span>.
-                    </p>
-
-                    <div className="mt-8 p-4 bg-white/[0.01] border border-white/5 rounded-xl font-mono text-left text-xs max-w-sm mx-auto space-y-2">
-                      <div className="text-gray-500 flex justify-between">
-                        <span>Status:</span>
-                        <span className="text-cyan-400">Waitlist_Priority_Active</span>
-                      </div>
-                      <div className="text-gray-500 flex justify-between">
-                        <span>Registration ID:</span>
-                        <span className="text-white">{registrationId}</span>
-                      </div>
-                    </div>
-
-                    <p className="text-xs text-gray-500 mt-6 max-w-xs mx-auto leading-relaxed">
-                      We have already reserved your spot on the priority queue. No further action is required!
-                    </p>
-
-                    <button
-                      onClick={handleBackToForm}
-                      className="mt-8 text-xs text-gray-500 hover:text-cyan-400 font-mono transition-colors"
-                    >
-                      ← Back to Form
-                    </button>
-                  </motion.div>
                 ) : (
                   <motion.div 
                     key="success"
