@@ -21,6 +21,13 @@ import SEO from "../components/SEO";
 import Logo from "../assets/logo.png";
 import { db } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
+import emailjs from "@emailjs/browser";
+
+// EmailJS Configuration for Hackathon Waitlist
+// (Replace these with your new EmailJS account credentials if needed)
+const EMAILJS_SERVICE_ID = "service_p5thrc8"; 
+const EMAILJS_TEMPLATE_ID = "template_cwsi2j7"; 
+const EMAILJS_PUBLIC_KEY = "b0uIc5k2nFVvzPzTb";
 
 export default function Hackathon() {
   const [formData, setFormData] = useState({
@@ -38,6 +45,7 @@ export default function Hackathon() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [spotsRemaining, setSpotsRemaining] = useState(142); // Simulating FOMO spots left of 500
+  const [registrationId, setRegistrationId] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,18 +55,46 @@ export default function Hackathon() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+
+    const regId = `CNX-${Math.floor(100000 + Math.random() * 900000)}`;
+    setRegistrationId(regId);
     
     try {
       // Save to Firestore
       await addDoc(collection(db, "hackathon_waitlist"), {
         ...formData,
+        registrationId: regId,
         timestamp: new Date().toISOString()
       });
 
       // Save to local storage for double safety
       const waitlist = JSON.parse(localStorage.getItem("hackathon_waitlist") || "[]");
-      waitlist.push({ ...formData, timestamp: new Date().toISOString() });
+      waitlist.push({ ...formData, registrationId: regId, timestamp: new Date().toISOString() });
       localStorage.setItem("hackathon_waitlist", JSON.stringify(waitlist));
+
+      // Send confirmation email via EmailJS (fails gracefully)
+      try {
+        await emailjs.send(
+          EMAILJS_SERVICE_ID,
+          EMAILJS_TEMPLATE_ID,
+          {
+            to_name: formData.fullName,
+            to_email: formData.email,
+            phone: formData.phone,
+            college_name: formData.collegeName,
+            year: formData.year,
+            github_url: formData.githubUrl,
+            linkedin_url: formData.linkedinUrl,
+            tech_stack: formData.techStack,
+            interested_as: formData.interestedAs,
+            registration_id: regId
+          },
+          EMAILJS_PUBLIC_KEY
+        );
+        console.log("Confirmation email sent successfully!");
+      } catch (mailErr) {
+        console.error("Error sending confirmation email:", mailErr);
+      }
       
       setIsSubmitting(false);
       setIsSuccess(true);
@@ -69,7 +105,7 @@ export default function Hackathon() {
       console.error("Waitlist error:", err);
       // Fallback: show success anyway so user experience is smooth, saving to local storage
       const waitlist = JSON.parse(localStorage.getItem("hackathon_waitlist") || "[]");
-      waitlist.push({ ...formData, timestamp: new Date().toISOString() });
+      waitlist.push({ ...formData, registrationId: regId, timestamp: new Date().toISOString() });
       localStorage.setItem("hackathon_waitlist", JSON.stringify(waitlist));
       
       setIsSubmitting(false);
@@ -669,7 +705,7 @@ export default function Hackathon() {
                       </div>
                       <div className="text-gray-500 flex justify-between">
                         <span>ID:</span>
-                        <span className="text-cyan-400">CNX-{(Math.random() * 100000).toFixed(0)}</span>
+                        <span className="text-cyan-400">{registrationId}</span>
                       </div>
                     </div>
 
