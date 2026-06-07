@@ -24,9 +24,9 @@ import { collection, addDoc } from "firebase/firestore";
 import emailjs from "@emailjs/browser";
 
 // EmailJS Configuration for Hackathon Waitlist
-const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_HACKATHON_SERVICE_ID || "service_p5thrc8"; 
-const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_HACKATHON_TEMPLATE_ID || "template_cwsi2j7"; 
-const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_HACKATHON_PUBLIC_KEY || "b0uIc5k2nFVvzPzTb";
+const EMAILJS_SERVICE_ID = "service_p5thrc8"; 
+const EMAILJS_TEMPLATE_ID = "template_cwsi2j7"; 
+const EMAILJS_PUBLIC_KEY = "b0uIc5k2nFVvzPzTb";
 
 export default function Hackathon() {
   const [formData, setFormData] = useState({
