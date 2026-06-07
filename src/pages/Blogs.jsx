@@ -8,6 +8,17 @@ import Blog1 from "../assets/Blogs/1st.png";
 import Blog2 from "../assets/Blogs/2nd.png";
 import Blog3 from "../assets/Blogs/3rd.png";
 
+const getBlogImg = (imgName) => {
+    if (!imgName) return Big1;
+    if (typeof imgName !== "string") return imgName;
+    const lower = imgName.toLowerCase();
+    if (lower.includes("big1")) return Big1;
+    if (lower.includes("1st")) return Blog1;
+    if (lower.includes("2nd")) return Blog2;
+    if (lower.includes("3rd")) return Blog3;
+    return imgName;
+};
+
 const Blogs = () => {
     const defaultPosts = [
         {
@@ -115,7 +126,7 @@ const Blogs = () => {
                         transition={{ duration: 0.5, delay: 0.3 }}
                     />
                     <motion.img
-                        src={posts.find((p) => p.id === selectedId).img}
+                        src={getBlogImg(posts.find((p) => p.id === selectedId).img)}
                         loading="lazy"
                         alt="Featured blog mobile"
                         className="relative w-full h-[230px] object-cover z-10"
@@ -207,7 +218,7 @@ const Blogs = () => {
                             transition={{ duration: 0.6, delay: 0.2 }}
                         />
                         <motion.img
-                            src={Big1}
+                            src={getBlogImg(posts[0].img)}
                             loading="lazy"
                             alt="Featured blog"
                             className="relative w-full h-[350px] object-cover z-10"
@@ -253,7 +264,7 @@ const Blogs = () => {
                             >
                                 <div className="w-1/2 h-[110px] flex-shrink-0">
                                     <img
-                                        src={blog.img}
+                                        src={getBlogImg(blog.img)}
                                         loading="lazy"
                                         alt={`Blog ${blog.id}`}
                                         className="w-full h-full object-cover"
@@ -291,7 +302,7 @@ const Blogs = () => {
                             whileHover={{ y: -10, boxShadow: "0 10px 30px rgba(0,0,0,0.15)" }}
                         >
                             <motion.img
-                                src={blog.img}
+                                src={getBlogImg(blog.img)}
                                 loading="lazy"
                                 alt={`Blog ${blog.id}`}
                                 className="w-full h-[220px] object-cover mb-4"

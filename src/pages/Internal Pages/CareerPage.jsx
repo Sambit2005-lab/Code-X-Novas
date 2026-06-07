@@ -123,6 +123,11 @@ export default function CareerPage() {
 
     const handleApplySubmit = async (e) => {
         e.preventDefault();
+        if (selectedCareer?.status === "closed") {
+            alert("Sorry, applications for this position are now closed.");
+            setShowApplyModal(false);
+            return;
+        }
         setIsSubmittingApp(true);
         try {
             await addDoc(collection(db, "job_applications"), {

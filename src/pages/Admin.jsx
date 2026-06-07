@@ -39,6 +39,70 @@ import {
 } from "lucide-react";
 import Logo from "../assets/logo.png";
 
+// Import career assets for dynamic display in admin
+import UIUX from "../assets/Career/uiux.png";
+import Backend from "../assets/Career/backend.png";
+import AI from "../assets/Career/ai.png";
+import Community from "../assets/Career/community.png";
+
+// Import blog assets for dynamic display in admin
+import Big1 from "../assets/Blogs/big1.png";
+import Blog1 from "../assets/Blogs/1st.png";
+import Blog2 from "../assets/Blogs/2nd.png";
+import Blog3 from "../assets/Blogs/3rd.png";
+
+// Image mapping functions
+const getWorkImg = (imgName) => {
+  if (!imgName) return "";
+  if (typeof imgName !== "string") return imgName;
+  const lower = imgName.toLowerCase();
+  if (lower.includes("synchrotask")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811311/codexnovas/hbsrqbqnrchliutvrfp6.png";
+  if (lower.includes("skillloop") || lower.includes("skill loop")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811650/codexnovas/fapho2uecxflb36rc2ej.png";
+  if (lower.includes("urbanpilgrim") || lower.includes("urban pilgrim")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811641/codexnovas/nc7tvhwqkitkpxmk0vkp.png";
+  if (lower.includes("ecommerce") && !lower.includes("1") && !lower.includes("2")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811488/codexnovas/lxycwmo9x5efbhgsfmm6.png";
+  if (lower.includes("takshilafm") || lower.includes("takshila fm")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811758/codexnovas/kwzwkydevd5s0baxua7f.png";
+  if (lower.includes("animation5") || lower.includes("water")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811695/codexnovas/qwfko9hy1ren11o8dsol.gif";
+  if (lower.includes("animation3") || lower.includes("smoky")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811719/codexnovas/vbo84bopb2ln3l1rxjmz.gif";
+  if (lower.includes("animation1") || lower.includes("loading")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811755/codexnovas/udx6lmctkoouw9y66khr.gif";
+  if (lower.includes("animation2") || lower.includes("button")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811659/codexnovas/y54tplbgb4ou0mr1gyb8.gif";
+  if (lower.includes("animation4") || lower.includes("jumping")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811678/codexnovas/cpdjkbvbowpmgs5zgm5i.gif";
+  if (lower.includes("cohesiveminds") || lower.includes("cohesive minds")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811552/codexnovas/c0v3z8aegpgkr3qcngjq.png";
+  if (lower.includes("shagun")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811630/codexnovas/ripwd9ergvhv7pzb5mfd.png";
+  if (lower.includes("shoewebsite") || lower.includes("shoe website")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811556/codexnovas/nugdfc8nwxgnsnsrzyvc.png";
+  if (lower.includes("travelandtours") || lower.includes("travel and tours")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811600/codexnovas/kjv7bumz1u5pepcjsno2.png";
+  if (lower.includes("winzinfotech") || lower.includes("winz infotech")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811639/codexnovas/jbj6p0nhehf51bewcrbw.png";
+  if (lower.includes("ecommercewebsite1") || lower.includes("ecommerce store") || lower.includes("ecommerce website")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811566/codexnovas/xohjdfoxgig2lg8dkd0w.png";
+  if (lower.includes("ecommercewebsite2") || lower.includes("ecommerce platform")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811562/codexnovas/pmgawehaisg76xz89vr1.png";
+  if (lower.includes("genlokal") || lower.includes("gen lokal")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811421/codexnovas/vy2fulzlpnwbscsnivid.png";
+  if (lower.includes("gymapp") || lower.includes("gym app")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811335/codexnovas/sgyk4jwumotfqzkflhce.png";
+  if (lower.includes("vicinacustomer") || lower.includes("vicina customer")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811481/codexnovas/ugro3hfsjd851hdgdcfz.png";
+  if (lower.includes("vicinadelivery") || lower.includes("vicina delivery")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811441/codexnovas/g5r8ymjeece1rb0bfhc2.png";
+  if (lower.includes("vicinashop") || lower.includes("vicina shop")) return "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811359/codexnovas/au7z7hnsdyrnhspjwgcp.png";
+  return imgName;
+};
+
+const getCareerImg = (imgName) => {
+  if (!imgName) return UIUX;
+  if (typeof imgName !== "string") return imgName;
+  const lower = imgName.toLowerCase();
+  if (lower.includes("uiux") || lower.includes("ui/ux")) return UIUX;
+  if (lower.includes("backend")) return Backend;
+  if (lower.includes("ai") || lower.includes("frontend") || lower.includes("prompt")) return AI;
+  if (lower.includes("community") || lower.includes("business") || lower.includes("evangelist")) return Community;
+  return imgName;
+};
+
+const getBlogImg = (imgName) => {
+  if (!imgName) return Big1;
+  if (typeof imgName !== "string") return imgName;
+  const lower = imgName.toLowerCase();
+  if (lower.includes("big1")) return Big1;
+  if (lower.includes("1st")) return Blog1;
+  if (lower.includes("2nd")) return Blog2;
+  if (lower.includes("3rd")) return Blog3;
+  return imgName;
+};
+
 export default function Admin() {
   const [user, setUser] = useState(null);
   const [authChecking, setAuthChecking] = useState(true);
@@ -156,25 +220,87 @@ export default function Admin() {
       // Works
       const worksSnap = await getDocs(collection(db, "works"));
       let worksList = worksSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      if (worksList.length === 0) {
-        const defaultWorks = [
-          { title: "Synchrotask", desc: "AI-Powered Productivity with Human Precision", img: "synchrotask", category: "Website", link: "https://synchrotask.com" },
-          { title: "Skill Loop", desc: "AI-Powered Productivity with Human Precision", img: "skillloop", category: "Website", link: "https://skillloop.co" },
-          { title: "Urban Pilgrim", desc: "Urban Wellness Rooted in Indian Wisdom", img: "urbanpilgrim", category: "Website", link: "https://urbanpilgrim.in" },
-          { title: "Ecommerce Website", desc: "AI-Powered Productivity", img: "ecommerce", category: "Website", link: "https://codexnovas.in" },
-          { title: "Takshila FM", desc: "AI-Powered Productivity", img: "takshilafm", category: "Website", link: "https://takshila.fm" }
-        ];
-        const promises = defaultWorks.map(async (w) => {
-          const docRef = await addDoc(collection(db, "works"), w);
-          return { id: docRef.id, ...w };
-        });
-        worksList = await Promise.all(promises);
+      
+      const defaultWorks = [
+        { title: "Synchrotask", desc: "AI-Powered Productivity with Human Precision", img: "synchrotask", category: "Website", link: "https://synchrotask.com" },
+        { title: "Skill Loop", desc: "AI-Powered Productivity with Human Precision", img: "skillloop", category: "Website", link: "https://skillloop.co" },
+        { title: "Urban Pilgrim", desc: "Urban Wellness Rooted in Indian Wisdom", img: "urbanpilgrim", category: "Website", link: "https://urbanpilgrim.in" },
+        { title: "Ecommerce Website", desc: "AI-Powered Productivity", img: "ecommerce", category: "Website", link: "https://codexnovas.in" },
+        { title: "Takshila FM", desc: "AI-Powered Productivity", img: "takshilafm", category: "Website", link: "https://takshila.fm" },
+        { title: "Water filling Animation", desc: "Creative water filling loader animation", img: "animation5", category: "Animation" },
+        { title: "Smoky Animation", desc: "Elegant smoky canvas text reveal animation", img: "animation3", category: "Animation" },
+        { title: "Loading Animation", desc: "Smooth modern page loader animation", img: "animation1", category: "Animation" },
+        { title: "Button animation", desc: "Micro-interactive button state transitions", img: "animation2", category: "Animation" },
+        { title: "Jumping Animation", desc: "Playful character jumping physics animation", img: "animation4", category: "Animation" },
+        { title: "ECommerce Website", desc: "Sleek and responsive online store design", img: "ecommercewebsite1", category: "Website" },
+        { title: "Cohesive Minds", desc: "Collaborative agency and team landing platform", img: "cohesiveminds", category: "Website" },
+        { title: "Shagun", desc: "Premium custom wedding invitation platform", img: "shagun", category: "Website" },
+        { title: "Shoe Website", desc: "Immersive 3D interactive shoe collection showcase", img: "shoewebsite", category: "Website" },
+        { title: "Travel and Tours", desc: "Dynamic agency booking and planning site", img: "travelandtours", category: "Website" },
+        { title: "Winz Infotech", desc: "Professional IT services portfolio website", img: "winzinfotech", category: "Website" },
+        { title: "ECommerce Website", desc: "Robust multipurpose digital shop template", img: "ecommercewebsite2", category: "Website" },
+        { title: "Gen Lokal App", desc: "Hyperlocal service and vendor locator mobile application", img: "genlokal", category: "App Design" },
+        { title: "Gym App", desc: "Fitness routine and workout tracker mobile interface", img: "gymapp", category: "App Design" },
+        { title: "Vicina Customer App", desc: "Hyperlocal on-demand customer delivery mobile application", img: "vicinacustomer", category: "App Design" },
+        { title: "Vicina Delivery App", desc: "Real-time delivery driver tracking and logistics application", img: "vicinadelivery", category: "App Design" },
+        { title: "Vicina Shop App", desc: "Seller/Store management dashboard and order system app", img: "vicinashop", category: "App Design" }
+      ];
+
+      // If database is empty or has fewer than 15 items, sync missing default portfolio items
+      if (worksList.length < 15) {
+        const existingTitles = new Set(worksList.map(w => w.title ? w.title.toLowerCase().trim() : ""));
+        const toAdd = defaultWorks.filter(w => !existingTitles.has(w.title.toLowerCase().trim()));
+        if (toAdd.length > 0) {
+          const promises = toAdd.map(async (w) => {
+            const docRef = await addDoc(collection(db, "works"), w);
+            return { id: docRef.id, ...w };
+          });
+          const added = await Promise.all(promises);
+          worksList = [...worksList, ...added];
+        }
       }
       setWorks(worksList);
 
       // Blogs
       const blogsSnap = await getDocs(collection(db, "blogs"));
-      const blogsList = blogsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      let blogsList = blogsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      if (blogsList.length === 0) {
+        const defaultBlogs = [
+          {
+            img: "big1",
+            category: "AI & Automation",
+            title: "Building a Culture of Innovation in Tech Teams",
+            desc: "Discover how fostering creativity, collaboration, and ownership can transform your development team into a powerhouse of innovation and product excellence.",
+            date: "Oct 19 · 10 min read"
+          },
+          {
+            img: "1st",
+            category: "Design & Development",
+            title: "Powering the Future with Smart Engineering",
+            desc: "From microchips to machine learning, explore how modern engineering drives automation, eﬃciency, and the next generation of intelligent digital solutions.",
+            date: "Nov 5 · 8 min read"
+          },
+          {
+            img: "2nd",
+            category: "AI & Automation",
+            title: "How Data-Driven Decisions Shape Smarter Businesses",
+            desc: "Learn how AI and analytics empower companies to predict trends, optimize operations, and create personalized customer experiences in today’s fast-paced digital economy.",
+            date: "Dec 12 · 15 min read"
+          },
+          {
+            img: "3rd",
+            category: "Design & Development",
+            title: "Immersive Tech: The Future of User Experience",
+            desc: "Discover how VR and AR are redefining engagement — blending innovation and design to create immersive digital experiences that inspire, educate, and entertain.",
+            date: "Oct 19 · 10 min read"
+          }
+        ];
+        const promises = defaultBlogs.map(async (b) => {
+          const docRef = await addDoc(collection(db, "blogs"), b);
+          return { id: docRef.id, ...b };
+        });
+        blogsList = await Promise.all(promises);
+      }
       setBlogs(blogsList);
 
       // Careers
@@ -605,7 +731,7 @@ export default function Admin() {
                     <div key={item.id} className="p-4 bg-white/[0.02] border border-white/5 rounded-xl flex items-start gap-4 hover:border-cyan-500/30 transition-all">
                       <div className="w-20 h-16 bg-zinc-900 rounded-lg overflow-hidden flex-shrink-0 border border-white/5">
                         {item.img ? (
-                          <img src={item.img} alt={item.title} className="w-full h-full object-cover" />
+                          <img src={getWorkImg(item.img)} alt={item.title} className="w-full h-full object-cover" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-[10px] text-gray-600 font-mono">NO IMG</div>
                         )}
@@ -645,7 +771,7 @@ export default function Admin() {
                     <div key={item.id} className="p-4 bg-white/[0.02] border border-white/5 rounded-xl flex items-start gap-4 hover:border-cyan-500/30 transition-all">
                       <div className="w-20 h-16 bg-zinc-900 rounded-lg overflow-hidden flex-shrink-0 border border-white/5">
                         {item.img ? (
-                          <img src={item.img} alt={item.title} className="w-full h-full object-cover" />
+                          <img src={getBlogImg(item.img)} alt={item.title} className="w-full h-full object-cover" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-[10px] text-gray-600 font-mono">NO IMG</div>
                         )}
@@ -680,7 +806,7 @@ export default function Admin() {
                     <div key={item.id} className="p-4 bg-white/[0.02] border border-white/5 rounded-xl flex items-start gap-4 hover:border-cyan-500/30 transition-all">
                       <div className="w-20 h-16 bg-zinc-900 rounded-lg overflow-hidden flex-shrink-0 border border-white/5">
                         {item.img ? (
-                          <img src={item.img} alt={item.title} className="w-full h-full object-cover" />
+                          <img src={getCareerImg(item.img)} alt={item.title} className="w-full h-full object-cover" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-[10px] text-gray-600 font-mono">NO IMG</div>
                         )}

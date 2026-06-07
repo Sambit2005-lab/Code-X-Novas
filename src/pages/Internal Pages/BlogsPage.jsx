@@ -8,6 +8,23 @@ import { collection, getDocs } from "firebase/firestore";
 
 import Picture from "../../assets/InternalPages/BlogsPage/Picture.png";
 
+// Import blog assets for dynamic mapping
+import Big1 from "../../assets/Blogs/big1.png";
+import Blog1 from "../../assets/Blogs/1st.png";
+import Blog2 from "../../assets/Blogs/2nd.png";
+import Blog3 from "../../assets/Blogs/3rd.png";
+
+const getBlogImg = (imgName) => {
+  if (!imgName) return Picture;
+  if (typeof imgName !== "string") return imgName;
+  const lower = imgName.toLowerCase();
+  if (lower.includes("big1")) return Big1;
+  if (lower.includes("1st")) return Blog1;
+  if (lower.includes("2nd")) return Blog2;
+  if (lower.includes("3rd")) return Blog3;
+  return imgName;
+};
+
 import frame1 from "../../assets/InternalPages/BlogsPage/Frames/Frame1.png";
 import frame2 from "../../assets/InternalPages/BlogsPage/Frames/Frame2.png";
 import frame3 from "../../assets/InternalPages/BlogsPage/Frames/Frame3.png";
@@ -97,7 +114,7 @@ export default function BlogsPage() {
             color: "#2352A5",
             date: data.date || "Oct 19 · 10 min read",
             title: data.title,
-            image: data.img || data.image || Picture
+            image: getBlogImg(data.img || data.image || Picture)
           };
         });
         if (list.length > 0) {
