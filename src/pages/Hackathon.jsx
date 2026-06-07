@@ -20,7 +20,7 @@ import {
 import SEO from "../components/SEO";
 import Logo from "../assets/logo.png";
 import { db } from "../firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
 import emailjs from "@emailjs/browser";
 
 // EmailJS Configuration for Hackathon Waitlist
@@ -43,6 +43,7 @@ export default function Hackathon() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isAlreadyApplied, setIsAlreadyApplied] = useState(false);
   const [spotsRemaining, setSpotsRemaining] = useState(142); // Simulating FOMO spots left of 500
   const [registrationId, setRegistrationId] = useState("");
 
@@ -51,14 +52,46 @@ export default function Hackathon() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleBackToForm = () => {
+    setIsSuccess(false);
+    setIsAlreadyApplied(false);
+    setFormData({
+      fullName: "",
+      email: "",
+      phone: "",
+      collegeName: "",
+      year: "1st Year",
+      githubUrl: "",
+      linkedinUrl: "",
+      techStack: "",
+      interestedAs: "Participant",
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const regId = `CNX-${Math.floor(100000 + Math.random() * 900000)}`;
-    setRegistrationId(regId);
+    const checkEmail = formData.email.trim().toLowerCase();
     
     try {
+      // 1. Check for duplicates in Firestore by email
+      const q = query(collection(db, "hackathon_waitlist"), where("email", "==", checkEmail));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        // Retrieve existing details to show the user they've already secured their spot
+        const existingData = querySnapshot.docs[0].data();
+        setRegistrationId(existingData.registrationId || "CNX-ALREADY-SECURED");
+        setIsAlreadyApplied(true);
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Generate registration ID for new entry
+      const regId = `CNX-${Math.floor(100000 + Math.random() * 900000)}`;
+      setRegistrationId(regId);
+
       // Save to Firestore
       await addDoc(collection(db, "hackathon_waitlist"), {
         ...formData,
@@ -109,7 +142,9 @@ export default function Hackathon() {
       }
     } catch (err) {
       console.error("Waitlist error:", err);
-      // Fallback: show success anyway so user experience is smooth, saving to local storage
+      // Fallback success for local storage
+      const regId = `CNX-${Math.floor(100000 + Math.random() * 900000)}`;
+      setRegistrationId(regId);
       const waitlist = JSON.parse(localStorage.getItem("hackathon_waitlist") || "[]");
       waitlist.push({ ...formData, registrationId: regId, timestamp: new Date().toISOString() });
       localStorage.setItem("hackathon_waitlist", JSON.stringify(waitlist));
@@ -684,6 +719,44 @@ export default function Hackathon() {
                       )}
                     </button>
                   </motion.form>
+                ) : isAlreadyApplied ? (
+                  <motion.div 
+                    key="already-applied"
+                    className="text-center py-8"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <div className="w-16 h-16 bg-amber-950/45 border border-amber-500/30 rounded-full flex items-center justify-center mx-auto mb-6 text-amber-400">
+                      <Sparkles size={32} />
+                    </div>
+                    <h3 className="text-2xl font-bold mb-2">Spot Already Secured!</h3>
+                    <p className="text-gray-400 text-sm max-w-md mx-auto leading-relaxed">
+                      Hey <span className="text-white font-semibold font-mono">{formData.fullName || "Builder"}</span>, our records show you have already registered with the email <span className="text-cyan-400 font-mono">{formData.email}</span>.
+                    </p>
+
+                    <div className="mt-8 p-4 bg-white/[0.01] border border-white/5 rounded-xl font-mono text-left text-xs max-w-sm mx-auto space-y-2">
+                      <div className="text-gray-500 flex justify-between">
+                        <span>Status:</span>
+                        <span className="text-cyan-400">Waitlist_Priority_Active</span>
+                      </div>
+                      <div className="text-gray-500 flex justify-between">
+                        <span>Registration ID:</span>
+                        <span className="text-white">{registrationId}</span>
+                      </div>
+                    </div>
+
+                    <p className="text-xs text-gray-500 mt-6 max-w-xs mx-auto leading-relaxed">
+                      We have already reserved your spot on the priority queue. No further action is required!
+                    </p>
+
+                    <button
+                      onClick={handleBackToForm}
+                      className="mt-8 text-xs text-gray-500 hover:text-cyan-400 font-mono transition-colors"
+                    >
+                      ← Back to Form
+                    </button>
+                  </motion.div>
                 ) : (
                   <motion.div 
                     key="success"
@@ -716,7 +789,7 @@ export default function Hackathon() {
                     </div>
 
                     <button
-                      onClick={() => setIsSuccess(false)}
+                      onClick={handleBackToForm}
                       className="mt-8 text-xs text-gray-500 hover:text-cyan-400 font-mono transition-colors"
                     >
                       ← Back to Form
