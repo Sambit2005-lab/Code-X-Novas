@@ -178,6 +178,7 @@ export default function Admin() {
   // Admin Management States
   const [adminEmailsList, setAdminEmailsList] = useState([]);
   const [newAdminEmail, setNewAdminEmail] = useState("");
+  const [newAdminPassword, setNewAdminPassword] = useState("");
   const [isAddingAdmin, setIsAddingAdmin] = useState(false);
 
   // Listen to Auth State
@@ -227,13 +228,16 @@ export default function Admin() {
     try {
       const checkEmail = email.toLowerCase().trim();
       let allowed = false;
+      let allowedDoc = null;
+
       if (checkEmail === "code.x.novas@gmail.com") {
         allowed = true;
       } else {
         const adminEmailsSnap = await getDocs(collection(db, "admin_emails"));
-        const allowedEmails = adminEmailsSnap.docs.map(doc => doc.data().email.toLowerCase().trim());
-        if (allowedEmails.includes(checkEmail)) {
+        const matchedDoc = adminEmailsSnap.docs.find(doc => doc.data().email.toLowerCase().trim() === checkEmail);
+        if (matchedDoc) {
           allowed = true;
+          allowedDoc = { id: matchedDoc.id, ...matchedDoc.data() };
         }
       }
 
@@ -249,13 +253,28 @@ export default function Admin() {
         await signInWithEmailAndPassword(auth, checkEmail, password);
         loginSuccess = true;
       } catch (signInErr) {
-        if (signInErr.code === "auth/user-not-found" || signInErr.code === "auth/invalid-credential" || signInErr.code === "auth/invalid-login-credentials") {
-          // Try to create user if they are allowed but not in Firebase Auth
-          try {
-            await createUserWithEmailAndPassword(auth, checkEmail, password);
-            loginSuccess = true;
-          } catch (createErr) {
-            setAuthError("Invalid credentials or authentication error.");
+        if (signInErr.code === "auth/user-not-found" || signInErr.code === "auth/invalid-credential" || signInErr.code === "auth/invalid-login-credentials" || signInErr.code === "auth/wrong-password") {
+          // If the user does not exist in Firebase Auth yet, check the temporary password from Firestore
+          if (allowedDoc && allowedDoc.tempPassword) {
+            if (allowedDoc.tempPassword === password) {
+              try {
+                // Register the user automatically in Firebase Auth with the temporary password
+                await createUserWithEmailAndPassword(auth, checkEmail, password);
+                
+                // Remove the tempPassword field for security
+                await updateDoc(doc(db, "admin_emails", allowedDoc.id), {
+                  tempPassword: ""
+                });
+                
+                loginSuccess = true;
+              } catch (createErr) {
+                setAuthError("Failed to register account: " + createErr.message);
+              }
+            } else {
+              setAuthError("Incorrect temporary password.");
+            }
+          } else {
+            setAuthError("Invalid credentials or password.");
           }
         } else {
           setAuthError("Invalid credentials or password.");
@@ -552,12 +571,14 @@ export default function Admin() {
 
       await addDoc(collection(db, "admin_emails"), {
         email: emailLower,
+        tempPassword: newAdminPassword,
         addedAt: new Date().toISOString()
       });
       
       setNewAdminEmail("");
+      setNewAdminPassword("");
       fetchAllData();
-      alert(`Admin email ${emailLower} has been added successfully! They can now log in/register.`);
+      alert(`Admin email ${emailLower} has been added successfully with the temporary password! They can now log in/register.`);
     } catch (err) {
       console.error("Error adding admin: ", err);
       alert("Failed to add admin email. Check Firestore security rules or logs.");
@@ -1259,8 +1280,8 @@ export default function Admin() {
                     <p className="text-xs text-gray-400 mb-4 font-mono">
                       Add an email address to allow them access. They can log in or create a new account using this email.
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-4 items-end">
-                      <div className="flex-1 w-full">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                      <div className="w-full">
                         <label className="block text-xs text-gray-500 font-mono mb-2 uppercase">Email Address</label>
                         <input
                           type="email"
@@ -1271,6 +1292,19 @@ export default function Admin() {
                           className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 font-mono"
                         />
                       </div>
+                      <div className="w-full">
+                        <label className="block text-xs text-gray-500 font-mono mb-2 uppercase">Temporary Password</label>
+                        <input
+                          type="password"
+                          required
+                          value={newAdminPassword}
+                          onChange={(e) => setNewAdminPassword(e.target.value)}
+                          placeholder="Set temporary password"
+                          className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 font-mono"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex justify-end">
                       <button
                         type="submit"
                         disabled={isAddingAdmin}
