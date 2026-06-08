@@ -332,12 +332,15 @@ export default function Admin() {
 
     if (otpInput.trim() === generatedOtp) {
       try {
-        await signInWithEmailAndPassword(auth, tempCredentials.email, tempCredentials.password);
+        // Set the OTP verified flag in session storage BEFORE signing in so
+        // onAuthStateChanged sees it as verified immediately when it fires.
         sessionStorage.setItem("admin_otp_verified", "true");
+        await signInWithEmailAndPassword(auth, tempCredentials.email, tempCredentials.password);
         setShowOtpScreen(false);
         setTempCredentials(null);
         setGeneratedOtp("");
       } catch (err) {
+        sessionStorage.removeItem("admin_otp_verified");
         setOtpError("Failed to complete login. Please try again.");
         console.error("OTP post-sign-in failed:", err);
       } finally {
