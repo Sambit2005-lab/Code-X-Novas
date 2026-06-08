@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import emailjs from "@emailjs/browser";
 import { 
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
@@ -113,6 +114,14 @@ export default function Admin() {
   const [authError, setAuthError] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
+  // OTP Verification States
+  const [showOtpScreen, setShowOtpScreen] = useState(false);
+  const [otpInput, setOtpInput] = useState("");
+  const [generatedOtp, setGeneratedOtp] = useState("");
+  const [tempCredentials, setTempCredentials] = useState(null);
+  const [otpError, setOtpError] = useState("");
+  const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
+
   // Tab State
   const [activeTab, setActiveTab] = useState("works");
 
@@ -175,14 +184,14 @@ export default function Admin() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
-        const checkEmail = currentUser.email.toLowerCase();
+        const checkEmail = currentUser.email.toLowerCase().trim();
         let allowed = false;
         if (checkEmail === "code.x.novas@gmail.com") {
           allowed = true;
         } else {
           try {
             const adminEmailsSnap = await getDocs(collection(db, "admin_emails"));
-            const allowedEmails = adminEmailsSnap.docs.map(doc => doc.data().email.toLowerCase());
+            const allowedEmails = adminEmailsSnap.docs.map(doc => doc.data().email.toLowerCase().trim());
             if (allowedEmails.includes(checkEmail)) {
               allowed = true;
             }
@@ -191,11 +200,15 @@ export default function Admin() {
           }
         }
 
-        if (allowed) {
+        const isOtpVerified = sessionStorage.getItem("admin_otp_verified") === "true";
+
+        if (allowed && isOtpVerified) {
           setUser(currentUser);
           fetchAllData();
         } else {
-          await signOut(auth);
+          if (!isOtpVerified) {
+            await signOut(auth);
+          }
           setUser(null);
         }
       } else {
@@ -212,60 +225,113 @@ export default function Admin() {
     setIsLoggingIn(true);
 
     try {
-      // 1. Attempt standard login
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const loggedInUser = userCredential.user;
-
-      // Check authorization
-      const checkEmail = loggedInUser.email.toLowerCase();
+      const checkEmail = email.toLowerCase().trim();
       let allowed = false;
       if (checkEmail === "code.x.novas@gmail.com") {
         allowed = true;
       } else {
         const adminEmailsSnap = await getDocs(collection(db, "admin_emails"));
-        const allowedEmails = adminEmailsSnap.docs.map(doc => doc.data().email.toLowerCase());
+        const allowedEmails = adminEmailsSnap.docs.map(doc => doc.data().email.toLowerCase().trim());
         if (allowedEmails.includes(checkEmail)) {
           allowed = true;
         }
       }
 
       if (!allowed) {
-        await signOut(auth);
         setAuthError("Unauthorized email. You do not have admin privileges.");
+        setIsLoggingIn(false);
+        return;
+      }
+
+      // Check credentials by attempting to sign in
+      let loginSuccess = false;
+      try {
+        await signInWithEmailAndPassword(auth, checkEmail, password);
+        loginSuccess = true;
+      } catch (signInErr) {
+        if (signInErr.code === "auth/user-not-found" || signInErr.code === "auth/invalid-credential" || signInErr.code === "auth/invalid-login-credentials") {
+          // Try to create user if they are allowed but not in Firebase Auth
+          try {
+            await createUserWithEmailAndPassword(auth, checkEmail, password);
+            loginSuccess = true;
+          } catch (createErr) {
+            setAuthError("Invalid credentials or authentication error.");
+          }
+        } else {
+          setAuthError("Invalid credentials or password.");
+        }
+      }
+
+      if (loginSuccess) {
+        // Sign out immediately so Firebase doesn't keep them logged in during OTP verification
+        await signOut(auth);
+
+        // Generate a 6-digit OTP
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        setGeneratedOtp(otp);
+        setTempCredentials({ email: checkEmail, password });
+        setOtpError("");
+        setOtpInput("");
+
+        // Output OTP to console for developer convenience/debugging
+        console.log("-----------------------------------------");
+        console.log("🔒 ADMIN OTP VERIFICATION CODE:", otp);
+        console.log("-----------------------------------------");
+
+        // Send Email via EmailJS
+        try {
+          await emailjs.send(
+            "service_5hqfkmn",
+            "template_zfp7e0s",
+            {
+              from_name: "Code-X-Novas Security",
+              from_email: "code.x.novas@gmail.com",
+              to_name: "Admin",
+              message: `Your admin login OTP verification code is: ${otp}. Please enter this code to complete your login. This code is valid for 10 minutes.`,
+              reply_to: "code.x.novas@gmail.com",
+              to_email: checkEmail
+            },
+            "SuuyPe1FNbCGOQaWM"
+          );
+        } catch (emailErr) {
+          console.error("Failed to send OTP email via EmailJS:", emailErr);
+        }
+
+        setShowOtpScreen(true);
       }
     } catch (err) {
-      // If user doesn't exist, auto-register them if they are authorized
-      if (err.code === "auth/user-not-found" || err.code === "auth/invalid-credential" || err.code === "auth/invalid-login-credentials") {
-        try {
-          const checkEmail = email.toLowerCase();
-          let allowed = false;
-          if (checkEmail === "code.x.novas@gmail.com") {
-            allowed = true;
-          } else {
-            const adminEmailsSnap = await getDocs(collection(db, "admin_emails"));
-            const allowedEmails = adminEmailsSnap.docs.map(doc => doc.data().email.toLowerCase());
-            if (allowedEmails.includes(checkEmail)) {
-              allowed = true;
-            }
-          }
-
-          if (allowed) {
-            await createUserWithEmailAndPassword(auth, email, password);
-          } else {
-            setAuthError("Unauthorized email. You do not have admin privileges.");
-          }
-        } catch (regErr) {
-          setAuthError(regErr.message);
-        }
-      } else {
-        setAuthError(err.message);
-      }
+      setAuthError(err.message);
     } finally {
       setIsLoggingIn(false);
     }
   };
 
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault();
+    setOtpError("");
+    setIsVerifyingOtp(true);
+
+    if (otpInput.trim() === generatedOtp) {
+      try {
+        await signInWithEmailAndPassword(auth, tempCredentials.email, tempCredentials.password);
+        sessionStorage.setItem("admin_otp_verified", "true");
+        setShowOtpScreen(false);
+        setTempCredentials(null);
+        setGeneratedOtp("");
+      } catch (err) {
+        setOtpError("Failed to complete login. Please try again.");
+        console.error("OTP post-sign-in failed:", err);
+      } finally {
+        setIsVerifyingOtp(false);
+      }
+    } else {
+      setOtpError("Incorrect verification code. Please check your email or console log.");
+      setIsVerifyingOtp(false);
+    }
+  };
+
   const handleLogout = async () => {
+    sessionStorage.removeItem("admin_otp_verified");
     await signOut(auth);
   };
 
@@ -601,65 +667,132 @@ export default function Admin() {
           <div className="flex flex-col items-center mb-8">
             <img src={Logo} alt="Code-X-Novas" className="h-10 mb-4" />
             <h2 className="text-xl font-bold font-mono tracking-wider text-cyan-400">ADMIN CONTROL CENTER</h2>
-            <p className="text-xs text-gray-500 mt-1 font-mono">Enter credentials to gain system access</p>
+            <p className="text-xs text-gray-500 mt-1 font-mono">
+              {showOtpScreen ? "Two-Factor Authentication Required" : "Enter credentials to gain system access"}
+            </p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-6">
-            <div>
-              <label className="block text-xs uppercase font-mono tracking-wider text-gray-400 mb-2">Admin Email</label>
-              <div className="relative">
-                <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
-                  <Mail size={16} />
-                </span>
+          {showOtpScreen ? (
+            <form onSubmit={handleVerifyOtp} className="space-y-6">
+              <div className="text-center mb-4">
+                <p className="text-xs text-gray-400 font-mono">
+                  We have sent a verification code to your email. Check your inbox and spam folder.
+                </p>
+                <p className="text-xs text-cyan-400/80 font-mono mt-2 select-all">
+                  Sent to: {tempCredentials?.email}
+                </p>
+              </div>
+
+              <div>
+                <label className="block text-xs uppercase font-mono tracking-wider text-gray-400 mb-2 text-center">
+                  Enter 6-Digit OTP Code
+                </label>
                 <input
-                  type="email"
+                  type="text"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@gmail.com"
-                  className="w-full bg-black/60 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 font-mono"
+                  maxLength={6}
+                  value={otpInput}
+                  onChange={(e) => setOtpInput(e.target.value.replace(/\D/g, ""))}
+                  placeholder="000000"
+                  className="w-full bg-black/60 border border-white/10 rounded-lg py-3 text-center text-lg text-white tracking-[0.5em] placeholder-gray-700 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 font-mono"
                 />
               </div>
-            </div>
 
-            <div>
-              <label className="block text-xs uppercase font-mono tracking-wider text-gray-400 mb-2">Access Password</label>
-              <div className="relative">
-                <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
-                  <Lock size={16} />
-                </span>
-                <input
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full bg-black/60 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 font-mono"
-                />
-              </div>
-            </div>
-
-            {authError && (
-              <div className="p-3 bg-red-950/40 border border-red-500/50 rounded-lg text-xs text-red-400 font-mono">
-                Error: {authError}
-              </div>
-            )}
-
-            <button
-              type="submit"
-              disabled={isLoggingIn}
-              className="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-semibold rounded-lg font-mono tracking-widest text-sm transition-all shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2"
-            >
-              {isLoggingIn ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
-                  AUTHENTICATING...
-                </>
-              ) : (
-                "GAIN ACCESS"
+              {otpError && (
+                <div className="p-3 bg-red-950/40 border border-red-500/50 rounded-lg text-xs text-red-400 font-mono text-center">
+                  Error: {otpError}
+                </div>
               )}
-            </button>
-          </form>
+
+              <div className="flex flex-col gap-3">
+                <button
+                  type="submit"
+                  disabled={isVerifyingOtp}
+                  className="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-semibold rounded-lg font-mono tracking-widest text-sm transition-all shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2"
+                >
+                  {isVerifyingOtp ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                      VERIFYING...
+                    </>
+                  ) : (
+                    "SUBMIT CODE"
+                  )}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowOtpScreen(false);
+                    setOtpInput("");
+                    setOtpError("");
+                    setTempCredentials(null);
+                    setGeneratedOtp("");
+                  }}
+                  className="w-full py-2 bg-transparent hover:bg-white/5 border border-white/10 text-gray-400 hover:text-white font-semibold rounded-lg font-mono tracking-wider text-xs transition-all"
+                >
+                  BACK TO LOGIN
+                </button>
+              </div>
+            </form>
+          ) : (
+            <form onSubmit={handleLogin} className="space-y-6">
+              <div>
+                <label className="block text-xs uppercase font-mono tracking-wider text-gray-400 mb-2">Admin Email</label>
+                <div className="relative">
+                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+                    <Mail size={16} />
+                  </span>
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="admin@gmail.com"
+                    className="w-full bg-black/60 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 font-mono"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs uppercase font-mono tracking-wider text-gray-400 mb-2">Access Password</label>
+                <div className="relative">
+                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+                    <Lock size={16} />
+                  </span>
+                  <input
+                    type="password"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full bg-black/60 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 font-mono"
+                  />
+                </div>
+              </div>
+
+              {authError && (
+                <div className="p-3 bg-red-950/40 border border-red-500/50 rounded-lg text-xs text-red-400 font-mono">
+                  Error: {authError}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={isLoggingIn}
+                className="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-semibold rounded-lg font-mono tracking-widest text-sm transition-all shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2"
+              >
+                {isLoggingIn ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                    AUTHENTICATING...
+                  </>
+                ) : (
+                  "GAIN ACCESS"
+                )}
+              </button>
+            </form>
+          )}
         </div>
       </div>
     );
