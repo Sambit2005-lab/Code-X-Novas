@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "../../components/Navbar";
 import SEO from "../../components/SEO";
 import frame1 from "../../assets/InternalPages/ServicesPage/Frames/Frame1.png";
@@ -28,6 +28,7 @@ export default function ServicesPage() {
   const [textOffset, setTextOffset] = useState(0);
   const [showBlur, setShowBlur] = useState(true);
   const [currentFrame, setCurrentFrame] = useState(0);
+  const [expandedTech, setExpandedTech] = useState(null);
   const sectionRef = useRef(null);
   const contactRef = useRef(null);
 
@@ -84,37 +85,73 @@ export default function ServicesPage() {
       title: "Web Development",
       description: "We design fast, scalable, and secure websites using Next.js, React, and Spring Boot — ensuring SEO optimization, responsive layouts, and a smooth user experience tailored to your business goals.",
       image: picture,
-      technologies: ["React.js", "Next.js", "Spring Boot", "Node.js", "Tailwind CSS"]
+      technologies: [
+        { name: "React.js", usefulness: "Enables building highly interactive, modular user interfaces with fast rendering via a virtual DOM." },
+        { name: "Next.js", usefulness: "Provides hybrid static and server rendering (SSR/SSG), optimizing load times and boosting SEO performance." },
+        { name: "Spring Boot", usefulness: "Powers secure, robust, and highly scalable Java backend architectures suitable for enterprise applications." },
+        { name: "Node.js", usefulness: "Drives lightweight, fast backend microservices using asynchronous, event-driven JavaScript execution." },
+        { name: "Tailwind CSS", usefulness: "Enables rapid, utility-first styling for perfectly responsive and custom-tailored user interfaces." }
+      ]
     },
     {
       title: "App Development",
       description: "We build cross-platform apps with React Native, Flutter, and Kotlin — combining sleek UI, powerful performance, and real-time backend integration for smooth, high-quality user experiences across devices.",
       image: WebAppDeveloper,
-      technologies: ["Flutter", "Kotlin", "React Native", "Java", "Swift"]
+      technologies: [
+        { name: "Flutter", usefulness: "Allows building beautiful, natively compiled apps for iOS and Android from a single codebase." },
+        { name: "Kotlin", usefulness: "Provides a modern, expressive language for high-performance and fully native Android app development." },
+        { name: "React Native", usefulness: "Bridges web and mobile development, enabling native-level mobile applications using JavaScript." },
+        { name: "Java", usefulness: "Ensures reliable, battle-tested native Android development with broad library support." },
+        { name: "Swift", usefulness: "Powers high-performance, modern, and perfectly integrated native iOS and macOS applications." }
+      ]
     },
     {
       title: "AI & Machine Learning Solutions",
       description: "We create AI-driven automation, predictive analytics, and intelligent assistants that improve efficiency, personalize user experiences, and enable data-driven decision-making for businesses across industries.",
       image: AIDeveloper,
-      technologies: ["Python", "TensorFlow", "OpenAI API", "PyTorch", "FastAPI"]
+      technologies: [
+        { name: "Python", usefulness: "Serves as the foundation for AI/ML with a rich ecosystem of packages for data processing and modelling." },
+        { name: "TensorFlow", usefulness: "Offers a powerful framework for building, training, and deploying deep neural network models." },
+        { name: "OpenAI API", usefulness: "Provides state-of-the-art pre-trained LLMs to add smart chat, analysis, and automation to apps." },
+        { name: "PyTorch", usefulness: "Delivers a flexible, research-friendly deep learning framework favored for rapid neural network prototyping." },
+        { name: "FastAPI", usefulness: "Enables creating high-performance, self-documenting REST APIs to serve ML models in production." }
+      ]
     },
     {
       title: "UI/UX Design",
       description: "We design intuitive, visually engaging interfaces that enhance usability, accessibility, and engagement — delivering prototypes and final designs that ensure every user interaction feels effortless.",
       image: UXDesigner,
-      technologies: ["Figma", "Adobe XD", "Prototyping", "Wireframing", "User Research"]
+      technologies: [
+        { name: "Figma", usefulness: "Enables real-time collaborative UI design, responsive layout wireframing, and interactive prototyping." },
+        { name: "Adobe XD", usefulness: "Provides vector-based tools for designing and sharing user experiences across web and mobile." },
+        { name: "Prototyping", usefulness: "Creates realistic, interactive app simulations to test user flows before writing code." },
+        { name: "Wireframing", usefulness: "Establishes structural blueprints of pages to plan content placement and page hierarchy." },
+        { name: "User Research", usefulness: "Collects behavioral data and feedback to ensure layouts align with actual user needs." }
+      ]
     },
     {
       title: "Custom LMS & E-Learning Platforms",
       description: "We develop scalable, interactive LMS platforms with live sessions, analytics, and digital certificates — using React, Firebase, and Node.js for seamless education experiences across web and mobile.",
       image: CustomLMSDeveloper,
-      technologies: ["React.js", "Node.js", "Firebase", "MongoDB", "WebRTC"]
+      technologies: [
+        { name: "React.js", usefulness: "Powers smooth and dynamic client-side dashboards for course management, video streaming, and quizzes." },
+        { name: "Node.js", usefulness: "Provides scalable backend event handling, database syncing, and certificate generation." },
+        { name: "Firebase", usefulness: "Allows fast real-time synchronization of chat logs, user progress trackers, and instant push updates." },
+        { name: "MongoDB", usefulness: "Offers flexible, document-based storage for nesting complex course outlines and student responses." },
+        { name: "WebRTC", usefulness: "Powers low-latency, browser-native video and audio streams for virtual live classrooms." }
+      ]
     },
     {
       title: "E-commerce Solutions",
-      description: "We build custom, secure, and high-performance e-commerce platforms using Next.js, Stripe, and Firebase — enabling smooth shopping, payment, and inventory management experiences for your customers.",
+      description: "We build custom, secure, and high-performance e-commerce platforms using Next.js, Stripe, and Firebase — enabling shopping, payment, and inventory management experiences for your customers.",
       image: ECommerceSolution,
-      technologies: ["Next.js", "Stripe API", "Node.js", "PostgreSQL", "Shopify/Headless"]
+      technologies: [
+        { name: "Next.js", usefulness: "Optimizes shopping pages with static generation, boosting SEO and search engine result visibility." },
+        { name: "Stripe API", usefulness: "Provides a secure, PCI-compliant infrastructure for global credit card and local payment processing." },
+        { name: "Node.js", usefulness: "Coordinates high-speed inventory tracking, order routing, and transactional communications." },
+        { name: "PostgreSQL", usefulness: "Ensures atomic transaction consistency and safe relational storage for customer invoices." },
+        { name: "Shopify/Headless", usefulness: "Blends Shopify's robust backend store administration with a custom, ultra-fast frontend UI." }
+      ]
     }
   ];
   return (
@@ -300,43 +337,59 @@ export default function ServicesPage() {
                     viewport={{ once: true }}
                     transition={{ staggerChildren: 0.1, delayChildren: 0.6 }}
                   >
-                    {s.technologies.map((t, idx) => (
-                      <motion.div
-                        key={idx}
-                        className="flex items-center justify-between border-b border-gray-200 pb-3"
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.6 + (idx * 0.1) }}
-                      >
-                        <div className="flex items-center space-x-4">
-                          <span style={{ fontFamily: "Sora", fontSize: "15px", color: "#444" }}>
-                            {String(idx + 1).padStart(2, "0")}
-                          </span>
-                          <span
-                            style={{
-                              fontFamily: "Sora",
-                              fontSize: "16px",
-                              fontWeight: 500,
-                              color: "#000",
-                            }}
-                          >
-                            {t}
-                          </span>
-                        </div>
+                    {s.technologies.map((t, idx) => {
+                      const isExpanded = expandedTech === `${i}-${idx}`;
+                      return (
+                        <div key={idx} className="border-b border-gray-200 pb-3">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-4">
+                              <span style={{ fontFamily: "Sora", fontSize: "15px", color: "#444" }}>
+                                {String(idx + 1).padStart(2, "0")}
+                              </span>
+                              <span
+                                style={{
+                                  fontFamily: "Sora",
+                                  fontSize: "16px",
+                                  fontWeight: 500,
+                                  color: "#000",
+                                }}
+                              >
+                                {t.name}
+                              </span>
+                            </div>
 
-                        <motion.button
-                          className="p-1.5 rounded-full border border-[#08306F] hover:bg-[#2352A5] transition-all duration-300 group flex items-center justify-center"
-                          style={{ width: "30px", height: "30px" }}
-                          whileHover={{ scale: 1.2, rotate: 90 }}
-                          whileTap={{ scale: 0.9 }}
-                        >
-                          <span className="text-[#2352A5] transition-transform duration-300 group-hover:text-white group-hover:translate-x-[4px]">
-                            <ArrowIcon />
-                          </span>
-                        </motion.button>
-                      </motion.div>
-                    ))}
+                            <motion.button
+                              onClick={() => setExpandedTech(isExpanded ? null : `${i}-${idx}`)}
+                              className="p-1.5 rounded-full border border-[#08306F] hover:bg-[#2352A5] transition-all duration-300 group flex items-center justify-center"
+                              style={{ width: "30px", height: "30px" }}
+                              animate={{ rotate: isExpanded ? 90 : 0 }}
+                              whileHover={{ scale: 1.2 }}
+                              whileTap={{ scale: 0.9 }}
+                            >
+                              <span className="text-[#2352A5] transition-transform duration-300 group-hover:text-white group-hover:translate-x-[4px]">
+                                <ArrowIcon />
+                              </span>
+                            </motion.button>
+                          </div>
+
+                          <AnimatePresence initial={false}>
+                            {isExpanded && (
+                              <motion.div
+                                initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                                animate={{ height: "auto", opacity: 1, marginTop: 8 }}
+                                exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                                transition={{ duration: 0.3, ease: "easeInOut" }}
+                                className="overflow-hidden pl-9 pr-4"
+                              >
+                                <p className="text-sm text-gray-600 font-sora leading-relaxed">
+                                  {t.usefulness}
+                                </p>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      );
+                    })}
                   </motion.div>
                 </motion.div>
               </div>
