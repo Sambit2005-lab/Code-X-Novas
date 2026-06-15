@@ -69,7 +69,6 @@ export default function ServicesPage() {
   const blurLevel = Math.min(scrollY / 200, 3);
   const opacityLevel = Math.max(0.3, 1 - scrollY / 700);
   const nextFrame = (currentFrame + 1) % frames.length;
-  const technologies = ["React.js", "Spring Boot", "Kotlin", "Flutter", "Node.js"];
 
   const ArrowIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
@@ -81,14 +80,43 @@ export default function ServicesPage() {
   );
 
   const services = [
-    { title: "Web Development", description: "We design fast, scalable, and secure websites using Next.js, React, and Spring Boot — ensuring SEO optimization, responsive layouts, and a smooth user experience tailored to your business goals.", image: picture },
-    { title: "App Development", description: "We build cross-platform apps with React Native, Flutter, and Kotlin — combining sleek UI, powerful performance, and real-time backend integration for smooth, high-quality user experiences across devices.", image: WebAppDeveloper },
-    { title: "AI & Machine Learning Solutions", description: "We create AI-driven automation, predictive analytics, and intelligent assistants that improve efficiency, personalize user experiences, and enable data-driven decision-making for businesses across industries.", image: AIDeveloper },
-    { title: "UI/UX Design", description: "We design intuitive, visually engaging interfaces that enhance usability, accessibility, and engagement — delivering prototypes and final designs that ensure every user interaction feels effortless.", image: UXDesigner },
-    { title: "Custom LMS & E-Learning Platforms", description: "We develop scalable, interactive LMS platforms with live sessions, analytics, and digital certificates — using React, Firebase, and Node.js for seamless education experiences across web and mobile.", image: CustomLMSDeveloper },
-    { title: "E-commerce Solutions", description: "We build custom, secure, and high-performance e-commerce platforms using Next.js, Stripe, and Firebase — enabling smooth shopping, payment, and inventory management experiences for your customers.", image: ECommerceSolution },
+    {
+      title: "Web Development",
+      description: "We design fast, scalable, and secure websites using Next.js, React, and Spring Boot — ensuring SEO optimization, responsive layouts, and a smooth user experience tailored to your business goals.",
+      image: picture,
+      technologies: ["React.js", "Next.js", "Spring Boot", "Node.js", "Tailwind CSS"]
+    },
+    {
+      title: "App Development",
+      description: "We build cross-platform apps with React Native, Flutter, and Kotlin — combining sleek UI, powerful performance, and real-time backend integration for smooth, high-quality user experiences across devices.",
+      image: WebAppDeveloper,
+      technologies: ["Flutter", "Kotlin", "React Native", "Java", "Swift"]
+    },
+    {
+      title: "AI & Machine Learning Solutions",
+      description: "We create AI-driven automation, predictive analytics, and intelligent assistants that improve efficiency, personalize user experiences, and enable data-driven decision-making for businesses across industries.",
+      image: AIDeveloper,
+      technologies: ["Python", "TensorFlow", "OpenAI API", "PyTorch", "FastAPI"]
+    },
+    {
+      title: "UI/UX Design",
+      description: "We design intuitive, visually engaging interfaces that enhance usability, accessibility, and engagement — delivering prototypes and final designs that ensure every user interaction feels effortless.",
+      image: UXDesigner,
+      technologies: ["Figma", "Adobe XD", "Prototyping", "Wireframing", "User Research"]
+    },
+    {
+      title: "Custom LMS & E-Learning Platforms",
+      description: "We develop scalable, interactive LMS platforms with live sessions, analytics, and digital certificates — using React, Firebase, and Node.js for seamless education experiences across web and mobile.",
+      image: CustomLMSDeveloper,
+      technologies: ["React.js", "Node.js", "Firebase", "MongoDB", "WebRTC"]
+    },
+    {
+      title: "E-commerce Solutions",
+      description: "We build custom, secure, and high-performance e-commerce platforms using Next.js, Stripe, and Firebase — enabling smooth shopping, payment, and inventory management experiences for your customers.",
+      image: ECommerceSolution,
+      technologies: ["Next.js", "Stripe API", "Node.js", "PostgreSQL", "Shopify/Headless"]
+    }
   ];
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -272,7 +300,7 @@ export default function ServicesPage() {
                     viewport={{ once: true }}
                     transition={{ staggerChildren: 0.1, delayChildren: 0.6 }}
                   >
-                    {technologies.map((t, idx) => (
+                    {s.technologies.map((t, idx) => (
                       <motion.div
                         key={idx}
                         className="flex items-center justify-between border-b border-gray-200 pb-3"
