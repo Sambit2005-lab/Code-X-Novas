@@ -158,6 +158,7 @@ export default function Admin() {
   const [blogForm, setBlogForm] = useState({
     title: "",
     desc: "",
+    content: "",
     category: "AI & Automation",
     img: "",
     date: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric" }) + " · 5 min read"
@@ -430,20 +431,23 @@ export default function Admin() {
             category: "AI & Automation",
             title: "Building a Culture of Innovation in Tech Teams",
             desc: "Discover how fostering creativity, collaboration, and ownership can transform your development team into a powerhouse of innovation and product excellence.",
+            content: "Building a culture of innovation within technology teams is about creating an environment where experimentation, creativity, and failure are embraced as key drivers of growth. Traditional structures focus on strict deliverables and tight timelines, which can suppress innovative thinking. To unlock your team's potential, foster a sense of ownership. Encourage developers to propose their own solutions rather than just executing tickets. Provide dedicated 'innovation hours' where they can work on side projects or explore new tools like machine learning frameworks or modern frontend setups. Finally, create a blameless post-mortem culture when things go wrong. When developers feel secure to make mistakes, they will push technical boundaries, leading to breakthrough custom products and services that keep your business at the forefront of the industry.",
             date: "Oct 19 · 10 min read"
           },
           {
             img: "1st",
             category: "Design & Development",
             title: "Powering the Future with Smart Engineering",
-            desc: "From microchips to machine learning, explore how modern engineering drives automation, eﬃciency, and the next generation of intelligent digital solutions.",
+            desc: "From microchips to machine learning, explore how modern engineering drives automation, efficiency, and the next generation of intelligent digital solutions.",
+            content: "Smart engineering combines physical hardware, software integrations, and AI analytics to create systems that optimize themselves in real-time. In today's digital landscape, modern solutions rely on robust backends built on frameworks like Spring Boot or Node.js, combined with intelligent frontends. By implementing automated pipelines, test-driven development, and modular architectures, engineering teams can deliver fast, secure, and highly scalable software. As we move further into a world powered by IoT and Edge AI, smart engineering will define the success of modern startups and scaleups. Designing clean APIs and maintaining code integrity is the first step towards this future, ensuring that systems can easily integrate with upcoming technology innovations.",
             date: "Nov 5 · 8 min read"
           },
           {
             img: "2nd",
             category: "AI & Automation",
             title: "How Data-Driven Decisions Shape Smarter Businesses",
-            desc: "Learn how AI and analytics empower companies to predict trends, optimize operations, and create personalized customer experiences in today’s fast-paced digital economy.",
+            desc: "Learn how AI and analytics empower companies to predict trends, optimize operations, and create personalized customer experiences in today's fast-paced digital economy.",
+            content: "In the modern economy, data is the new currency. However, raw data is useless without context. Smarter businesses leverage Artificial Intelligence and Machine Learning models to convert massive datasets into actionable strategic pathways. By implementing predictive analytics, companies can forecast inventory demands, personalize marketing workflows, and optimize sales funnels. AI-driven recommendation engines can increase conversion rates, while custom dashboard integrations provide administrators with real-time insight into operations. Moving from intuitive decision-making to data-proven strategies reduces risk, increases operational efficiency, and ensures your company remains competitive in a rapidly changing global market.",
             date: "Dec 12 · 15 min read"
           },
           {
@@ -451,6 +455,7 @@ export default function Admin() {
             category: "Design & Development",
             title: "Immersive Tech: The Future of User Experience",
             desc: "Discover how VR and AR are redefining engagement — blending innovation and design to create immersive digital experiences that inspire, educate, and entertain.",
+            content: "User experience is no longer limited to two-dimensional screens. Immersive technologies like Virtual Reality (VR) and Augmented Reality (AR) are bridging the gap between digital content and human perception. Designers and developers are using interactive tools to create spatial user interfaces that feel natural and highly intuitive. From virtual classrooms in LMS platforms to 3D product previews in headless e-commerce, spatial computing keeps users highly engaged. The secret lies in details: responsive micro-interactions, smooth animation transitions, and logical spatial layouts. As design frameworks mature, immersive interfaces will become standard, shifting user experience from passive observation to active engagement.",
             date: "Oct 19 · 10 min read"
           }
         ];
@@ -634,6 +639,7 @@ export default function Admin() {
     setBlogForm({
       title: item.title || "",
       desc: item.desc || "",
+      content: item.content || "",
       category: item.category || "AI & Automation",
       img: item.img || "",
       date: item.date || new Date().toLocaleDateString() + " · 5 min read"
@@ -644,7 +650,7 @@ export default function Admin() {
   const openAddBlog = () => {
     setModalType("blog");
     setEditId(null);
-    setBlogForm({ title: "", desc: "", category: "AI & Automation", img: "", date: new Date().toLocaleDateString() + " · 5 min read" });
+    setBlogForm({ title: "", desc: "", content: "", category: "AI & Automation", img: "", date: new Date().toLocaleDateString() + " · 5 min read" });
     setShowFormModal(true);
   };
 
@@ -1456,6 +1462,17 @@ export default function Admin() {
                       value={blogForm.desc}
                       onChange={(e) => setBlogForm({ ...blogForm, desc: e.target.value })}
                       placeholder="Snippet/preview text"
+                      className="w-full bg-black border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-400 mb-1">Full Blog Content</label>
+                    <textarea
+                      required
+                      value={blogForm.content}
+                      onChange={(e) => setBlogForm({ ...blogForm, content: e.target.value })}
+                      placeholder="Write the full blog post content here..."
+                      rows={6}
                       className="w-full bg-black border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400"
                     />
                   </div>

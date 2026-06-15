@@ -44,59 +44,78 @@ export default function BlogsPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+  const [selectedBlog, setSelectedBlog] = useState(null);
 
   const sectionRef = useRef(null);
   const contactRef = useRef(null);
 
   const fallbackBlogs = [
     {
-      category: "Artificial Intelligence",
+      id: "fallback-1",
+      category: "AI & Automation",
       mappedCategory: "AI & Automation",
       color: "#2352A5",
       date: "Oct 19 · 10 min read",
-      title: "Mastering ChatGPT Blog Creation: Dos and Don'ts for SaaS Marketing Managers",
-      image: Picture,
+      title: "Building a Culture of Innovation in Tech Teams",
+      desc: "Discover how fostering creativity, collaboration, and ownership can transform your development team into a powerhouse of innovation and product excellence.",
+      content: "Building a culture of innovation within technology teams is about creating an environment where experimentation, creativity, and failure are embraced as key drivers of growth. Traditional structures focus on strict deliverables and tight timelines, which can suppress innovative thinking. To unlock your team's potential, foster a sense of ownership. Encourage developers to propose their own solutions rather than just executing tickets. Provide dedicated 'innovation hours' where they can work on side projects or explore new tools like machine learning frameworks or modern frontend setups. Finally, create a blameless post-mortem culture when things go wrong. When developers feel secure to make mistakes, they will push technical boundaries, leading to breakthrough custom products and services that keep your business at the forefront of the industry.",
+      image: Big1,
     },
     {
-      category: "The Future of Work",
-      mappedCategory: "Startups & Business",
-      color: "#2352A5",
-      date: "Nov 5 · 8 min read",
-      title: "Embracing Remote Teams: Strategies for Success in a Hybrid Environment",
-      image: Picture,
-    },
-    {
-      category: "UX Design Trends",
+      id: "fallback-2",
+      category: "Design & Development",
       mappedCategory: "Design & Development",
       color: "#2352A5",
-      date: "Dec 12 · 15 min read",
-      title: "Top 10 UX Design Trends to Watch in 2024",
-      image: Picture,
+      date: "Nov 5 · 8 min read",
+      title: "Powering the Future with Smart Engineering",
+      desc: "From microchips to machine learning, explore how modern engineering drives automation, efficiency, and the next generation of intelligent digital solutions.",
+      content: "Smart engineering combines physical hardware, software integrations, and AI analytics to create systems that optimize themselves in real-time. In today's digital landscape, modern solutions rely on robust backends built on frameworks like Spring Boot or Node.js, combined with intelligent frontends. By implementing automated pipelines, test-driven development, and modular architectures, engineering teams can deliver fast, secure, and highly scalable software. As we move further into a world powered by IoT and Edge AI, smart engineering will define the success of modern startups and scaleups. Designing clean APIs and maintaining code integrity is the first step towards this future, ensuring that systems can easily integrate with upcoming technology innovations.",
+      image: Blog1,
     },
     {
-      category: "Artificial Intelligence",
+      id: "fallback-3",
+      category: "AI & Automation",
       mappedCategory: "AI & Automation",
+      color: "#2352A5",
+      date: "Dec 12 · 15 min read",
+      title: "How Data-Driven Decisions Shape Smarter Businesses",
+      desc: "Learn how AI and analytics empower companies to predict trends, optimize operations, and create personalized customer experiences in today's fast-paced digital economy.",
+      content: "In the modern economy, data is the new currency. However, raw data is useless without context. Smarter businesses leverage Artificial Intelligence and Machine Learning models to convert massive datasets into actionable strategic pathways. By implementing predictive analytics, companies can forecast inventory demands, personalize marketing workflows, and optimize sales funnels. AI-driven recommendation engines can increase conversion rates, while custom dashboard integrations provide administrators with real-time insight into operations. Moving from intuitive decision-making to data-proven strategies reduces risk, increases operational efficiency, and ensures your company remains competitive in a rapidly changing global market.",
+      image: Blog2,
+    },
+    {
+      id: "fallback-4",
+      category: "Design & Development",
+      mappedCategory: "Design & Development",
       color: "#2352A5",
       date: "Oct 19 · 10 min read",
-      title: "AI-Powered Customer Service: Transforming Business Operations",
-      image: Picture,
+      title: "Immersive Tech: The Future of User Experience",
+      desc: "Discover how VR and AR are redefining engagement — blending innovation and design to create immersive digital experiences that inspire, educate, and entertain.",
+      content: "User experience is no longer limited to two-dimensional screens. Immersive technologies like Virtual Reality (VR) and Augmented Reality (AR) are bridging the gap between digital content and human perception. Designers and developers are using interactive tools to create spatial user interfaces that feel natural and highly intuitive. From virtual classrooms in LMS platforms to 3D product previews in headless e-commerce, spatial computing keeps users highly engaged. The secret lies in details: responsive micro-interactions, smooth animation transitions, and logical spatial layouts. As design frameworks mature, immersive interfaces will become standard, shifting user experience from passive observation to active engagement.",
+      image: Blog3,
     },
     {
-      category: "Machine Learning Trends",
-      mappedCategory: "AI & Automation",
-      color: "#2352A5",
-      date: "Nov 5 · 15 min read",
-      title: "Top 5 Machine Learning Trends to Watch in 2023",
-      image: Picture,
-    },
-    {
-      category: "Data Privacy",
+      id: "fallback-5",
+      category: "Startups & Business",
       mappedCategory: "Startups & Business",
       color: "#2352A5",
-      date: "Dec 12 · 8 min read",
-      title: "Navigating Data Privacy Regulations: Essential Tips for Businesses",
+      date: "Nov 5 · 15 min read",
+      title: "Embracing Remote Teams: Success in Hybrid Settings",
+      desc: "Unlock the keys to maintaining collaborative culture, communication, and high team productivity when working across distributed time zones.",
+      content: "Distributed workforces offer unparalleled access to talent but introduce logistical challenges. Embracing remote teams requires shifting from presence-based monitoring to output-based performance metrics. Successful hybrid organizations implement structured communication pipelines using asynchronous tools, ensuring information flows freely without constant meetings. Regular documentation, virtual knowledge bases, and clear project updates prevent siloes. Furthermore, allocating resources for virtual team-bonding events and occasional in-person retreats bridges the physical distance, building high trust and keeping engagement strong across the company.",
       image: Picture,
     },
+    {
+      id: "fallback-6",
+      category: "Productivity Hacks",
+      mappedCategory: "Productivity Hacks",
+      color: "#2352A5",
+      date: "Dec 12 · 8 min read",
+      title: "Designing Fast Web Flows: Tips for Web Performance Optimization",
+      desc: "Discover critical tools, code optimization strategies, and lazy loading tricks to achieve sub-second page loads and enhance retention.",
+      content: "A delay of even one second in page load times can lead to a significant drop in conversion rates and user retention. Designing fast web flows is about prioritizing critical asset delivery. Start by optimizing image sizes, utilizing modern formats like WebP or AVIF, and implementing dynamic lazy loading. Next, audit code bundles to eliminate dead weight and implement code-splitting via dynamic imports. Utilizing edge content delivery networks (CDNs) and database caching ensures data is served from close proximity. By monitoring page speed metrics regularly, developers can keep load times minimal and user engagement high.",
+      image: Picture,
+    }
   ];
 
   const [blogs, setBlogs] = useState([]);
@@ -114,6 +133,8 @@ export default function BlogsPage() {
             color: "#2352A5",
             date: data.date || "Oct 19 · 10 min read",
             title: data.title,
+            desc: data.desc || "",
+            content: data.content || data.desc || "",
             image: getBlogImg(data.img || data.image || Picture)
           };
         });
@@ -329,7 +350,7 @@ export default function BlogsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 1.9 }}
               >
-                {blogs.length > 0 ? blogs[0].title : "Mastering ChatGPT Blog Creation: Dos and Don'ts for SaaS Marketing Managers"}
+                {blogs.length > 0 ? blogs[0].title : "Building a Culture of Innovation in Tech Teams"}
               </motion.h2>
 
               <motion.p
@@ -339,9 +360,7 @@ export default function BlogsPage() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 2.1 }}
               >
-                Mastering ChatGPT Blog Creation: Do&apos;s and Don&apos;ts for
-                SaaS <br />
-                Marketing Managers
+                {blogs.length > 0 ? blogs[0].desc : "Discover how fostering creativity, collaboration, and ownership can transform your development team into a powerhouse of innovation."}
               </motion.p>
 
               <motion.p
@@ -351,10 +370,11 @@ export default function BlogsPage() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 2.3 }}
               >
-                Oct 19 · 10 min read
+                {blogs.length > 0 ? blogs[0].date : "Oct 19 · 10 min read"}
               </motion.p>
 
               <motion.p
+                onClick={() => blogs.length > 0 && setSelectedBlog(blogs[0])}
                 className="text-[#2352A5] text-[14px] sm:text-[15px] font-[600] hover:underline cursor-pointer"
                 style={{ fontFamily: "Sora" }}
                 initial={{ opacity: 0, x: -20 }}
@@ -431,9 +451,10 @@ export default function BlogsPage() {
               },
             }}
           >
-            {[1, 2, 3].map((idx) => (
+            {blogs.slice(1, 4).map((blog, idx) => (
               <motion.div
-                key={idx}
+                key={blog.id || idx}
+                onClick={() => setSelectedBlog(blog)}
                 className="relative rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group"
                 variants={{
                   hidden: { opacity: 0, y: 50, rotateX: -15 },
@@ -443,8 +464,8 @@ export default function BlogsPage() {
                 whileHover={{ y: -10, scale: 1.05 }}
               >
                 <motion.img
-                  src={Picture}
-                  alt={`Blog ${idx}`}
+                  src={blog.image}
+                  alt={blog.title}
                   loading="lazy"
                   className="w-full h-[160px] sm:h-[200px] object-cover rounded-lg"
                   whileHover={{ scale: 1.1 }}
@@ -456,18 +477,17 @@ export default function BlogsPage() {
                 <div className="absolute bottom-6 left-4 right-4 text-white">
                   <span
                     className="inline-flex items-center gap-2 px-2 py-[2px] text-[10.5px] font-[500] rounded-full bg-white/90 text-[#2352A5] mb-2"
-                    style={{ fontFamily: "Sora" }}
+                    style={{ color: blog.color || "#2352A5", fontFamily: "Sora" }}
                   >
-                    <span className="w-[8px] h-[8px] bg-[#2352A5] rounded-full inline-block" />
-                    Artificial Intelligence
+                    <span className="w-[8px] h-[8px] bg-[#2352A5] rounded-full inline-block" style={{ backgroundColor: blog.color || "#2352A5" }} />
+                    {blog.category}
                   </span>
 
                   <h3
-                    className="text-[18px] sm:text-[22px] font-[600] leading-[1.2] mb-[-12px]"
+                    className="text-[16px] sm:text-[18px] font-[600] leading-[1.2] mb-0"
                     style={{ fontFamily: "Sora" }}
                   >
-                    Mastering ChatGPT Blog Creation: Dos and Don&apos;ts for
-                    SaaS Marketing Managers
+                    {blog.title}
                   </h3>
                 </div>
               </motion.div>
@@ -681,7 +701,8 @@ export default function BlogsPage() {
             >
               {filteredBlogs.map((blog, idx) => (
               <motion.div
-                key={idx}
+                key={blog.id || idx}
+                onClick={() => setSelectedBlog(blog)}
                 className="relative rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group"
                 variants={{
                   hidden: { opacity: 0, y: 60, scale: 0.9 },
@@ -696,7 +717,7 @@ export default function BlogsPage() {
               >
                 <motion.img
                   src={blog.image}
-                  alt={`Blog ${idx}`}
+                  alt={blog.title}
                   loading="lazy"
                   className="w-full h-[180px] sm:h-[230px] object-cover rounded-lg"
                   whileHover={{ scale: 1.15 }}
@@ -791,6 +812,73 @@ export default function BlogsPage() {
           <Contact />
         </motion.div>
       </motion.div>
+
+      {/* Blog Details Modal */}
+      <AnimatePresence>
+        {selectedBlog && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto"
+            onClick={() => setSelectedBlog(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, y: 30 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 30 }}
+              transition={{ type: "spring", damping: 25, stiffness: 350 }}
+              className="relative w-full max-w-3xl bg-zinc-950 border border-white/10 rounded-2xl overflow-hidden text-white shadow-2xl my-8 max-h-[90vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setSelectedBlog(null)}
+                className="absolute top-4 right-4 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/60 hover:bg-black text-gray-400 hover:text-white transition-colors text-sm font-semibold border border-white/10"
+              >
+                ✕
+              </button>
+
+              {/* Cover Image */}
+              <div className="relative h-[240px] sm:h-[320px] w-full overflow-hidden">
+                <img
+                  src={selectedBlog.image}
+                  alt={selectedBlog.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent" />
+              </div>
+
+              {/* Content Area */}
+              <div className="p-6 sm:p-8 text-left">
+                {/* Meta Details */}
+                <div className="flex flex-wrap gap-3 items-center text-xs text-gray-400 mb-4 font-mono">
+                  <span className="px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                    {selectedBlog.category}
+                  </span>
+                  <span>•</span>
+                  <span>{selectedBlog.date}</span>
+                </div>
+
+                {/* Title */}
+                <h2 className="text-2xl sm:text-3xl font-bold font-sora tracking-tight mb-4 text-white leading-tight">
+                  {selectedBlog.title}
+                </h2>
+
+                {/* Body Content */}
+                <div className="text-sm sm:text-base text-gray-300 leading-relaxed space-y-4 font-sora">
+                  <p className="font-semibold text-gray-100 border-l-2 border-cyan-500 pl-3 py-1 bg-white/5 rounded-r">
+                    {selectedBlog.desc}
+                  </p>
+                  <p className="whitespace-pre-line pt-2 text-gray-400">
+                    {selectedBlog.content || selectedBlog.desc || "No further details available for this post."}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
