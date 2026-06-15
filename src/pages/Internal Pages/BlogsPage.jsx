@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "../../components/Navbar";
 import SEO from "../../components/SEO";
 import Contact from "../Contact";
