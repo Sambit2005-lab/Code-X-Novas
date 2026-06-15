@@ -43,6 +43,17 @@ export default function CareerPage() {
 
     // Job application modal states
     const [showApplyModal, setShowApplyModal] = useState(false);
+
+    useEffect(() => {
+        if (showApplyModal) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, [showApplyModal]);
     const [selectedPosition, setSelectedPosition] = useState("");
     const [selectedCareer, setSelectedCareer] = useState(null);
     const [isSubmittingApp, setIsSubmittingApp] = useState(false);

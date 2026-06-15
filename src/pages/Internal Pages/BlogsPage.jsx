@@ -46,6 +46,17 @@ export default function BlogsPage() {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [selectedBlog, setSelectedBlog] = useState(null);
 
+  useEffect(() => {
+    if (selectedBlog) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [selectedBlog]);
+
   const sectionRef = useRef(null);
   const contactRef = useRef(null);
 
