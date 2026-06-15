@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "../../components/Navbar";
 import SEO from "../../components/SEO";
+import { useNavigate } from "react-router-dom";
 import frame1 from "../../assets/InternalPages/ServicesPage/Frames/Frame1.png";
 import frame2 from "../../assets/InternalPages/ServicesPage/Frames/Frame2.png";
 import frame3 from "../../assets/InternalPages/ServicesPage/Frames/Frame3.png";
@@ -24,6 +25,7 @@ import ECommerceSolution from "../../assets/InternalPages/ServicesPage/ECommerce
 import Contact from "../Contact";
 
 export default function ServicesPage() {
+  const navigate = useNavigate();
   const [scrollY, setScrollY] = useState(0);
   const [textOffset, setTextOffset] = useState(0);
   const [showBlur, setShowBlur] = useState(true);
@@ -241,6 +243,7 @@ export default function ServicesPage() {
           </motion.p>
 
           <motion.button
+            onClick={() => navigate("/works")}
             className="relative overflow-hidden mt-1 px-6 py-3 rounded-md font-poppins text-[15px] text-white shadow-md group"
             style={{
               background:
@@ -252,7 +255,7 @@ export default function ServicesPage() {
             whileHover={{ scale: 1.05, boxShadow: "0px 6px 20px rgba(0, 0, 0, 0.25)" }}
             whileTap={{ scale: 0.95 }}
           >
-            <span className="relative z-10">Explore Our Products</span>
+            <span className="relative z-10">Explore Our Works</span>
             <span
               className="absolute top-0 left-[-100%] w-[50%] h-full bg-gradient-to-r from-transparent via-white/60 to-transparent opacity-0 group-hover:opacity-100 group-hover:left-[130%] transition-all duration-[1.2s] ease-in-out"
               style={{ transform: "skewX(-20deg)" }}
