@@ -1715,12 +1715,13 @@ export default function Admin() {
       {/* CREATE/EDIT MODAL */}
       {showFormModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="w-full max-w-lg bg-zinc-950 border border-white/10 rounded-2xl p-6 relative">
-            <h3 className="text-base font-bold font-mono tracking-wider text-cyan-400 mb-6 uppercase">
+          <div className="w-full max-w-lg bg-zinc-950 border border-white/10 rounded-2xl p-6 relative max-h-[95vh] sm:max-h-[90vh] flex flex-col">
+            <h3 className="text-base font-bold font-mono tracking-wider text-cyan-400 mb-6 uppercase shrink-0">
               {editId ? "Edit" : "Create New"} {modalType}
             </h3>
 
-            <form onSubmit={handleSave} className="space-y-4 font-mono text-xs">
+            <form onSubmit={handleSave} className="flex flex-col flex-1 overflow-hidden font-mono text-xs">
+              <div className="space-y-4 overflow-y-auto pr-2 flex-1 mb-4">
               {modalType === "work" && (
                 <>
                   <div>
@@ -2099,7 +2100,8 @@ export default function Admin() {
                 </>
               )}
 
-              <div className="flex gap-4 pt-4">
+              </div>
+              <div className="flex gap-4 pt-4 border-t border-white/10 shrink-0">
                 <button
                   type="submit"
                   className="flex-1 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-semibold rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all"
