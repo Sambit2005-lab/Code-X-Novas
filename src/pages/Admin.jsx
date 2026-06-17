@@ -52,6 +52,7 @@ import Big1 from "../assets/Blogs/big1.png";
 import Blog1 from "../assets/Blogs/1st.png";
 import Blog2 from "../assets/Blogs/2nd.png";
 import Blog3 from "../assets/Blogs/3rd.png";
+import SambitPhoto from "../assets/InternalPages/AboutPage/PHOTO-2026-06-17-22-32-56.jpg";
 
 // Image mapping functions
 const getWorkImg = (imgName) => {
@@ -530,7 +531,13 @@ export default function Admin() {
 
       // Team Members Fetch & Seeding
       const teamSnap = await getDocs(collection(db, "team_members"));
-      let teamList = teamSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      let teamList = teamSnap.docs.map(doc => {
+        const data = doc.data();
+        if (data.name === "Sambit Pradhan" && (!data.img || data.img.includes("fapho2uecxflb36rc2ej.png"))) {
+          data.img = SambitPhoto;
+        }
+        return { id: doc.id, ...data };
+      });
       if (teamList.length === 0) {
         const defaultTeam = [
           {
@@ -554,7 +561,7 @@ export default function Admin() {
             ],
             linkedin: "https://www.linkedin.com/in/sambit-pradhan-37b01b228/",
             github: "https://github.com/Sambit2005-lab",
-            img: "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811650/codexnovas/fapho2uecxflb36rc2ej.png"
+            img: SambitPhoto
           },
           {
             name: "Sahil Singh",

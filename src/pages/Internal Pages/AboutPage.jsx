@@ -10,6 +10,7 @@ import Contact from "../Contact";
 import { db } from "../../firebase";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { Linkedin, Github, GraduationCap, Award, Cpu } from "lucide-react";
+import SambitPhoto from "../../assets/InternalPages/AboutPage/PHOTO-2026-06-17-22-32-56.jpg";
 
 const fallbackTeam = [
   {
@@ -33,7 +34,7 @@ const fallbackTeam = [
     ],
     linkedin: "https://www.linkedin.com/in/sambit-pradhan-37b01b228/",
     github: "https://github.com/Sambit2005-lab",
-    img: "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811650/codexnovas/fapho2uecxflb36rc2ej.png"
+    img: SambitPhoto
   },
   {
     name: "Sahil Singh",
@@ -145,7 +146,13 @@ export default function AboutPage() {
       const fetchTeam = async () => {
         try {
           const snap = await getDocs(collection(db, "team_members"));
-          const list = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          const list = snap.docs.map(doc => {
+            const data = doc.data();
+            if (data.name === "Sambit Pradhan" && (!data.img || data.img.includes("fapho2uecxflb36rc2ej.png"))) {
+              data.img = SambitPhoto;
+            }
+            return { id: doc.id, ...data };
+          });
           if (list.length > 0) {
             setTeam(list);
           } else {
