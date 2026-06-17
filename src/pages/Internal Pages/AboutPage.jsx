@@ -1027,6 +1027,73 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* TEAM STATISTICS SECTION */}
+      <section
+        className="relative w-full flex justify-center py-20 px-[6%] overflow-hidden"
+        style={{
+          background: "linear-gradient(180deg, #F5F9FF 0%, #FFFFFF 100%)",
+          fontFamily: "Sora"
+        }}
+      >
+        <div className="w-full max-w-[1250px] relative z-10">
+          
+          {/* Header */}
+          <div className="text-center mb-16">
+            <motion.h2
+              className="text-[32px] sm:text-[40px] md:text-[50px] font-bold tracking-tight mb-4"
+              style={{ color: "#002C6C" }}
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              Our Impact in Numbers
+            </motion.h2>
+            <motion.p
+              className="text-[15px] sm:text-[17px] text-[#555] max-w-[700px] mx-auto leading-relaxed"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              Building premium technology solutions with a proven record of scale, leadership, and national recognition.
+            </motion.p>
+          </div>
+
+          {/* Stats Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              { value: "16+", label: "Team Members", desc: "Passionate engineers, creators, and builders" },
+              { value: "100+", label: "Projects Delivered", desc: "High-quality apps, SaaS platforms, and websites" },
+              { value: "100+", label: "Clients Served", desc: "Across diverse global industries" },
+              { value: "5+", label: "Products Being Built", desc: "Proprietary SaaS and AI platforms in active development" },
+              { value: "Top 75", label: "Emerging Startup Recognition", desc: "Recognized among India's most promising startups" },
+              { value: "Dubai AI Festival", label: "India Representation", desc: "Showcasing local artificial intelligence innovations on a global stage" }
+            ].map((stat, index) => (
+              <motion.div
+                key={index}
+                className="bg-white/80 backdrop-blur-md border border-blue-100/50 rounded-2xl p-6 sm:p-8 flex flex-col justify-between hover:shadow-xl hover:border-cyan-400/40 transition-all duration-300 group"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.08 }}
+              >
+                <div>
+                  <h3 
+                    className="text-3xl sm:text-4xl font-extrabold mb-3 bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-800 bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300 origin-left"
+                  >
+                    {stat.value}
+                  </h3>
+                  <h4 className="text-base sm:text-lg font-bold text-[#002C6C] mb-2">{stat.label}</h4>
+                  <p className="text-xs sm:text-sm text-gray-500 leading-relaxed">{stat.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
       {/* COMPANY GROWTH TIMELINE */}
       <section
         className="relative w-full flex justify-center py-24 px-[6%] overflow-hidden"
