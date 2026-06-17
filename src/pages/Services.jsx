@@ -228,7 +228,7 @@ const Services = () => {
                                     <p className="text-gray-700 text-sm leading-relaxed">
                                         {
                                             [
-                                                "We’ve successfully delivered 50+ real-world projects across web, app, AI, and custom software solutions — trusted by startups, brands, and institutions.",
+                                                "We’ve successfully delivered 100+ real world client projects across web, app, AI, and custom software solutions — trusted by startups, brands, and institutions.",
                                                 "Selected among India’s Top 75 Emerging Startups and proudly represented India at the Dubai AI Festival, showcasing our credibility and innovation.",
                                                 "We specialize in building intelligent, scalable systems using cutting-edge tech — from AI agents to custom platforms — tailored to your needs.",
                                                 "From idea to execution, we offer complete digital solutions: design, development, deployment, maintenance, and growth strategy — all under one roof.",
@@ -378,7 +378,7 @@ const Services = () => {
                                         <p className="text-gray-700">
                                             {
                                                 [
-                                                    "We’ve successfully delivered 50+ real-world projects across web, app, AI, and custom software solutions — trusted by startups, brands, and institutions.",
+                                                    "We’ve successfully delivered 100+ real world client projects across web, app, AI, and custom software solutions — trusted by startups, brands, and institutions.",
                                                     "Selected among India’s Top 75 Emerging Startups and proudly represented India at the Dubai AI Festival, showcasing our credibility and innovation.",
                                                     "We specialize in building intelligent, scalable systems using cutting-edge tech — from AI agents to custom platforms — tailored to your needs.",
                                                     "From idea to execution, we offer complete digital solutions: design, development, deployment, maintenance, and growth strategy — all under one roof.",
