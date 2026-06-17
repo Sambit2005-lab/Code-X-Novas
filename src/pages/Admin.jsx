@@ -36,7 +36,8 @@ import {
   User,
   Users,
   Eye,
-  Link as LinkIcon
+  Link as LinkIcon,
+  Calendar
 } from "lucide-react";
 import Logo from "../assets/logo.png";
 
@@ -132,6 +133,8 @@ export default function Admin() {
   const [contacts, setContacts] = useState([]);
   const [jobApps, setJobApps] = useState([]);
   const [hackathonList, setHackathonList] = useState([]);
+  const [team, setTeam] = useState([]);
+  const [timeline, setTimeline] = useState([]);
 
   // Loading States
   const [loadingData, setLoadingData] = useState(false);
@@ -172,6 +175,26 @@ export default function Admin() {
     requirements: "",
     status: "open",
     customQuestions: []
+  });
+
+  // Team Form Data
+  const [teamForm, setTeamForm] = useState({
+    name: "",
+    role: "",
+    education: "",
+    bio: "",
+    achievements: "",
+    skills: "",
+    linkedin: "",
+    github: "",
+    img: ""
+  });
+
+  // Timeline Form Data
+  const [timelineForm, setTimelineForm] = useState({
+    year: "",
+    title: "",
+    events: ""
   });
 
   // Submission Detail Modal
@@ -504,6 +527,100 @@ export default function Admin() {
       const adminEmailsSnap = await getDocs(collection(db, "admin_emails"));
       const adminEmails = adminEmailsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setAdminEmailsList(adminEmails);
+
+      // Team Members Fetch & Seeding
+      const teamSnap = await getDocs(collection(db, "team_members"));
+      let teamList = teamSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      if (teamList.length === 0) {
+        const defaultTeam = [
+          {
+            name: "Sambit Pradhan",
+            role: "Founder & CEO",
+            education: "B.Tech, IIIT Bhubaneswar",
+            bio: "Sambit Pradhan is the Founder & CEO of Code-X-Novas. He leads product innovation, SaaS development, AI initiatives, strategic partnerships, and long-term company vision. Passionate about solving real-world problems through technology, he focuses on building scalable products that create measurable impact.",
+            achievements: [
+              "Represented India at the AI Festival, Dubai",
+              "Recognized among India’s Top 75 Emerging Startups",
+              "Successfully Delivered 100+ Real-World Projects",
+              "Worked with 100+ Clients Across Multiple Industries"
+            ],
+            skills: [
+              "SaaS Development",
+              "app website devlopemt",
+              "AI Solutions",
+              "Product Strategy",
+              "System Architecture",
+              "Business Development"
+            ],
+            linkedin: "https://www.linkedin.com/in/sambit-pradhan-37b01b228/",
+            github: "https://github.com/Sambit2005-lab",
+            img: "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811650/codexnovas/fapho2uecxflb36rc2ej.png"
+          },
+          {
+            name: "Sahil Singh",
+            role: "Head of Business Development & Human Resources",
+            education: "BBA, IIM Bangalore",
+            bio: "Sahil Singh leads business development, strategic partnerships, client relations, recruitment, and organizational growth initiatives at Code-X-Novas. He plays a key role in expanding business opportunities while building and managing high-performing teams.",
+            achievements: [],
+            skills: [
+              "Business Development",
+              "Partnerships",
+              "Sales Strategy",
+              "Client Management",
+              "Human Resources",
+              "Talent Acquisition",
+              "Operations"
+            ],
+            linkedin: "https://linkedin.com",
+            github: "",
+            img: "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811641/codexnovas/nc7tvhwqkitkpxmk0vkp.png"
+          }
+        ];
+        const promises = defaultTeam.map(async (m) => {
+          const docRef = await addDoc(collection(db, "team_members"), m);
+          return { id: docRef.id, ...m };
+        });
+        teamList = await Promise.all(promises);
+      }
+      setTeam(teamList);
+
+      // Growth Timeline Fetch & Seeding
+      const timelineSnap = await getDocs(collection(db, "growth_timeline"));
+      let timelineList = timelineSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      if (timelineList.length === 0) {
+        const defaultTimeline = [
+          {
+            year: "2024",
+            title: "Founded Code-X-Novas",
+            events: ["Founded Code-X-Novas"]
+          },
+          {
+            year: "2025",
+            title: "100+ Projects & Representation",
+            events: [
+              "100+ Projects Delivered",
+              "Dubai AI Festival Representation",
+              "Top 75 Emerging Startup Recognition"
+            ]
+          },
+          {
+            year: "2026",
+            title: "VidyaOS & AI Platforms",
+            events: [
+              "VidyaOS Launch",
+              "AI Attendance Platform Launch",
+              "Expansion Into Educational SaaS"
+            ]
+          }
+        ];
+        const promises = defaultTimeline.map(async (t) => {
+          const docRef = await addDoc(collection(db, "growth_timeline"), t);
+          return { id: docRef.id, ...t };
+        });
+        timelineList = await Promise.all(promises);
+      }
+      timelineList.sort((a, b) => (a.year || "").localeCompare(b.year || ""));
+      setTimeline(timelineList);
     } catch (err) {
       console.error("Error fetching admin data:", err);
     } finally {
@@ -533,6 +650,34 @@ export default function Admin() {
         } else {
           await addDoc(collection(db, "careers"), careerForm);
         }
+      } else if (modalType === "team") {
+        const parsedTeamData = {
+          name: teamForm.name,
+          role: teamForm.role,
+          education: teamForm.education,
+          bio: teamForm.bio,
+          skills: teamForm.skills.split(",").map(s => s.trim()).filter(Boolean),
+          achievements: teamForm.achievements.split("\n").map(a => a.trim()).filter(Boolean),
+          linkedin: teamForm.linkedin,
+          github: teamForm.github,
+          img: teamForm.img
+        };
+        if (editId) {
+          await updateDoc(doc(db, "team_members", editId), parsedTeamData);
+        } else {
+          await addDoc(collection(db, "team_members"), parsedTeamData);
+        }
+      } else if (modalType === "timeline") {
+        const parsedTimelineData = {
+          year: timelineForm.year,
+          title: timelineForm.title,
+          events: timelineForm.events.split("\n").map(e => e.trim()).filter(Boolean)
+        };
+        if (editId) {
+          await updateDoc(doc(db, "growth_timeline", editId), parsedTimelineData);
+        } else {
+          await addDoc(collection(db, "growth_timeline"), parsedTimelineData);
+        }
       }
       setShowFormModal(false);
       setEditId(null);
@@ -553,6 +698,8 @@ export default function Admin() {
     else if (type === "contact") collectionName = "contacts";
     else if (type === "job_app") collectionName = "job_applications";
     else if (type === "hackathon") collectionName = "hackathon_waitlist";
+    else if (type === "team") collectionName = "team_members";
+    else if (type === "timeline") collectionName = "growth_timeline";
 
     try {
       await deleteDoc(doc(db, collectionName, id));
@@ -672,6 +819,62 @@ export default function Admin() {
     setModalType("career");
     setEditId(null);
     setCareerForm({ title: "", img: "", desc: "Join our team to build high-performance tools.", requirements: "", status: "open", customQuestions: [] });
+    setShowFormModal(true);
+  };
+
+  const openEditTeamMember = (item) => {
+    setModalType("team");
+    setEditId(item.id);
+    setTeamForm({
+      name: item.name || "",
+      role: item.role || "",
+      education: item.education || "",
+      bio: item.bio || "",
+      achievements: Array.isArray(item.achievements) ? item.achievements.join("\n") : "",
+      skills: Array.isArray(item.skills) ? item.skills.join(", ") : "",
+      linkedin: item.linkedin || "",
+      github: item.github || "",
+      img: item.img || ""
+    });
+    setShowFormModal(true);
+  };
+
+  const openAddTeamMember = () => {
+    setModalType("team");
+    setEditId(null);
+    setTeamForm({
+      name: "",
+      role: "",
+      education: "",
+      bio: "",
+      achievements: "",
+      skills: "",
+      linkedin: "",
+      github: "",
+      img: ""
+    });
+    setShowFormModal(true);
+  };
+
+  const openEditTimelineItem = (item) => {
+    setModalType("timeline");
+    setEditId(item.id);
+    setTimelineForm({
+      year: item.year || "",
+      title: item.title || "",
+      events: Array.isArray(item.events) ? item.events.join("\n") : ""
+    });
+    setShowFormModal(true);
+  };
+
+  const openAddTimelineItem = () => {
+    setModalType("timeline");
+    setEditId(null);
+    setTimelineForm({
+      year: "",
+      title: "",
+      events: ""
+    });
     setShowFormModal(true);
   };
 
@@ -900,7 +1103,9 @@ export default function Admin() {
               {[
                 { id: "works", label: "Our Works", icon: <FolderGit2 size={16} /> },
                 { id: "blogs", label: "Blogs", icon: <BookOpen size={16} /> },
-                { id: "careers", label: "Careers", icon: <Briefcase size={16} /> }
+                { id: "careers", label: "Careers", icon: <Briefcase size={16} /> },
+                { id: "team", label: "Our Team", icon: <Users size={16} /> },
+                { id: "timeline", label: "Timeline", icon: <Calendar size={16} /> }
               ].map(tab => (
                 <button
                   key={tab.id}
@@ -978,12 +1183,14 @@ export default function Admin() {
             </div>
 
             {/* Create buttons for contents */}
-            {["works", "blogs", "careers"].includes(activeTab) && (
+            {["works", "blogs", "careers", "team", "timeline"].includes(activeTab) && (
               <button
                 onClick={() => {
                   if (activeTab === "works") openAddWork();
                   if (activeTab === "blogs") openAddBlog();
                   if (activeTab === "careers") openAddCareer();
+                  if (activeTab === "team") openAddTeamMember();
+                  if (activeTab === "timeline") openAddTimelineItem();
                 }}
                 className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-semibold rounded-lg text-xs font-mono flex items-center justify-center gap-1.5 transition-all shadow-md shadow-cyan-500/10"
               >
@@ -1278,6 +1485,133 @@ export default function Admin() {
                 </div>
               )}
 
+              {/* OUR TEAM PANEL */}
+              {activeTab === "team" && (
+                <div className="space-y-6">
+                  {team.length === 0 ? (
+                    <div className="text-center py-12 text-gray-500 font-mono text-sm">
+                      No team members found. Click "Add Item" to add one.
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {team.filter(member => 
+                        member.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        member.role?.toLowerCase().includes(searchTerm.toLowerCase())
+                      ).map(member => (
+                        <div key={member.id} className="bg-white/[0.02] border border-white/10 rounded-xl p-6 flex flex-col md:flex-row gap-4 relative group">
+                          {/* Image */}
+                          <div className="w-20 h-20 rounded-full border border-white/10 overflow-hidden shrink-0 bg-white/5 flex items-center justify-center">
+                            {member.img ? (
+                              <img src={member.img} alt={member.name} className="w-full h-full object-cover" />
+                            ) : (
+                              <User size={32} className="text-gray-600" />
+                            )}
+                          </div>
+
+                          {/* Info */}
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-sm font-bold text-white font-mono leading-tight">{member.name}</h3>
+                            <p className="text-xs text-cyan-400 font-mono mt-1">{member.role}</p>
+                            {member.education && (
+                              <p className="text-[10px] text-gray-500 font-mono mt-1">{member.education}</p>
+                            )}
+                            <p className="text-xs text-gray-400 mt-2 font-mono line-clamp-3 leading-relaxed">{member.bio}</p>
+                            
+                            {/* Skills tags */}
+                            {member.skills && member.skills.length > 0 && (
+                              <div className="flex flex-wrap gap-1 mt-3">
+                                {member.skills.map((s, idx) => (
+                                  <span key={idx} className="text-[9px] bg-white/5 border border-white/10 text-gray-400 px-1.5 py-0.5 rounded font-mono">
+                                    {s}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+
+                            {/* Links */}
+                            <div className="flex gap-3 mt-4 text-xs font-mono text-cyan-400/80">
+                              {member.linkedin && <a href={member.linkedin} target="_blank" rel="noreferrer" className="hover:text-cyan-400">LinkedIn</a>}
+                              {member.github && <a href={member.github} target="_blank" rel="noreferrer" className="hover:text-cyan-400">GitHub</a>}
+                            </div>
+                          </div>
+
+                          {/* Action Buttons */}
+                          <div className="absolute top-4 right-4 flex gap-2">
+                            <button
+                              onClick={() => openEditTeamMember(member)}
+                              className="p-1.5 bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 hover:bg-cyan-500/20 rounded transition-all"
+                              title="Edit Member"
+                            >
+                              <Edit3 size={12} />
+                            </button>
+                            <button
+                              onClick={() => handleDelete("team", member.id)}
+                              className="p-1.5 bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 rounded transition-all"
+                              title="Delete Member"
+                            >
+                              <Trash2 size={12} />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* TIMELINE PANEL */}
+              {activeTab === "timeline" && (
+                <div className="space-y-6">
+                  {timeline.length === 0 ? (
+                    <div className="text-center py-12 text-gray-500 font-mono text-sm">
+                      No timeline events found. Click "Add Item" to add one.
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {timeline.filter(item => 
+                        item.year?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        item.title?.toLowerCase().includes(searchTerm.toLowerCase())
+                      ).map(item => (
+                        <div key={item.id} className="bg-white/[0.02] border border-white/10 rounded-xl p-6 flex flex-col gap-4 relative group">
+                          {/* Info */}
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-sm font-bold text-white font-mono leading-tight">Year: {item.year}</h3>
+                            <p className="text-xs text-cyan-400 font-mono mt-1">{item.title}</p>
+                            
+                            {/* Events list */}
+                            {item.events && item.events.length > 0 && (
+                              <ul className="list-disc list-inside text-xs text-gray-400 mt-3 space-y-1 font-mono">
+                                {item.events.map((ev, idx) => (
+                                  <li key={idx}>{ev}</li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
+
+                          {/* Action Buttons */}
+                          <div className="absolute top-4 right-4 flex gap-2">
+                            <button
+                              onClick={() => openEditTimelineItem(item)}
+                              className="p-1.5 bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 hover:bg-cyan-500/20 rounded transition-all"
+                              title="Edit Item"
+                            >
+                              <Edit3 size={12} />
+                            </button>
+                            <button
+                              onClick={() => handleDelete("timeline", item.id)}
+                              className="p-1.5 bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 rounded transition-all"
+                              title="Delete Item"
+                            >
+                              <Trash2 size={12} />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
               {/* MANAGE ADMINS */}
               {activeTab === "manage_admins" && (
                 <div className="space-y-6">
@@ -1497,6 +1831,143 @@ export default function Admin() {
                       value={blogForm.img}
                       onChange={(e) => setBlogForm({ ...blogForm, img: e.target.value })}
                       placeholder="https://..."
+                      className="w-full bg-black border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400"
+                    />
+                  </div>
+                </>
+              )}
+
+              {modalType === "team" && (
+                <>
+                  <div>
+                    <label className="block text-gray-400 mb-1">Full Name</label>
+                    <input
+                      type="text"
+                      required
+                      value={teamForm.name}
+                      onChange={(e) => setTeamForm({ ...teamForm, name: e.target.value })}
+                      placeholder="e.g. Sambit Pradhan"
+                      className="w-full bg-black border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-400 mb-1">Role / Designation</label>
+                    <input
+                      type="text"
+                      required
+                      value={teamForm.role}
+                      onChange={(e) => setTeamForm({ ...teamForm, role: e.target.value })}
+                      placeholder="e.g. Founder & CEO"
+                      className="w-full bg-black border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-400 mb-1">Education</label>
+                    <input
+                      type="text"
+                      value={teamForm.education}
+                      onChange={(e) => setTeamForm({ ...teamForm, education: e.target.value })}
+                      placeholder="e.g. B.Tech, IIIT Bhubaneswar"
+                      className="w-full bg-black border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-400 mb-1">Short Bio</label>
+                    <textarea
+                      required
+                      value={teamForm.bio}
+                      onChange={(e) => setTeamForm({ ...teamForm, bio: e.target.value })}
+                      placeholder="Lead product innovation..."
+                      rows={3}
+                      className="w-full bg-black border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-400 mb-1">Skills (comma-separated)</label>
+                    <input
+                      type="text"
+                      value={teamForm.skills}
+                      onChange={(e) => setTeamForm({ ...teamForm, skills: e.target.value })}
+                      placeholder="SaaS Development, AI Solutions, Product Strategy"
+                      className="w-full bg-black border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-400 mb-1">Achievements (one per line)</label>
+                    <textarea
+                      value={teamForm.achievements}
+                      onChange={(e) => setTeamForm({ ...teamForm, achievements: e.target.value })}
+                      placeholder="Represented India at the AI Festival, Dubai&#10;Recognized among India's Top 75 Emerging Startups"
+                      rows={3}
+                      className="w-full bg-black border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-400 mb-1">LinkedIn Profile Link</label>
+                    <input
+                      type="text"
+                      value={teamForm.linkedin}
+                      onChange={(e) => setTeamForm({ ...teamForm, linkedin: e.target.value })}
+                      placeholder="https://linkedin.com/in/..."
+                      className="w-full bg-black border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-400 mb-1">GitHub Profile Link</label>
+                    <input
+                      type="text"
+                      value={teamForm.github}
+                      onChange={(e) => setTeamForm({ ...teamForm, github: e.target.value })}
+                      placeholder="https://github.com/..."
+                      className="w-full bg-black border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-400 mb-1">Profile Photo Image URL</label>
+                    <input
+                      type="text"
+                      required
+                      value={teamForm.img}
+                      onChange={(e) => setTeamForm({ ...teamForm, img: e.target.value })}
+                      placeholder="Image URL or public asset path"
+                      className="w-full bg-black border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400"
+                    />
+                  </div>
+                </>
+              )}
+
+              {modalType === "timeline" && (
+                <>
+                  <div>
+                    <label className="block text-gray-400 mb-1">Year</label>
+                    <input
+                      type="text"
+                      required
+                      value={timelineForm.year}
+                      onChange={(e) => setTimelineForm({ ...timelineForm, year: e.target.value })}
+                      placeholder="e.g. 2025"
+                      className="w-full bg-black border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-400 mb-1">Title / Milestone</label>
+                    <input
+                      type="text"
+                      required
+                      value={timelineForm.title}
+                      onChange={(e) => setTimelineForm({ ...timelineForm, title: e.target.value })}
+                      placeholder="e.g. 100+ Projects & Representation"
+                      className="w-full bg-black border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-400 mb-1">Events / Achievements (one per line)</label>
+                    <textarea
+                      required
+                      value={timelineForm.events}
+                      onChange={(e) => setTimelineForm({ ...timelineForm, events: e.target.value })}
+                      placeholder="100+ Projects Delivered&#10;Dubai AI Festival Representation"
+                      rows={4}
                       className="w-full bg-black border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400"
                     />
                   </div>

@@ -7,6 +7,80 @@ import Picture2 from "../../assets/InternalPages/AboutPage/Picture2.png";
 import Picture3 from "../../assets/InternalPages/AboutPage/Picture3.png";
 import Picture4 from "../../assets/InternalPages/AboutPage/Picture4.png";
 import Contact from "../Contact";
+import { db } from "../../firebase";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { Linkedin, Github, GraduationCap, Award, Cpu } from "lucide-react";
+
+const fallbackTeam = [
+  {
+    name: "Sambit Pradhan",
+    role: "Founder & CEO",
+    education: "B.Tech, IIIT Bhubaneswar",
+    bio: "Sambit Pradhan is the Founder & CEO of Code-X-Novas. He leads product innovation, SaaS development, AI initiatives, strategic partnerships, and long-term company vision. Passionate about solving real-world problems through technology, he focuses on building scalable products that create measurable impact.",
+    achievements: [
+      "Represented India at the AI Festival, Dubai",
+      "Recognized among India’s Top 75 Emerging Startups",
+      "Successfully Delivered 100+ Real-World Projects",
+      "Worked with 100+ Clients Across Multiple Industries"
+    ],
+    skills: [
+      "SaaS Development",
+      "app website devlopemt",
+      "AI Solutions",
+      "Product Strategy",
+      "System Architecture",
+      "Business Development"
+    ],
+    linkedin: "https://www.linkedin.com/in/sambit-pradhan-37b01b228/",
+    github: "https://github.com/Sambit2005-lab",
+    img: "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811650/codexnovas/fapho2uecxflb36rc2ej.png"
+  },
+  {
+    name: "Sahil Singh",
+    role: "Head of Business Development & Human Resources",
+    education: "BBA, IIM Bangalore",
+    bio: "Sahil Singh leads business development, strategic partnerships, client relations, recruitment, and organizational growth initiatives at Code-X-Novas. He plays a key role in expanding business opportunities while building and managing high-performing teams.",
+    achievements: [],
+    skills: [
+      "Business Development",
+      "Partnerships",
+      "Sales Strategy",
+      "Client Management",
+      "Human Resources",
+      "Talent Acquisition",
+      "Operations"
+    ],
+    linkedin: "https://linkedin.com",
+    github: "",
+    img: "https://res.cloudinary.com/dnbqbzens/image/upload/v1780811641/codexnovas/nc7tvhwqkitkpxmk0vkp.png"
+  }
+];
+
+const fallbackTimeline = [
+  {
+    year: "2024",
+    title: "Founded Code-X-Novas",
+    events: ["Founded Code-X-Novas"]
+  },
+  {
+    year: "2025",
+    title: "100+ Projects & Representation",
+    events: [
+      "100+ Projects Delivered",
+      "Dubai AI Festival Representation",
+      "Top 75 Emerging Startups Recognition"
+    ]
+  },
+  {
+    year: "2026",
+    title: "VidyaOS & AI Platforms",
+    events: [
+      "VidyaOS Launch",
+      "AI Attendance Platform Launch",
+      "Expansion Into Educational SaaS"
+    ]
+  }
+];
 
 import frame1 from "../../assets/InternalPages/AboutPage/Frames/Frame1.png";
 import frame2 from "../../assets/InternalPages/AboutPage/Frames/Frame2.png";
@@ -64,7 +138,47 @@ export default function AboutPage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const nextFrame = (currentFrame + 1) % frames.length;
+    const [team, setTeam] = useState([]);
+    const [timeline, setTimeline] = useState([]);
+
+    useEffect(() => {
+      const fetchTeam = async () => {
+        try {
+          const snap = await getDocs(collection(db, "team_members"));
+          const list = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          if (list.length > 0) {
+            setTeam(list);
+          } else {
+            setTeam(fallbackTeam);
+          }
+        } catch (err) {
+          console.error("Error fetching team members: ", err);
+          setTeam(fallbackTeam);
+        }
+      };
+      fetchTeam();
+    }, []);
+
+    useEffect(() => {
+      const fetchTimeline = async () => {
+        try {
+          const q = query(collection(db, "growth_timeline"), orderBy("year", "asc"));
+          const snap = await getDocs(q);
+          const list = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          if (list.length > 0) {
+            setTimeline(list);
+          } else {
+            setTimeline(fallbackTimeline);
+          }
+        } catch (err) {
+          console.error("Error fetching timeline: ", err);
+          setTimeline(fallbackTimeline);
+        }
+      };
+      fetchTimeline();
+    }, []);
+
+    const nextFrame = (currentFrame + 1) % frames.length;
 
   return (
     <motion.div
@@ -762,6 +876,237 @@ export default function AboutPage() {
           </motion.p>
         </div>
       </motion.section>
+
+      {/* MEET THE TEAM SECTION */}
+      <section
+        className="relative w-full flex justify-center py-24 px-[6%] overflow-hidden"
+        style={{
+          background: "linear-gradient(180deg, #FFFFFF 0%, #F5F9FF 100%)",
+          fontFamily: "Sora"
+        }}
+      >
+        <div className="w-full max-w-[1250px] relative z-10">
+          
+          {/* Header */}
+          <div className="text-center mb-20">
+            <motion.h2
+              className="text-[32px] sm:text-[40px] md:text-[50px] font-bold tracking-tight mb-4"
+              style={{ color: "#002C6C" }}
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              Meet The Team Behind Code-X-Novas
+            </motion.h2>
+            <motion.p
+              className="text-[15px] sm:text-[17px] text-[#555] max-w-[800px] mx-auto leading-relaxed"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              A passionate team of builders, engineers, designers, operators, mentors, and innovators dedicated to creating impactful digital products and technology solutions.
+            </motion.p>
+          </div>
+
+          {/* Cards Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            {team.map((member, index) => (
+              <motion.div
+                key={member.id || index}
+                className="bg-white/90 backdrop-blur-md border border-blue-100/50 rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row gap-6 sm:gap-8 hover:shadow-2xl hover:shadow-blue-500/5 transition-all duration-300 relative overflow-hidden group"
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, delay: index * 0.1 }}
+              >
+                {/* Visual Accent Glow */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-300/10 blur-3xl rounded-full group-hover:bg-cyan-300/20 transition-all duration-300 pointer-events-none" />
+                
+                {/* Photo & Socials */}
+                <div className="flex flex-col items-center gap-4 shrink-0">
+                  <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl overflow-hidden border-2 border-cyan-400/30 shadow-lg relative bg-gray-50 flex items-center justify-center">
+                    {member.img ? (
+                      <img src={member.img} alt={member.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                    ) : (
+                      <div className="text-gray-400 text-4xl">👨‍💻</div>
+                    )}
+                  </div>
+                  
+                  {/* Social Links */}
+                  <div className="flex gap-3">
+                    {member.linkedin && (
+                      <a 
+                        href={member.linkedin} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-all duration-200"
+                        title="LinkedIn"
+                      >
+                        <Linkedin size={18} />
+                      </a>
+                    )}
+                    {member.github && (
+                      <a 
+                        href={member.github} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="p-2 bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-900 hover:text-white transition-all duration-200"
+                        title="GitHub"
+                      >
+                        <Github size={18} />
+                      </a>
+                    )}
+                  </div>
+                </div>
+
+                {/* Profile Details */}
+                <div className="flex-1">
+                  <h3 className="text-xl sm:text-2xl font-bold text-[#002C6C] mb-1">{member.name}</h3>
+                  <p className="text-sm font-semibold text-cyan-600 mb-2">{member.role}</p>
+                  
+                  {member.education && (
+                    <div className="flex items-center gap-2 text-xs text-gray-500 mb-4 bg-gray-50 py-1.5 px-3 rounded-lg w-fit">
+                      <GraduationCap size={14} className="text-cyan-500" />
+                      <span>{member.education}</span>
+                    </div>
+                  )}
+
+                  <p className="text-sm text-gray-600 mb-5 leading-relaxed">{member.bio}</p>
+
+                  {/* Achievements */}
+                  {member.achievements && member.achievements.length > 0 && (
+                    <div className="mb-5">
+                      <h4 className="text-xs font-bold text-[#002C6C] uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+                        <Award size={14} className="text-cyan-500" />
+                        Achievements
+                      </h4>
+                      <ul className="space-y-1.5 text-xs text-gray-600">
+                        {member.achievements.map((ach, idx) => (
+                          <li key={idx} className="flex items-start gap-2">
+                            <span className="text-cyan-500 font-bold">•</span>
+                            <span>{ach}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Skills tags */}
+                  {member.skills && member.skills.length > 0 && (
+                    <div>
+                      <h4 className="text-xs font-bold text-[#002C6C] uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                        <Cpu size={14} className="text-cyan-500" />
+                        Skills & Expertise
+                      </h4>
+                      <div className="flex flex-wrap gap-1.5">
+                        {member.skills.map((skill, idx) => (
+                          <span 
+                            key={idx} 
+                            className="text-[11px] font-medium bg-[#ECF7FF] text-[#006CFF] px-2.5 py-1 rounded-full border border-blue-50/50"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* COMPANY GROWTH TIMELINE */}
+      <section
+        className="relative w-full flex justify-center py-24 px-[6%] overflow-hidden"
+        style={{
+          background: "linear-gradient(180deg, #F5F9FF 0%, #FFFFFF 100%)",
+          fontFamily: "Sora"
+        }}
+      >
+        {/* Abstract design elements */}
+        <div className="absolute left-[10%] top-[20%] w-[400px] h-[400px] bg-blue-100/30 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute right-[10%] bottom-[20%] w-[350px] h-[350px] bg-cyan-100/20 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="w-full max-w-[1000px] relative z-10">
+          
+          {/* Header */}
+          <div className="text-center mb-20">
+            <motion.h2
+              className="text-[32px] sm:text-[40px] md:text-[50px] font-bold tracking-tight mb-4"
+              style={{ color: "#002C6C" }}
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              Company Growth Timeline
+            </motion.h2>
+            <motion.p
+              className="text-[15px] sm:text-[17px] text-[#555] max-w-[600px] mx-auto leading-relaxed"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              Tracing our journey from foundation to scaling and cutting-edge software engineering.
+            </motion.p>
+          </div>
+
+          {/* Timeline Tree */}
+          <div className="relative border-l-2 border-cyan-400/40 ml-4 md:ml-32 space-y-12">
+            {timeline.map((item, index) => (
+              <motion.div
+                key={item.id || index}
+                className="relative pl-8 md:pl-12 group"
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.15 }}
+              >
+                
+                {/* Year Badge on the Left */}
+                <div className="hidden md:block absolute -left-36 top-1.5 w-24 text-right font-bold text-2xl text-cyan-600 transition-colors duration-300 group-hover:text-blue-600">
+                  {item.year}
+                </div>
+
+                {/* Bullet Node */}
+                <div className="absolute -left-[9px] top-2 w-4 h-4 rounded-full bg-white border-4 border-cyan-400 group-hover:border-blue-600 group-hover:scale-125 transition-all duration-300 shadow-md" />
+
+                {/* Content Card */}
+                <div className="bg-white/80 backdrop-blur-sm border border-blue-50 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-blue-100/50 transition-all duration-300">
+                  
+                  {/* Year Tag for mobile */}
+                  <span className="inline-block md:hidden text-cyan-600 font-bold text-lg mb-2">
+                    {item.year}
+                  </span>
+
+                  <h3 className="text-lg sm:text-xl font-bold text-[#002C6C] mb-4">
+                    {item.title}
+                  </h3>
+
+                  {item.events && item.events.length > 0 && (
+                    <ul className="space-y-3">
+                      {item.events.map((evt, idx) => (
+                        <li key={idx} className="flex items-start gap-3 text-sm sm:text-[15px] text-[#444] leading-relaxed">
+                          <span className="flex-shrink-0 w-2.5 h-2.5 mt-1.5 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 shadow-sm" />
+                          <span>{evt}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+
+              </motion.div>
+            ))}
+          </div>
+
+        </div>
+      </section>
 
       <Contact />
     </motion.div>
