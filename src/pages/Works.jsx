@@ -84,11 +84,9 @@ const projectsData = [
     { title: "Vicina Shop App", img: "vicinashop", category: "App Design" },
 ];
 
-/**Categories- Various options as mentioned in the figma protoype */
-const categories = ["All", "Animation", "Development", "Illustration", "Website", "App Design"];
-
 const Works = () => {
     const navigate = useNavigate();
+    const [categories, setCategories] = useState(["All", "Animation", "Development", "Illustration", "Website", "App Design"]);
     const [activeCategory, setActiveCategory] = useState("All");
     // mobile-only: number of visible project cards (shows 3, then +3 per Load More)
     const [mobileVisibleCount, setMobileVisibleCount] = useState(3);
@@ -104,8 +102,17 @@ const Works = () => {
     };
 
     useEffect(() => {
-        const fetchProjects = async () => {
+        const fetchProjectsAndCategories = async () => {
             try {
+                // Fetch categories
+                const catSnap = await getDocs(collection(db, "categories"));
+                const catList = catSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                if (catList.length > 0) {
+                    catList.sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0));
+                    setCategories(["All", ...catList.map(c => c.name)]);
+                }
+
+                // Fetch projects
                 const snap = await getDocs(collection(db, "works"));
                 const list = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 if (list.length > 0) {
@@ -114,11 +121,11 @@ const Works = () => {
                     setProjectList(sortWorks(projectsData));
                 }
             } catch (err) {
-                console.error("Error loading works: ", err);
+                console.error("Error loading works or categories: ", err);
                 setProjectList(sortWorks(projectsData));
             }
         };
-        fetchProjects();
+        fetchProjectsAndCategories();
     }, []);
 
     const filteredProjects =

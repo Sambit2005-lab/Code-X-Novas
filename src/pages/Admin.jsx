@@ -136,6 +136,7 @@ export default function Admin() {
   const [hackathonList, setHackathonList] = useState([]);
   const [team, setTeam] = useState([]);
   const [timeline, setTimeline] = useState([]);
+  const [workCategories, setWorkCategories] = useState([]);
 
   // Loading States
   const [loadingData, setLoadingData] = useState(false);
@@ -197,6 +198,12 @@ export default function Admin() {
     year: "",
     title: "",
     events: ""
+  });
+
+  // Category Form Data
+  const [categoryForm, setCategoryForm] = useState({
+    name: "",
+    order: 0
   });
 
   // Submission Detail Modal
@@ -619,6 +626,26 @@ export default function Admin() {
       }
       timelineList.sort((a, b) => (a.year || "").localeCompare(b.year || ""));
       setTimeline(timelineList);
+
+      // Categories Fetch & Seeding
+      const categoriesSnap = await getDocs(collection(db, "categories"));
+      let categoriesList = categoriesSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      if (categoriesList.length === 0) {
+        const defaultCats = [
+          { name: "Website", order: 1 },
+          { name: "App Design", order: 2 },
+          { name: "Animation", order: 3 },
+          { name: "Development", order: 4 },
+          { name: "Illustration", order: 5 }
+        ];
+        const promises = defaultCats.map(async (c) => {
+          const docRef = await addDoc(collection(db, "categories"), c);
+          return { id: docRef.id, ...c };
+        });
+        categoriesList = await Promise.all(promises);
+      }
+      categoriesList.sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0));
+      setWorkCategories(categoriesList);
     } catch (err) {
       console.error("Error fetching admin data:", err);
     } finally {
@@ -680,6 +707,16 @@ export default function Admin() {
         } else {
           await addDoc(collection(db, "growth_timeline"), parsedTimelineData);
         }
+      } else if (modalType === "category") {
+        const parsedCategoryData = {
+          name: categoryForm.name,
+          order: Number(categoryForm.order) || 0
+        };
+        if (editId) {
+          await updateDoc(doc(db, "categories", editId), parsedCategoryData);
+        } else {
+          await addDoc(collection(db, "categories"), parsedCategoryData);
+        }
       }
       setShowFormModal(false);
       setEditId(null);
@@ -702,6 +739,7 @@ export default function Admin() {
     else if (type === "hackathon") collectionName = "hackathon_waitlist";
     else if (type === "team") collectionName = "team_members";
     else if (type === "timeline") collectionName = "growth_timeline";
+    else if (type === "category") collectionName = "categories";
 
     try {
       await deleteDoc(doc(db, collectionName, id));
@@ -784,9 +822,9 @@ export default function Admin() {
   };
 
   const moveWorkUp = async (item) => {
-    const idx = works.findIndex(w => w.id === item.id);
+    const idx = filteredWorks.findIndex(w => w.id === item.id);
     if (idx <= 0) return;
-    const prevItem = works[idx - 1];
+    const prevItem = filteredWorks[idx - 1];
     
     const currentOrder = item.order !== undefined ? Number(item.order) : idx + 1;
     const prevOrder = prevItem.order !== undefined ? Number(prevItem.order) : idx;
@@ -804,9 +842,9 @@ export default function Admin() {
   };
 
   const moveWorkDown = async (item) => {
-    const idx = works.findIndex(w => w.id === item.id);
-    if (idx === -1 || idx === works.length - 1) return;
-    const nextItem = works[idx + 1];
+    const idx = filteredWorks.findIndex(w => w.id === item.id);
+    if (idx === -1 || idx === filteredWorks.length - 1) return;
+    const nextItem = filteredWorks[idx + 1];
     
     const currentOrder = item.order !== undefined ? Number(item.order) : idx + 1;
     const nextOrder = nextItem.order !== undefined ? Number(nextItem.order) : idx + 2;
@@ -820,6 +858,63 @@ export default function Admin() {
       fetchAllData();
     } catch (err) {
       console.error("Error moving work down:", err);
+    }
+  };
+
+  const openEditCategory = (item) => {
+    setModalType("category");
+    setEditId(item.id);
+    setCategoryForm({
+      name: item.name || "",
+      order: item.order !== undefined ? Number(item.order) : 0
+    });
+    setShowFormModal(true);
+  };
+
+  const openAddCategory = () => {
+    setModalType("category");
+    setEditId(null);
+    setCategoryForm({ name: "", order: workCategories.length + 1 });
+    setShowFormModal(true);
+  };
+
+  const moveCategoryUp = async (item) => {
+    const idx = workCategories.findIndex(c => c.id === item.id);
+    if (idx <= 0) return;
+    const prevItem = workCategories[idx - 1];
+    
+    const currentOrder = item.order !== undefined ? Number(item.order) : idx + 1;
+    const prevOrder = prevItem.order !== undefined ? Number(prevItem.order) : idx;
+    
+    const newCurrentOrder = prevOrder;
+    const newPrevOrder = currentOrder === prevOrder ? currentOrder + 1 : currentOrder;
+    
+    try {
+      await updateDoc(doc(db, "categories", item.id), { order: newCurrentOrder });
+      await updateDoc(doc(db, "categories", prevItem.id), { order: newPrevOrder });
+      fetchAllData();
+    } catch (err) {
+      console.error("Error moving category up:", err);
+    }
+  };
+
+  const moveCategoryDown = async (item) => {
+    const idx = workCategories.findIndex(c => c.id === item.id);
+    if (idx === -1 || idx === workCategories.length - 1) return;
+    const nextItem = workCategories[idx + 1];
+    
+    const currentOrder = item.order !== undefined ? Number(item.order) : idx + 1;
+    const nextOrder = nextItem.order !== undefined ? Number(nextItem.order) : idx + 2;
+    
+    const newCurrentOrder = nextOrder;
+    const newNextOrder = currentOrder === nextOrder ? currentOrder - 1 : currentOrder;
+    
+    try {
+      await updateDoc(doc(db, "categories", item.id), { order: newCurrentOrder });
+      await updateDoc(doc(db, "categories", nextItem.id), { order: newNextOrder });
+      fetchAllData();
+    } catch (err) {
+      console.error("Error moving category down:", err);
     }
   };
 
@@ -1148,7 +1243,8 @@ export default function Admin() {
                 { id: "blogs", label: "Blogs", icon: <BookOpen size={16} /> },
                 { id: "careers", label: "Careers", icon: <Briefcase size={16} /> },
                 { id: "team", label: "Our Team", icon: <Users size={16} /> },
-                { id: "timeline", label: "Timeline", icon: <Calendar size={16} /> }
+                { id: "timeline", label: "Timeline", icon: <Calendar size={16} /> },
+                { id: "categories", label: "Work Categories", icon: <Filter size={16} /> }
               ].map(tab => (
                 <button
                   key={tab.id}
@@ -1226,7 +1322,7 @@ export default function Admin() {
             </div>
 
             {/* Create buttons for contents */}
-            {["works", "blogs", "careers", "team", "timeline"].includes(activeTab) && (
+            {["works", "blogs", "careers", "team", "timeline", "categories"].includes(activeTab) && (
               <button
                 onClick={() => {
                   if (activeTab === "works") openAddWork();
@@ -1234,6 +1330,7 @@ export default function Admin() {
                   if (activeTab === "careers") openAddCareer();
                   if (activeTab === "team") openAddTeamMember();
                   if (activeTab === "timeline") openAddTimelineItem();
+                  if (activeTab === "categories") openAddCategory();
                 }}
                 className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-semibold rounded-lg text-xs font-mono flex items-center justify-center gap-1.5 transition-all shadow-md shadow-cyan-500/10"
               >
@@ -1675,6 +1772,69 @@ export default function Admin() {
                 </div>
               )}
 
+              {/* WORK CATEGORIES PANEL */}
+              {activeTab === "categories" && (
+                <div className="space-y-6">
+                  {workCategories.length === 0 ? (
+                    <div className="text-center py-12 text-gray-500 font-mono text-sm">
+                      No categories found. Click "Add Item" to add one.
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {workCategories.filter(item => 
+                        item.name?.toLowerCase().includes(searchTerm.toLowerCase())
+                      ).map(item => (
+                        <div key={item.id} className="bg-white/[0.02] border border-white/10 rounded-xl p-6 flex flex-row items-center justify-between gap-4 relative group">
+                          {/* Info */}
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-sm font-bold text-white font-mono leading-tight">{item.name}</h3>
+                          </div>
+
+                          {/* Reordering Controls */}
+                          <div className="flex flex-col gap-1 justify-center shrink-0">
+                            <button
+                              onClick={() => moveCategoryUp(item)}
+                              className="p-1 text-gray-400 hover:text-cyan-400 transition-all hover:scale-110"
+                              title="Move Up"
+                            >
+                              ▲
+                            </button>
+                            <span className="text-[10px] text-center font-mono text-cyan-500 font-bold">
+                              {item.order !== undefined ? item.order : "—"}
+                            </span>
+                            <button
+                              onClick={() => moveCategoryDown(item)}
+                              className="p-1 text-gray-400 hover:text-cyan-400 transition-all hover:scale-110"
+                              title="Move Down"
+                            >
+                              ▼
+                            </button>
+                          </div>
+
+                          {/* Action Buttons */}
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => openEditCategory(item)}
+                              className="p-1.5 bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 hover:bg-cyan-500/20 rounded transition-all"
+                              title="Edit Category"
+                            >
+                              <Edit3 size={12} />
+                            </button>
+                            <button
+                              onClick={() => handleDelete("category", item.id)}
+                              className="p-1.5 bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 rounded transition-all"
+                              title="Delete Category"
+                            >
+                              <Trash2 size={12} />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
               {/* MANAGE ADMINS */}
               {activeTab === "manage_admins" && (
                 <div className="space-y-6">
@@ -1808,11 +1968,9 @@ export default function Admin() {
                       onChange={(e) => setWorkForm({ ...workForm, category: e.target.value })}
                       className="w-full bg-black border border-white/10 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-cyan-400"
                     >
-                      <option>Website</option>
-                      <option>App Design</option>
-                      <option>Animation</option>
-                      <option>Development</option>
-                      <option>Illustration</option>
+                      {workCategories.map((c) => (
+                        <option key={c.id} value={c.name}>{c.name}</option>
+                      ))}
                     </select>
                   </div>
                   <div>
@@ -2004,6 +2162,33 @@ export default function Admin() {
                       value={teamForm.img}
                       onChange={(e) => setTeamForm({ ...teamForm, img: e.target.value })}
                       placeholder="Image URL or public asset path"
+                      className="w-full bg-black border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400"
+                    />
+                  </div>
+                </>
+              )}
+
+              {modalType === "category" && (
+                <>
+                  <div>
+                    <label className="block text-gray-400 mb-1">Category Name</label>
+                    <input
+                      type="text"
+                      required
+                      value={categoryForm.name}
+                      onChange={(e) => setCategoryForm({ ...categoryForm, name: e.target.value })}
+                      placeholder="e.g. Website"
+                      className="w-full bg-black border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-400 mb-1">Display Order Number</label>
+                    <input
+                      type="number"
+                      required
+                      value={categoryForm.order}
+                      onChange={(e) => setCategoryForm({ ...categoryForm, order: Number(e.target.value) })}
+                      placeholder="e.g. 1"
                       className="w-full bg-black border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400"
                     />
                   </div>

@@ -80,6 +80,7 @@ export default function WorkPage() {
     const [showBlur, setShowBlur] = useState(true);
     const [currentFrame, setCurrentFrame] = useState(0);
     const contactRef = useRef(null);
+    const [categories, setCategories] = useState(["All", "Animation", "Development", "Illustration", "Website", "App Design"]);
     const [projectList, setProjectList] = useState([]);
 
     const workData = [
@@ -147,8 +148,17 @@ export default function WorkPage() {
     };
 
     useEffect(() => {
-        const fetchProjects = async () => {
+        const fetchProjectsAndCategories = async () => {
             try {
+                // Fetch categories
+                const catSnap = await getDocs(collection(db, "categories"));
+                const catList = catSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                if (catList.length > 0) {
+                    catList.sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0));
+                    setCategories(["All", ...catList.map(c => c.name)]);
+                }
+
+                // Fetch projects
                 const snap = await getDocs(collection(db, "works"));
                 const list = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 if (list.length > 0) {
@@ -157,11 +167,11 @@ export default function WorkPage() {
                     setProjectList(sortWorks(workData));
                 }
             } catch (err) {
-                console.error("Error loading works: ", err);
+                console.error("Error loading works or categories: ", err);
                 setProjectList(sortWorks(workData));
             }
         };
-        fetchProjects();
+        fetchProjectsAndCategories();
     }, []);
 
     const handleProjectClick = (project) => {
@@ -319,14 +329,7 @@ export default function WorkPage() {
                                 <div className="bg-white/40 backdrop-blur-md border border-white/40 rounded-2xl shadow-md px-8 py-3">
                                     <div className="overflow-x-auto scrollbar-none">
                                         <div className="flex items-center gap-5 min-w-max">
-                                            {[
-                                                "All",
-                                                "Animation",
-                                                "Development",
-                                                "Illustration",
-                                                "Website",
-                                                "App Design",
-                                            ].map((c, idx) => (
+                                            {categories.map((c, idx) => (
                                                 <motion.button
                                                     key={c}
                                                     onClick={() => setActiveCategory(c)}
