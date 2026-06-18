@@ -85,7 +85,7 @@ const projectsData = [
 ];
 
 /**Categories- Various options as mentioned in the figma protoype */
-const categories = ["All", "Animation", "Development", "Illustration", "Social Media", "Website", "App Design"];
+const categories = ["All", "Animation", "Development", "Illustration", "Website", "App Design"];
 
 const Works = () => {
     const navigate = useNavigate();
@@ -95,17 +95,12 @@ const Works = () => {
     const [projectList, setProjectList] = useState([]);
 
     const sortWorks = (list) => {
-        const skillLoop = list.find(w => w.title?.toLowerCase().trim() === "skill loop");
-        const synchrotask = list.find(w => w.title?.toLowerCase().trim() === "synchrotask");
-        const others = list.filter(w => {
-            const titleLower = w.title?.toLowerCase().trim();
-            return titleLower !== "skill loop" && titleLower !== "synchrotask";
+        return [...list].sort((a, b) => {
+            const orderA = a.order !== undefined ? Number(a.order) : 999;
+            const orderB = b.order !== undefined ? Number(b.order) : 999;
+            if (orderA !== orderB) return orderA - orderB;
+            return (a.title || "").localeCompare(b.title || "");
         });
-        const result = [];
-        if (skillLoop) result.push(skillLoop);
-        if (synchrotask) result.push(synchrotask);
-        result.push(...others);
-        return result;
     };
 
     useEffect(() => {

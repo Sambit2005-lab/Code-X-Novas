@@ -155,7 +155,8 @@ export default function Admin() {
     desc: "",
     category: "Website",
     img: "",
-    link: ""
+    link: "",
+    order: 0
   });
 
   // Blog Form Data
@@ -386,33 +387,32 @@ export default function Admin() {
   const fetchAllData = async () => {
     setLoadingData(true);
     try {
-      // Works
       const worksSnap = await getDocs(collection(db, "works"));
       let worksList = worksSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       
       const defaultWorks = [
-        { title: "Skill Loop", desc: "AI-Powered Productivity with Human Precision", img: "skillloop", category: "Website", link: "https://skillloop.co" },
-        { title: "Synchrotask", desc: "AI-Powered Productivity with Human Precision", img: "synchrotask", category: "Website", link: "https://synchrotask.com" },
-        { title: "Urban Pilgrim", desc: "Urban Wellness Rooted in Indian Wisdom", img: "urbanpilgrim", category: "Website", link: "https://urbanpilgrim.in" },
-        { title: "Ecommerce Website", desc: "AI-Powered Productivity", img: "ecommerce", category: "Website", link: "https://codexnovas.in" },
-        { title: "Takshila FM", desc: "AI-Powered Productivity", img: "takshilafm", category: "Website", link: "https://takshila.fm" },
-        { title: "Water filling Animation", desc: "Creative water filling loader animation", img: "animation5", category: "Animation" },
-        { title: "Smoky Animation", desc: "Elegant smoky canvas text reveal animation", img: "animation3", category: "Animation" },
-        { title: "Loading Animation", desc: "Smooth modern page loader animation", img: "animation1", category: "Animation" },
-        { title: "Button animation", desc: "Micro-interactive button state transitions", img: "animation2", category: "Animation" },
-        { title: "Jumping Animation", desc: "Playful character jumping physics animation", img: "animation4", category: "Animation" },
-        { title: "ECommerce Website", desc: "Sleek and responsive online store design", img: "ecommercewebsite1", category: "Website" },
-        { title: "Cohesive Minds", desc: "Collaborative agency and team landing platform", img: "cohesiveminds", category: "Website" },
-        { title: "Shagun", desc: "Premium custom wedding invitation platform", img: "shagun", category: "Website" },
-        { title: "Shoe Website", desc: "Immersive 3D interactive shoe collection showcase", img: "shoewebsite", category: "Website" },
-        { title: "Travel and Tours", desc: "Dynamic agency booking and planning site", img: "travelandtours", category: "Website" },
-        { title: "Winz Infotech", desc: "Professional IT services portfolio website", img: "winzinfotech", category: "Website" },
-        { title: "ECommerce Website", desc: "Robust multipurpose digital shop template", img: "ecommercewebsite2", category: "Website" },
-        { title: "Gen Lokal App", desc: "Hyperlocal service and vendor locator mobile application", img: "genlokal", category: "App Design" },
-        { title: "Gym App", desc: "Fitness routine and workout tracker mobile interface", img: "gymapp", category: "App Design" },
-        { title: "Vicina Customer App", desc: "Hyperlocal on-demand customer delivery mobile application", img: "vicinacustomer", category: "App Design" },
-        { title: "Vicina Delivery App", desc: "Real-time delivery driver tracking and logistics application", img: "vicinadelivery", category: "App Design" },
-        { title: "Vicina Shop App", desc: "Seller/Store management dashboard and order system app", img: "vicinashop", category: "App Design" }
+        { title: "Skill Loop", desc: "AI-Powered Productivity with Human Precision", img: "skillloop", category: "Website", link: "https://skillloop.co", order: 1 },
+        { title: "Synchrotask", desc: "AI-Powered Productivity with Human Precision", img: "synchrotask", category: "Website", link: "https://synchrotask.com", order: 2 },
+        { title: "Urban Pilgrim", desc: "Urban Wellness Rooted in Indian Wisdom", img: "urbanpilgrim", category: "Website", link: "https://urbanpilgrim.in", order: 3 },
+        { title: "Ecommerce Website", desc: "AI-Powered Productivity", img: "ecommerce", category: "Website", link: "https://codexnovas.in", order: 4 },
+        { title: "Takshila FM", desc: "AI-Powered Productivity", img: "takshilafm", category: "Website", link: "https://takshila.fm", order: 5 },
+        { title: "Water filling Animation", desc: "Creative water filling loader animation", img: "animation5", category: "Animation", order: 6 },
+        { title: "Smoky Animation", desc: "Elegant smoky canvas text reveal animation", img: "animation3", category: "Animation", order: 7 },
+        { title: "Loading Animation", desc: "Smooth modern page loader animation", img: "animation1", category: "Animation", order: 8 },
+        { title: "Button animation", desc: "Micro-interactive button state transitions", img: "animation2", category: "Animation", order: 9 },
+        { title: "Jumping Animation", desc: "Playful character jumping physics animation", img: "animation4", category: "Animation", order: 10 },
+        { title: "ECommerce Website", desc: "Sleek and responsive online store design", img: "ecommercewebsite1", category: "Website", order: 11 },
+        { title: "Cohesive Minds", desc: "Collaborative agency and team landing platform", img: "cohesiveminds", category: "Website", order: 12 },
+        { title: "Shagun", desc: "Premium custom wedding invitation platform", img: "shagun", category: "Website", order: 13 },
+        { title: "Shoe Website", desc: "Immersive 3D interactive shoe collection showcase", img: "shoewebsite", category: "Website", order: 14 },
+        { title: "Travel and Tours", desc: "Dynamic agency booking and planning site", img: "travelandtours", category: "Website", order: 15 },
+        { title: "Winz Infotech", desc: "Professional IT services portfolio website", img: "winzinfotech", category: "Website", order: 16 },
+        { title: "ECommerce Website", desc: "Robust multipurpose digital shop template", img: "ecommercewebsite2", category: "Website", order: 17 },
+        { title: "Gen Lokal App", desc: "Hyperlocal service and vendor locator mobile application", img: "genlokal", category: "App Design", order: 18 },
+        { title: "Gym App", desc: "Fitness routine and workout tracker mobile interface", img: "gymapp", category: "App Design", order: 19 },
+        { title: "Vicina Customer App", desc: "Hyperlocal on-demand customer delivery mobile application", img: "vicinacustomer", category: "App Design", order: 20 },
+        { title: "Vicina Delivery App", desc: "Real-time delivery driver tracking and logistics application", img: "vicinadelivery", category: "App Design", order: 21 },
+        { title: "Vicina Shop App", desc: "Seller/Store management dashboard and order system app", img: "vicinashop", category: "App Design", order: 22 }
       ];
 
       // If database is empty or has fewer than 15 items, sync missing default portfolio items
@@ -428,22 +428,13 @@ export default function Admin() {
           worksList = [...worksList, ...added];
         }
       }
-
-      const sortWorks = (list) => {
-        const skillLoop = list.find(w => w.title?.toLowerCase().trim() === "skill loop");
-        const synchrotask = list.find(w => w.title?.toLowerCase().trim() === "synchrotask");
-        const others = list.filter(w => {
-            const titleLower = w.title?.toLowerCase().trim();
-            return titleLower !== "skill loop" && titleLower !== "synchrotask";
-        });
-        const result = [];
-        if (skillLoop) result.push(skillLoop);
-        if (synchrotask) result.push(synchrotask);
-        result.push(...others);
-        return result;
-      };
-
-      setWorks(sortWorks(worksList));
+      worksList.sort((a, b) => {
+        const orderA = a.order !== undefined ? Number(a.order) : 999;
+        const orderB = b.order !== undefined ? Number(b.order) : 999;
+        if (orderA !== orderB) return orderA - orderB;
+        return (a.title || "").localeCompare(b.title || "");
+      });
+      setWorks(worksList);
 
       // Blogs
       const blogsSnap = await getDocs(collection(db, "blogs"));
@@ -640,10 +631,14 @@ export default function Admin() {
     e.preventDefault();
     try {
       if (modalType === "work") {
+        const parsedWorkData = {
+          ...workForm,
+          order: Number(workForm.order) || 0
+        };
         if (editId) {
-          await updateDoc(doc(db, "works", editId), workForm);
+          await updateDoc(doc(db, "works", editId), parsedWorkData);
         } else {
-          await addDoc(collection(db, "works"), workForm);
+          await addDoc(collection(db, "works"), parsedWorkData);
         }
       } else if (modalType === "blog") {
         if (editId) {
@@ -775,7 +770,8 @@ export default function Admin() {
       desc: item.desc || "",
       category: item.category || "Website",
       img: item.img || "",
-      link: item.link || ""
+      link: item.link || "",
+      order: item.order !== undefined ? Number(item.order) : 0
     });
     setShowFormModal(true);
   };
@@ -783,8 +779,48 @@ export default function Admin() {
   const openAddWork = () => {
     setModalType("work");
     setEditId(null);
-    setWorkForm({ title: "", desc: "", category: "Website", img: "", link: "" });
+    setWorkForm({ title: "", desc: "", category: "Website", img: "", link: "", order: works.length + 1 });
     setShowFormModal(true);
+  };
+
+  const moveWorkUp = async (item) => {
+    const idx = works.findIndex(w => w.id === item.id);
+    if (idx <= 0) return;
+    const prevItem = works[idx - 1];
+    
+    const currentOrder = item.order !== undefined ? Number(item.order) : idx + 1;
+    const prevOrder = prevItem.order !== undefined ? Number(prevItem.order) : idx;
+    
+    const newCurrentOrder = prevOrder;
+    const newPrevOrder = currentOrder === prevOrder ? currentOrder + 1 : currentOrder;
+    
+    try {
+      await updateDoc(doc(db, "works", item.id), { order: newCurrentOrder });
+      await updateDoc(doc(db, "works", prevItem.id), { order: newPrevOrder });
+      fetchAllData();
+    } catch (err) {
+      console.error("Error moving work up:", err);
+    }
+  };
+
+  const moveWorkDown = async (item) => {
+    const idx = works.findIndex(w => w.id === item.id);
+    if (idx === -1 || idx === works.length - 1) return;
+    const nextItem = works[idx + 1];
+    
+    const currentOrder = item.order !== undefined ? Number(item.order) : idx + 1;
+    const nextOrder = nextItem.order !== undefined ? Number(nextItem.order) : idx + 2;
+    
+    const newCurrentOrder = nextOrder;
+    const newNextOrder = currentOrder === nextOrder ? currentOrder - 1 : currentOrder;
+    
+    try {
+      await updateDoc(doc(db, "works", item.id), { order: newCurrentOrder });
+      await updateDoc(doc(db, "works", nextItem.id), { order: newNextOrder });
+      fetchAllData();
+    } catch (err) {
+      console.error("Error moving work down:", err);
+    }
   };
 
   const openEditBlog = (item) => {
@@ -1236,7 +1272,6 @@ export default function Admin() {
                   <option value="Animation">Animation</option>
                   <option value="Development">Development</option>
                   <option value="Illustration">Illustration</option>
-                  <option value="Social Media">Social Media</option>
                 </select>
               </div>
             )}
@@ -1274,6 +1309,27 @@ export default function Admin() {
                           </a>
                         )}
                       </div>
+                      {/* Move Up/Down controls */}
+                      <div className="flex flex-col gap-1 justify-center shrink-0">
+                        <button
+                          onClick={() => moveWorkUp(item)}
+                          className="p-1 text-gray-400 hover:text-cyan-400 transition-all hover:scale-110"
+                          title="Move Up"
+                        >
+                          ▲
+                        </button>
+                        <span className="text-[10px] text-center font-mono text-cyan-500 font-bold">
+                          {item.order !== undefined ? item.order : "—"}
+                        </span>
+                        <button
+                          onClick={() => moveWorkDown(item)}
+                          className="p-1 text-gray-400 hover:text-cyan-400 transition-all hover:scale-110"
+                          title="Move Down"
+                        >
+                          ▼
+                        </button>
+                      </div>
+                      
                       <div className="flex flex-col gap-2">
                         <button onClick={() => openEditWork(item)} className="p-1.5 text-gray-400 hover:text-cyan-400 transition-colors">
                           <Edit3 size={14} />
@@ -1757,7 +1813,6 @@ export default function Admin() {
                       <option>Animation</option>
                       <option>Development</option>
                       <option>Illustration</option>
-                      <option>Social Media</option>
                     </select>
                   </div>
                   <div>
@@ -1768,6 +1823,17 @@ export default function Admin() {
                       value={workForm.img}
                       onChange={(e) => setWorkForm({ ...workForm, img: e.target.value })}
                       placeholder="https://..."
+                      className="w-full bg-black border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-400 mb-1">Display Order Number</label>
+                    <input
+                      type="number"
+                      required
+                      value={workForm.order}
+                      onChange={(e) => setWorkForm({ ...workForm, order: Number(e.target.value) })}
+                      placeholder="e.g. 1"
                       className="w-full bg-black border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400"
                     />
                   </div>
