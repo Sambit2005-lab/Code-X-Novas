@@ -131,7 +131,7 @@ export default function ProductsPage() {
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.6, delay: 0.7 }}
                         >
-                            SAS
+                            SAS 360
                         </motion.span> – Smart Attendance <br className="hidden md:block" /> System
                     </motion.h1>
                     <motion.p
@@ -178,7 +178,7 @@ export default function ProductsPage() {
                             >
                                 Replace manual roll calling and costly biometric systems with a smarter,
                                 <br className="hidden md:block" /> faster, and more efficient attendance management solution.
-                                <br className="hidden md:block" /> SAS helps schools, colleges, universities, and coaching institutes automate
+                                <br className="hidden md:block" /> SAS 360 helps schools, colleges, universities, and coaching institutes automate
                                 <br className="hidden md:block" /> attendance using AI-powered classroom recognition.
                             </motion.p>
                         </motion.div>
@@ -261,7 +261,7 @@ export default function ProductsPage() {
                         className="text-[#2352A5] text-[32px] md:text-[35px] font-[600] mb-[20px]"
                         style={{ fontFamily: "Sora" }}
                     >
-                        Why SAS?
+                        Why SAS 360?
                     </motion.h2>
                     <motion.ul
                         className="text-[#111] text-[15px] sm:text-[16px] md:text-[20px] leading-[1.25] md:leading-[2.2] list-disc pl-5 mb-[30px]"
@@ -359,7 +359,7 @@ export default function ProductsPage() {
                         }}
                         whileTap={{ scale: 0.95 }}
                     >
-                        Explore SAS
+                        Explore SAS 360
                     </motion.button>
                 </motion.div>
  

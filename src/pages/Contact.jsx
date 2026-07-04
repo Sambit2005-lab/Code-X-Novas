@@ -452,7 +452,7 @@ const Contact = () => {
                                     Products
                                 </li>
                                 <li className="text-gray-600">
-                                    <a href="/products">SAS</a>
+                                    <a href="/products">SAS 360</a>
                                 </li>
                             </ul>
                         </motion.div>
@@ -630,7 +630,7 @@ const Contact = () => {
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.4, delay: 0.6 }}
                             >
-                                <a href="/products">SAS</a>
+                                <a href="/products">SAS 360</a>
                             </motion.li>
                         </motion.ul>
                     </motion.div>
