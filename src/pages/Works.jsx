@@ -215,24 +215,16 @@ const Works = () => {
                         }}
                     >
                         {categories.map((cat) => (
-                            <motion.button
+                            <button
                                 key={cat}
-                                // inline-block + whitespace-nowrap (mobile) allow horizontal scrolling on small screens
-                                // md:whitespace-normal restores wrap behavior on larger screens (no desktop change)
                                 className={`inline-block px-4 sm:px-6 py-2 text-sm sm:text-base font-medium transition rounded-lg whitespace-nowrap md:whitespace-normal ${activeCategory === cat
                                     ? "bg-gradient-to-r from-[#016FAE] to-[#4FA3FF] text-white shadow-lg"
                                     : "text-white/70 hover:text-white md:text-gray-300"
                                     }`}
                                 onClick={() => setActiveCategory(cat)}
-                                variants={{
-                                    hidden: { scale: 0.8, opacity: 0 },
-                                    visible: { scale: 1, opacity: 1, transition: { duration: 0.4 } }
-                                }}
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
                             >
                                 {cat}
-                            </motion.button>
+                            </button>
                         ))}
                     </motion.div>
                 </motion.div>

@@ -333,8 +333,8 @@ export default function WorkPage() {
                                 <div className="bg-white/40 backdrop-blur-md border border-white/40 rounded-2xl shadow-md px-8 py-3">
                                     <div className="overflow-x-auto scrollbar-none">
                                         <div className="flex items-center gap-5 min-w-max">
-                                            {categories.map((c, idx) => (
-                                                <motion.button
+                                            {categories.map((c) => (
+                                                <button
                                                     key={c}
                                                     onClick={() => setActiveCategory(c)}
                                                     aria-pressed={activeCategory === c}
@@ -342,14 +342,9 @@ export default function WorkPage() {
                                                             ? "bg-gradient-to-r from-[#2352A5] to-[#3CA9E2] text-white shadow-md"
                                                             : "bg-white/70 text-[#08306F] hover:bg-white"
                                                         }`}
-                                                    initial={{ opacity: 0, scale: 0.8 }}
-                                                    animate={{ opacity: 1, scale: 1 }}
-                                                    transition={{ duration: 0.4, delay: 0.9 + (idx * 0.05) }}
-                                                    whileHover={{ scale: 1.05 }}
-                                                    whileTap={{ scale: 0.95 }}
                                                 >
                                                     {c}
-                                                </motion.button>
+                                                </button>
                                             ))}
                                         </div>
                                     </div>
