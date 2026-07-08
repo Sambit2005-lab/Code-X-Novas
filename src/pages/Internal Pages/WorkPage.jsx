@@ -414,19 +414,8 @@ export default function WorkPage() {
                                         key={`large-${activeCategory}-${debouncedSearchTerm}`}
                                     >
                                         {largeProjects.map((project, idx) => {
-                                            const CardElement = project.link ? motion.a : motion.div;
-                                            return (
-                                                <CardElement
-                                                    key={project.title}
-                                                    href={project.link || undefined}
-                                                    target={project.link ? "_blank" : undefined}
-                                                    rel="noopener noreferrer"
-                                                    className={`relative bg-white rounded-lg overflow-hidden shadow-md border border-transparent hover:border-[#2352A5] transition block ${project.link ? "cursor-pointer" : ""}`}
-                                                    initial={{ opacity: 0, y: 50, scale: 0.95 }}
-                                                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                                                    transition={{ duration: 0.7, delay: 1.2 + (idx * 0.2) }}
-                                                    whileHover={{ y: -10, scale: 1.02, boxShadow: "0 20px 40px rgba(0,0,0,0.15)" }}
-                                                >
+                                            const cardContent = (
+                                                <>
                                                     <img
                                                         loading="lazy"
                                                         src={getWorkImg(project.img)}
@@ -450,7 +439,31 @@ export default function WorkPage() {
                                                             </span>
                                                         </div>
                                                     </div>
-                                                </CardElement>
+                                                </>
+                                            );
+
+                                            return (
+                                                <motion.div
+                                                    key={project.title}
+                                                    className={`relative bg-white rounded-lg overflow-hidden shadow-md border border-transparent hover:border-[#2352A5] transition ${project.link ? "cursor-pointer" : ""}`}
+                                                    initial={{ opacity: 0, y: 50, scale: 0.95 }}
+                                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                    transition={{ duration: 0.7, delay: 1.2 + (idx * 0.2) }}
+                                                    whileHover={{ y: -10, scale: 1.02, boxShadow: "0 20px 40px rgba(0,0,0,0.15)" }}
+                                                >
+                                                    {project.link ? (
+                                                        <a
+                                                            href={project.link}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="block w-full h-full text-inherit no-underline"
+                                                        >
+                                                            {cardContent}
+                                                        </a>
+                                                    ) : (
+                                                        cardContent
+                                                    )}
+                                                </motion.div>
                                             );
                                         })}
                                     </motion.div>
@@ -465,19 +478,8 @@ export default function WorkPage() {
                                         key={`small-${activeCategory}-${debouncedSearchTerm}`}
                                     >
                                         {smallProjects.map((project, idx) => {
-                                            const CardElement = project.link ? motion.a : motion.div;
-                                            return (
-                                                <CardElement
-                                                    key={project.title}
-                                                    href={project.link || undefined}
-                                                    target={project.link ? "_blank" : undefined}
-                                                    rel="noopener noreferrer"
-                                                    className={`relative bg-white rounded-lg overflow-hidden shadow-sm border border-transparent hover:border-[#2352A5] transition block ${project.link ? "cursor-pointer" : ""}`}
-                                                    initial={{ opacity: 0, y: 50, rotateX: -10 }}
-                                                    animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                                                    transition={{ duration: 0.7, delay: 1.6 + (idx * 0.15) }}
-                                                    whileHover={{ y: -10, scale: 1.05, boxShadow: "0 15px 30px rgba(0,0,0,0.15)" }}
-                                                >
+                                            const cardContent = (
+                                                <>
                                                     <motion.img
                                                         src={getWorkImg(project.img)}
                                                         alt={project.title}
@@ -501,7 +503,31 @@ export default function WorkPage() {
                                                             </span>
                                                         </div>
                                                     </div>
-                                                </CardElement>
+                                                </>
+                                            );
+
+                                            return (
+                                                <motion.div
+                                                    key={project.title}
+                                                    className={`relative bg-white rounded-lg overflow-hidden shadow-sm border border-transparent hover:border-[#2352A5] transition ${project.link ? "cursor-pointer" : ""}`}
+                                                    initial={{ opacity: 0, y: 50, rotateX: -10 }}
+                                                    animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                                                    transition={{ duration: 0.7, delay: 1.6 + (idx * 0.15) }}
+                                                    whileHover={{ y: -10, scale: 1.05, boxShadow: "0 15px 30px rgba(0,0,0,0.15)" }}
+                                                >
+                                                    {project.link ? (
+                                                        <a
+                                                            href={project.link}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="block w-full h-full text-inherit no-underline"
+                                                        >
+                                                            {cardContent}
+                                                        </a>
+                                                    ) : (
+                                                        cardContent
+                                                    )}
+                                                </motion.div>
                                             );
                                         })}
                                     </motion.div>

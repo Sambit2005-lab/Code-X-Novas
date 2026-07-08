@@ -247,19 +247,8 @@ const Works = () => {
                         }}
                     >
                         {filteredProjects.slice(0, mobileVisibleCount).map((project, index) => {
-                            const CardElement = project.link ? motion.a : motion.div;
-                            return (
-                                <CardElement
-                                    key={index}
-                                    href={project.link || undefined}
-                                    target={project.link ? "_blank" : undefined}
-                                    rel="noopener noreferrer"
-                                    className="flex flex-col w-[92%] max-w-[440px] mx-auto cursor-pointer block"
-                                    variants={{
-                                        hidden: { y: 50, opacity: 0 },
-                                        visible: { y: 0, opacity: 1, transition: { duration: 0.6, ease: "easeOut" } }
-                                    }}
-                                >
+                            const cardContent = (
+                                <>
                                     <motion.div
                                         className="border border-gray-800 hover:border-[#016FAE] transition aspect-[4/3] overflow-hidden rounded-lg"
                                         whileHover={{ scale: 1.02 }}
@@ -296,7 +285,31 @@ const Works = () => {
                                             <span className="text-white text-xl transform -rotate-45">→</span>
                                         </div>
                                     </div>
-                                </CardElement>
+                                </>
+                            );
+
+                            return (
+                                <motion.div
+                                    key={index}
+                                    className="flex flex-col w-[92%] max-w-[440px] mx-auto cursor-pointer"
+                                    variants={{
+                                        hidden: { y: 50, opacity: 0 },
+                                        visible: { y: 0, opacity: 1, transition: { duration: 0.6, ease: "easeOut" } }
+                                    }}
+                                >
+                                    {project.link ? (
+                                        <a
+                                            href={project.link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="block w-full h-full text-inherit no-underline"
+                                        >
+                                            {cardContent}
+                                        </a>
+                                    ) : (
+                                        cardContent
+                                    )}
+                                </motion.div>
                             );
                         })}
                     </motion.div>
@@ -340,24 +353,8 @@ const Works = () => {
                         }}
                     >
                         {filteredProjects.slice(0, 2).map((project, index) => {
-                            const CardElement = project.link ? motion.a : motion.div;
-                            return (
-                                <CardElement
-                                    key={index}
-                                    href={project.link || undefined}
-                                    target={project.link ? "_blank" : undefined}
-                                    rel="noopener noreferrer"
-                                    className="flex flex-col w-full cursor-pointer block"
-                                    variants={{
-                                        hidden: { scale: 0.85, opacity: 0, rotateX: -10 },
-                                        visible: {
-                                            scale: 1,
-                                            opacity: 1,
-                                            rotateX: 0,
-                                            transition: { duration: 0.7, ease: "easeOut" }
-                                        }
-                                    }}
-                                >
+                            const cardContent = (
+                                <>
                                     <motion.div
                                         className="border border-gray-800 hover:border-[#016FAE] transition aspect-[4/3] overflow-hidden rounded-lg"
                                         whileHover={{ scale: 1.03, y: -5 }}
@@ -392,7 +389,36 @@ const Works = () => {
                                             <span className="text-white text-xl transform -rotate-45">→</span>
                                         </div>
                                     </div>
-                                </CardElement>
+                                </>
+                            );
+
+                            return (
+                                <motion.div
+                                    key={index}
+                                    className="flex flex-col w-full cursor-pointer"
+                                    variants={{
+                                        hidden: { scale: 0.85, opacity: 0, rotateX: -10 },
+                                        visible: {
+                                            scale: 1,
+                                            opacity: 1,
+                                            rotateX: 0,
+                                            transition: { duration: 0.7, ease: "easeOut" }
+                                        }
+                                    }}
+                                >
+                                    {project.link ? (
+                                        <a
+                                            href={project.link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="block w-full h-full text-inherit no-underline"
+                                        >
+                                            {cardContent}
+                                        </a>
+                                    ) : (
+                                        cardContent
+                                    )}
+                                </motion.div>
                             );
                         })}
                     </motion.div>
@@ -412,23 +438,8 @@ const Works = () => {
                         }}
                     >
                         {filteredProjects.slice(2).map((project, index) => {
-                            const CardElement = project.link ? motion.a : motion.div;
-                            return (
-                                <CardElement
-                                    key={index}
-                                    href={project.link || undefined}
-                                    target={project.link ? "_blank" : undefined}
-                                    rel="noopener noreferrer"
-                                    className="flex flex-col w-full cursor-pointer block"
-                                    variants={{
-                                        hidden: { y: 60, opacity: 0 },
-                                        visible: {
-                                            y: 0,
-                                            opacity: 1,
-                                            transition: { duration: 0.6, ease: "easeOut" }
-                                        }
-                                    }}
-                                >
+                            const cardContent = (
+                                <>
                                     <motion.div
                                         className="border border-gray-800 hover:border-[#016FAE] transition aspect-square overflow-hidden rounded-lg"
                                         whileHover={{ scale: 1.05, rotate: 2 }}
@@ -463,7 +474,35 @@ const Works = () => {
                                             <span className="text-white text-lg transform -rotate-45">→</span>
                                         </div>
                                     </div>
-                                </CardElement>
+                                </>
+                            );
+
+                            return (
+                                <motion.div
+                                    key={index}
+                                    className="flex flex-col w-full cursor-pointer"
+                                    variants={{
+                                        hidden: { y: 60, opacity: 0 },
+                                        visible: {
+                                            y: 0,
+                                            opacity: 1,
+                                            transition: { duration: 0.6, ease: "easeOut" }
+                                        }
+                                    }}
+                                >
+                                    {project.link ? (
+                                        <a
+                                            href={project.link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="block w-full h-full text-inherit no-underline"
+                                        >
+                                            {cardContent}
+                                        </a>
+                                    ) : (
+                                        cardContent
+                                    )}
+                                </motion.div>
                             );
                         })}
                     </motion.div>
