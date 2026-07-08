@@ -80,7 +80,7 @@ export default function WorkPage() {
     const [showBlur, setShowBlur] = useState(true);
     const [currentFrame, setCurrentFrame] = useState(0);
     const contactRef = useRef(null);
-    const [categories, setCategories] = useState(["All", "Animation", "Development", "Illustration", "Website", "App Design"]);
+    const [categories, setCategories] = useState(["All", "Website", "App Design", "Animation", "Development", "Illustration"]);
     const [projectList, setProjectList] = useState([]);
 
     const workData = [
@@ -140,8 +140,8 @@ export default function WorkPage() {
 
     const sortWorks = (list) => {
         return [...list].sort((a, b) => {
-            const orderA = a.order !== undefined ? Number(a.order) : 999;
-            const orderB = b.order !== undefined ? Number(b.order) : 999;
+            const orderA = a.order !== undefined && !isNaN(Number(a.order)) ? Number(a.order) : 999;
+            const orderB = b.order !== undefined && !isNaN(Number(b.order)) ? Number(b.order) : 999;
             if (orderA !== orderB) return orderA - orderB;
             return (a.title || "").localeCompare(b.title || "");
         });
@@ -154,7 +154,11 @@ export default function WorkPage() {
                 const catSnap = await getDocs(collection(db, "categories"));
                 const catList = catSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 if (catList.length > 0) {
-                    catList.sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0));
+                    catList.sort((a, b) => {
+                        const orderA = a.order !== undefined && !isNaN(Number(a.order)) ? Number(a.order) : 999;
+                        const orderB = b.order !== undefined && !isNaN(Number(b.order)) ? Number(b.order) : 999;
+                        return orderA - orderB;
+                    });
                     setCategories(["All", ...catList.map(c => c.name)]);
                 }
 
@@ -414,44 +418,46 @@ export default function WorkPage() {
                                         transition={{ staggerChildren: 0.2, delayChildren: 0.2 }}
                                         key={`large-${activeCategory}-${debouncedSearchTerm}`}
                                     >
-                                        {largeProjects.map((project, idx) => (
-                                            <motion.div
-                                                key={project.title}
-                                                onClick={() => handleProjectClick(project)}
-                                                className={`relative bg-white rounded-lg overflow-hidden shadow-md border border-transparent hover:border-[#2352A5] transition ${project.link ? "cursor-pointer" : ""}`}
-                                                initial={{ opacity: 0, y: 50, scale: 0.95 }}
-                                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                                transition={{ duration: 0.7, delay: 1.2 + (idx * 0.2) }}
-                                                whileHover={{ y: -10, scale: 1.02, boxShadow: "0 20px 40px rgba(0,0,0,0.15)" }}
-                                            >
-                                                <img
-                                                    loading="lazy"
-                                                    src={getWorkImg(project.img)}
-                                                    alt={project.title}
-                                                    className={`w-full h-[200px] md:h-[300px] lg:h-[320px] ${project.category === "App Design" ? "object-fill object-[center_30%]" : "object-cover"} rounded-t-lg`}
-                                                />
-                                                <div className="p-6 flex items-center justify-between">
-                                                    <div className="pr-3">
-                                                        <h3 className="text-[20px] md:text-[22px] font-[600] text-[#0B1730]">
-                                                            {project.title}
-                                                        </h3>
-                                                        <p className="text-[13px] text-[#6B7280] mt-2">
-                                                            {project.subtitle || project.desc}
-                                                        </p>
+                                        {largeProjects.map((project, idx) => {
+                                            const CardElement = project.link ? motion.a : motion.div;
+                                            return (
+                                                <CardElement
+                                                    key={project.title}
+                                                    href={project.link || undefined}
+                                                    target={project.link ? "_blank" : undefined}
+                                                    rel="noopener noreferrer"
+                                                    className={`relative bg-white rounded-lg overflow-hidden shadow-md border border-transparent hover:border-[#2352A5] transition block ${project.link ? "cursor-pointer" : ""}`}
+                                                    initial={{ opacity: 0, y: 50, scale: 0.95 }}
+                                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                    transition={{ duration: 0.7, delay: 1.2 + (idx * 0.2) }}
+                                                    whileHover={{ y: -10, scale: 1.02, boxShadow: "0 20px 40px rgba(0,0,0,0.15)" }}
+                                                >
+                                                    <img
+                                                        loading="lazy"
+                                                        src={getWorkImg(project.img)}
+                                                        alt={project.title}
+                                                        className={`w-full h-[200px] md:h-[300px] lg:h-[320px] ${project.category === "App Design" ? "object-fill object-[center_30%]" : "object-cover"} rounded-t-lg`}
+                                                    />
+                                                    <div className="p-6 flex items-center justify-between">
+                                                        <div className="pr-3">
+                                                            <h3 className="text-[20px] md:text-[22px] font-[600] text-[#0B1730]">
+                                                                {project.title}
+                                                            </h3>
+                                                            <p className="text-[13px] text-[#6B7280] mt-2">
+                                                                {project.subtitle || project.desc}
+                                                            </p>
+                                                        </div>
+                                                        <div
+                                                            className="w-10 h-10 rounded-full flex items-center justify-center shadow-sm border border-gray-100 bg-[#F6F5F8]"
+                                                        >
+                                                            <span className="text-[#2352A5] text-xl transform -rotate-45" aria-hidden>
+                                                                →
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                    <motion.button
-                                                        aria-label={`Open ${project.title}`}
-                                                        className="w-10 h-10 rounded-full flex items-center justify-center shadow-sm border border-gray-100 bg-[#F6F5F8]"
-                                                        whileHover={{ scale: 1.2, rotate: -45 }}
-                                                        whileTap={{ scale: 0.9 }}
-                                                    >
-                                                        <span className="text-[#2352A5] text-xl transform -rotate-45" aria-hidden>
-                                                            →
-                                                        </span>
-                                                    </motion.button>
-                                                </div>
-                                            </motion.div>
-                                        ))}
+                                                </CardElement>
+                                            );
+                                        })}
                                     </motion.div>
                                 )}
 
@@ -463,44 +469,46 @@ export default function WorkPage() {
                                         transition={{ staggerChildren: 0.15, delayChildren: 0.4 }}
                                         key={`small-${activeCategory}-${debouncedSearchTerm}`}
                                     >
-                                        {smallProjects.map((project, idx) => (
-                                            <motion.div
-                                                key={project.title}
-                                                onClick={() => handleProjectClick(project)}
-                                                className={`relative bg-white rounded-lg overflow-hidden shadow-sm border border-transparent hover:border-[#2352A5] transition ${project.link ? "cursor-pointer" : ""}`}
-                                                initial={{ opacity: 0, y: 50, rotateX: -10 }}
-                                                animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                                                transition={{ duration: 0.7, delay: 1.6 + (idx * 0.15) }}
-                                                whileHover={{ y: -10, scale: 1.05, boxShadow: "0 15px 30px rgba(0,0,0,0.15)" }}
-                                            >
-                                                <motion.img
-                                                    src={getWorkImg(project.img)}
-                                                    alt={project.title}
-                                                    loading="lazy"
-                                                    className={`w-full h-[180px] sm:h-[200px] md:h-[220px] ${project.category === "App Design" ? "object-fill object-[center_30%]" : "object-cover"} rounded-t-lg`}
-                                                    whileHover={{ scale: 1.1 }}
-                                                    transition={{ duration: 0.4 }}
-                                                />
-                                                <div className="p-4 flex items-center justify-between">
-                                                    <div>
-                                                        <h4 className="text-[16px] font-[600]">{project.title}</h4>
-                                                        <p className="text-[12px] text-[#6B7280] mt-1">
-                                                            {project.subtitle || project.desc}
-                                                        </p>
+                                        {smallProjects.map((project, idx) => {
+                                            const CardElement = project.link ? motion.a : motion.div;
+                                            return (
+                                                <CardElement
+                                                    key={project.title}
+                                                    href={project.link || undefined}
+                                                    target={project.link ? "_blank" : undefined}
+                                                    rel="noopener noreferrer"
+                                                    className={`relative bg-white rounded-lg overflow-hidden shadow-sm border border-transparent hover:border-[#2352A5] transition block ${project.link ? "cursor-pointer" : ""}`}
+                                                    initial={{ opacity: 0, y: 50, rotateX: -10 }}
+                                                    animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                                                    transition={{ duration: 0.7, delay: 1.6 + (idx * 0.15) }}
+                                                    whileHover={{ y: -10, scale: 1.05, boxShadow: "0 15px 30px rgba(0,0,0,0.15)" }}
+                                                >
+                                                    <motion.img
+                                                        src={getWorkImg(project.img)}
+                                                        alt={project.title}
+                                                        loading="lazy"
+                                                        className={`w-full h-[180px] sm:h-[200px] md:h-[220px] ${project.category === "App Design" ? "object-fill object-[center_30%]" : "object-cover"} rounded-t-lg`}
+                                                        whileHover={{ scale: 1.1 }}
+                                                        transition={{ duration: 0.4 }}
+                                                    />
+                                                    <div className="p-4 flex items-center justify-between">
+                                                        <div>
+                                                            <h4 className="text-[16px] font-[600]">{project.title}</h4>
+                                                            <p className="text-[12px] text-[#6B7280] mt-1">
+                                                                {project.subtitle || project.desc}
+                                                            </p>
+                                                        </div>
+                                                        <div
+                                                            className="w-10 h-10 rounded-full flex items-center justify-center shadow-sm border border-gray-100 bg-[#F6F5F8]"
+                                                        >
+                                                            <span className="text-[#2352A5] text-xl transform -rotate-45" aria-hidden>
+                                                                →
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                    <motion.button
-                                                        aria-label={`Open ${project.title}`}
-                                                        className="w-10 h-10 rounded-full flex items-center justify-center shadow-sm border border-gray-100 bg-[#F6F5F8]"
-                                                        whileHover={{ scale: 1.2, rotate: -45 }}
-                                                        whileTap={{ scale: 0.9 }}
-                                                    >
-                                                        <span className="text-[#2352A5] text-xl transform -rotate-45" aria-hidden>
-                                                            →
-                                                        </span>
-                                                    </motion.button>
-                                                </div>
-                                            </motion.div>
-                                        ))}
+                                                </CardElement>
+                                            );
+                                        })}
                                     </motion.div>
                                 )}
                             </>

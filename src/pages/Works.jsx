@@ -86,7 +86,7 @@ const projectsData = [
 
 const Works = () => {
     const navigate = useNavigate();
-    const [categories, setCategories] = useState(["All", "Animation", "Development", "Illustration", "Website", "App Design"]);
+    const [categories, setCategories] = useState(["All", "Website", "App Design", "Animation", "Development", "Illustration"]);
     const [activeCategory, setActiveCategory] = useState("All");
     // mobile-only: number of visible project cards (shows 3, then +3 per Load More)
     const [mobileVisibleCount, setMobileVisibleCount] = useState(3);
@@ -94,8 +94,8 @@ const Works = () => {
 
     const sortWorks = (list) => {
         return [...list].sort((a, b) => {
-            const orderA = a.order !== undefined ? Number(a.order) : 999;
-            const orderB = b.order !== undefined ? Number(b.order) : 999;
+            const orderA = a.order !== undefined && !isNaN(Number(a.order)) ? Number(a.order) : 999;
+            const orderB = b.order !== undefined && !isNaN(Number(b.order)) ? Number(b.order) : 999;
             if (orderA !== orderB) return orderA - orderB;
             return (a.title || "").localeCompare(b.title || "");
         });
@@ -108,7 +108,11 @@ const Works = () => {
                 const catSnap = await getDocs(collection(db, "categories"));
                 const catList = catSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 if (catList.length > 0) {
-                    catList.sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0));
+                    catList.sort((a, b) => {
+                        const orderA = a.order !== undefined && !isNaN(Number(a.order)) ? Number(a.order) : 999;
+                        const orderB = b.order !== undefined && !isNaN(Number(b.order)) ? Number(b.order) : 999;
+                        return orderA - orderB;
+                    });
                     setCategories(["All", ...catList.map(c => c.name)]);
                 }
 
@@ -250,56 +254,59 @@ const Works = () => {
                             }
                         }}
                     >
-                        {filteredProjects.slice(0, mobileVisibleCount).map((project, index) => (
-                            <motion.div
-                                key={index}
-                                onClick={() => handleProjectClick(project)}
-                                className="flex flex-col w-[92%] max-w-[440px] mx-auto cursor-pointer"
-                                variants={{
-                                    hidden: { y: 50, opacity: 0 },
-                                    visible: { y: 0, opacity: 1, transition: { duration: 0.6, ease: "easeOut" } }
-                                }}
-                            >
-                                <motion.div
-                                    className="border border-gray-800 hover:border-[#016FAE] transition aspect-[4/3] overflow-hidden rounded-lg"
-                                    whileHover={{ scale: 1.02 }}
-                                    transition={{ duration: 0.3 }}
+                        {filteredProjects.slice(0, mobileVisibleCount).map((project, index) => {
+                            const CardElement = project.link ? motion.a : motion.div;
+                            return (
+                                <CardElement
+                                    key={index}
+                                    href={project.link || undefined}
+                                    target={project.link ? "_blank" : undefined}
+                                    rel="noopener noreferrer"
+                                    className="flex flex-col w-[92%] max-w-[440px] mx-auto cursor-pointer block"
+                                    variants={{
+                                        hidden: { y: 50, opacity: 0 },
+                                        visible: { y: 0, opacity: 1, transition: { duration: 0.6, ease: "easeOut" } }
+                                    }}
                                 >
-                                    <img
-                                        src={getWorkImg(project.img)}
-                                        loading="lazy"
-                                        alt={project.title}
-                                        className="w-full h-full object-cover"
-                                    />
-                                </motion.div>
-                                <div className="flex items-center justify-between mt-3">
-                                    <div className="text-left flex-1 pr-3">
-                                        {/* 3. Mobile: Ensure title and description are on separate lines and description clamps to 2 lines */}
-                                        <h3 className="text-lg font-semibold text-white leading-tight mb-1">{project.title}</h3>
-                                        <p
-                                            className="text-sm text-white/60 leading-tight"
-                                            style={{
-                                                display: '-webkit-box',
-                                                WebkitLineClamp: 2,
-                                                WebkitBoxOrient: 'vertical',
-                                                overflow: 'hidden',
-                                            }}
-                                        >
-                                            {project.desc}
-                                        </p>
-                                    </div>
-                                    {/* 2. Mobile: Updated arrow button with Glass effect */}
-                                    <motion.button
-                                        className={`w-10 h-10 rounded-full flex items-center justify-center transition focus:outline-none ${glassEffectClassMobile} hover:bg-gradient-to-r hover:from-[#016FAE] hover:to-[#4FA3FF] active:bg-gradient-to-r active:from-[#016FAE] active:to-[#4FA3FF]`}
-                                        aria-label={`Open ${project.title}`}
-                                        whileHover={{ scale: 1.1, rotate: -45 }}
-                                        whileTap={{ scale: 0.9 }}
+                                    <motion.div
+                                        className="border border-gray-800 hover:border-[#016FAE] transition aspect-[4/3] overflow-hidden rounded-lg"
+                                        whileHover={{ scale: 1.02 }}
+                                        transition={{ duration: 0.3 }}
                                     >
-                                        <span className="text-white text-xl transform -rotate-45">→</span>
-                                    </motion.button>
-                                </div>
-                            </motion.div>
-                        ))}
+                                        <img
+                                            src={getWorkImg(project.img)}
+                                            loading="lazy"
+                                            alt={project.title}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </motion.div>
+                                    <div className="flex items-center justify-between mt-3">
+                                        <div className="text-left flex-1 pr-3">
+                                            {/* 3. Mobile: Ensure title and description are on separate lines and description clamps to 2 lines */}
+                                            <h3 className="text-lg font-semibold text-white leading-tight mb-1">{project.title}</h3>
+                                            <p
+                                                className="text-sm text-white/60 leading-tight"
+                                                style={{
+                                                    display: '-webkit-box',
+                                                    WebkitLineClamp: 2,
+                                                    WebkitBoxOrient: 'vertical',
+                                                    overflow: 'hidden',
+                                                }}
+                                            >
+                                                {project.desc}
+                                            </p>
+                                        </div>
+                                        {/* 2. Mobile: Updated arrow button with Glass effect */}
+                                        <div
+                                            className={`w-10 h-10 rounded-full flex items-center justify-center transition focus:outline-none ${glassEffectClassMobile} hover:bg-gradient-to-r hover:from-[#016FAE] hover:to-[#4FA3FF] active:bg-gradient-to-r active:from-[#016FAE] active:to-[#4FA3FF]`}
+                                            aria-label={`Open ${project.title}`}
+                                        >
+                                            <span className="text-white text-xl transform -rotate-45">→</span>
+                                        </div>
+                                    </div>
+                                </CardElement>
+                            );
+                        })}
                     </motion.div>
                     <div className="text-center mt-4">
                         {mobileVisibleCount < filteredProjects.length ? (
@@ -340,59 +347,62 @@ const Works = () => {
                             }
                         }}
                     >
-                        {filteredProjects.slice(0, 2).map((project, index) => (
-                            <motion.div
-                                key={index}
-                                onClick={() => handleProjectClick(project)}
-                                className="flex flex-col w-full cursor-pointer"
-                                variants={{
-                                    hidden: { scale: 0.85, opacity: 0, rotateX: -10 },
-                                    visible: {
-                                        scale: 1,
-                                        opacity: 1,
-                                        rotateX: 0,
-                                        transition: { duration: 0.7, ease: "easeOut" }
-                                    }
-                                }}
-                            >
-                                <motion.div
-                                    className="border border-gray-800 hover:border-[#016FAE] transition aspect-[4/3] overflow-hidden rounded-lg"
-                                    whileHover={{ scale: 1.03, y: -5 }}
-                                    transition={{ duration: 0.3 }}
+                        {filteredProjects.slice(0, 2).map((project, index) => {
+                            const CardElement = project.link ? motion.a : motion.div;
+                            return (
+                                <CardElement
+                                    key={index}
+                                    href={project.link || undefined}
+                                    target={project.link ? "_blank" : undefined}
+                                    rel="noopener noreferrer"
+                                    className="flex flex-col w-full cursor-pointer block"
+                                    variants={{
+                                        hidden: { scale: 0.85, opacity: 0, rotateX: -10 },
+                                        visible: {
+                                            scale: 1,
+                                            opacity: 1,
+                                            rotateX: 0,
+                                            transition: { duration: 0.7, ease: "easeOut" }
+                                        }
+                                    }}
                                 >
-                                    <img
-                                        src={getWorkImg(project.img)}
-                                        loading="lazy"
-                                        alt={project.title}
-                                        className="w-full h-full object-cover"
-                                    />
-                                </motion.div>
-                                <div className="flex items-center justify-between mt-3">
-                                    <div className="text-left flex-1 pr-3">
-                                        <h3 className="text-lg font-semibold text-white mb-1">{project.title}</h3>
-                                        <p
-                                            className="text-sm text-gray-400"
-                                            style={{
-                                                display: '-webkit-box',
-                                                WebkitLineClamp: 2,
-                                                WebkitBoxOrient: 'vertical',
-                                                overflow: 'hidden',
-                                            }}
-                                        >
-                                            {project.desc}
-                                        </p>
-                                    </div>
-                                    <motion.button
-                                        className={`w-10 h-10 rounded-full flex items-center justify-center transition focus:outline-none ${glassEffectClassMobile} hover:bg-gradient-to-r hover:from-[#016FAE] hover:to-[#4FA3FF] active:bg-gradient-to-r active:from-[#016FAE] active:to-[#4FA3FF]`}
-                                        aria-label={`Open ${project.title}`}
-                                        whileHover={{ scale: 1.15, rotate: -45 }}
-                                        whileTap={{ scale: 0.9 }}
+                                    <motion.div
+                                        className="border border-gray-800 hover:border-[#016FAE] transition aspect-[4/3] overflow-hidden rounded-lg"
+                                        whileHover={{ scale: 1.03, y: -5 }}
+                                        transition={{ duration: 0.3 }}
                                     >
-                                        <span className="text-white text-xl transform -rotate-45">→</span>
-                                    </motion.button>
-                                </div>
-                            </motion.div>
-                        ))}
+                                        <img
+                                            src={getWorkImg(project.img)}
+                                            loading="lazy"
+                                            alt={project.title}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </motion.div>
+                                    <div className="flex items-center justify-between mt-3">
+                                        <div className="text-left flex-1 pr-3">
+                                            <h3 className="text-lg font-semibold text-white mb-1">{project.title}</h3>
+                                            <p
+                                                className="text-sm text-gray-400"
+                                                style={{
+                                                    display: '-webkit-box',
+                                                    WebkitLineClamp: 2,
+                                                    WebkitBoxOrient: 'vertical',
+                                                    overflow: 'hidden',
+                                                }}
+                                            >
+                                                {project.desc}
+                                            </p>
+                                        </div>
+                                        <div
+                                            className={`w-10 h-10 rounded-full flex items-center justify-center transition focus:outline-none ${glassEffectClassMobile} hover:bg-gradient-to-r hover:from-[#016FAE] hover:to-[#4FA3FF] active:bg-gradient-to-r active:from-[#016FAE] active:to-[#4FA3FF]`}
+                                            aria-label={`Open ${project.title}`}
+                                        >
+                                            <span className="text-white text-xl transform -rotate-45">→</span>
+                                        </div>
+                                    </div>
+                                </CardElement>
+                            );
+                        })}
                     </motion.div>
                     <motion.div
                         key={`desktop-bottom-${activeCategory}`}
@@ -409,58 +419,61 @@ const Works = () => {
                             }
                         }}
                     >
-                        {filteredProjects.slice(2).map((project, index) => (
-                            <motion.div
-                                key={index}
-                                onClick={() => handleProjectClick(project)}
-                                className="flex flex-col w-full cursor-pointer"
-                                variants={{
-                                    hidden: { y: 60, opacity: 0 },
-                                    visible: {
-                                        y: 0,
-                                        opacity: 1,
-                                        transition: { duration: 0.6, ease: "easeOut" }
-                                    }
-                                }}
-                            >
-                                <motion.div
-                                    className="border border-gray-800 hover:border-[#016FAE] transition aspect-square overflow-hidden rounded-lg"
-                                    whileHover={{ scale: 1.05, rotate: 2 }}
-                                    transition={{ duration: 0.3 }}
+                        {filteredProjects.slice(2).map((project, index) => {
+                            const CardElement = project.link ? motion.a : motion.div;
+                            return (
+                                <CardElement
+                                    key={index}
+                                    href={project.link || undefined}
+                                    target={project.link ? "_blank" : undefined}
+                                    rel="noopener noreferrer"
+                                    className="flex flex-col w-full cursor-pointer block"
+                                    variants={{
+                                        hidden: { y: 60, opacity: 0 },
+                                        visible: {
+                                            y: 0,
+                                            opacity: 1,
+                                            transition: { duration: 0.6, ease: "easeOut" }
+                                        }
+                                    }}
                                 >
-                                    <img
-                                        src={getWorkImg(project.img)}
-                                        loading="lazy"
-                                        alt={project.title}
-                                        className="w-full h-full object-cover"
-                                    />
-                                </motion.div>
-                                <div className="flex items-center justify-between mt-2">
-                                    <div className="text-left flex-1 pr-3">
-                                        <h3 className="text-md font-semibold text-white mb-1">{project.title}</h3>
-                                        <p
-                                            className="text-sm text-gray-400"
-                                            style={{
-                                                display: '-webkit-box',
-                                                WebkitLineClamp: 2,
-                                                WebkitBoxOrient: 'vertical',
-                                                overflow: 'hidden',
-                                            }}
-                                        >
-                                            {project.desc}
-                                        </p>
-                                    </div>
-                                    <motion.button
-                                        className={`w-9 h-9 rounded-full flex items-center justify-center transition focus:outline-none ${glassEffectClassMobile} hover:bg-gradient-to-r hover:from-[#016FAE] hover:to-[#4FA3FF] active:bg-gradient-to-r active:from-[#016FAE] active:to-[#4FA3FF]`}
-                                        aria-label={`Open ${project.title}`}
-                                        whileHover={{ scale: 1.15, rotate: -45 }}
-                                        whileTap={{ scale: 0.9 }}
+                                    <motion.div
+                                        className="border border-gray-800 hover:border-[#016FAE] transition aspect-square overflow-hidden rounded-lg"
+                                        whileHover={{ scale: 1.05, rotate: 2 }}
+                                        transition={{ duration: 0.3 }}
                                     >
-                                        <span className="text-white text-lg transform -rotate-45">→</span>
-                                    </motion.button>
-                                </div>
-                            </motion.div>
-                        ))}
+                                        <img
+                                            src={getWorkImg(project.img)}
+                                            loading="lazy"
+                                            alt={project.title}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </motion.div>
+                                    <div className="flex items-center justify-between mt-2">
+                                        <div className="text-left flex-1 pr-3">
+                                            <h3 className="text-md font-semibold text-white mb-1">{project.title}</h3>
+                                            <p
+                                                className="text-sm text-gray-400"
+                                                style={{
+                                                    display: '-webkit-box',
+                                                    WebkitLineClamp: 2,
+                                                    WebkitBoxOrient: 'vertical',
+                                                    overflow: 'hidden',
+                                                }}
+                                            >
+                                                {project.desc}
+                                            </p>
+                                        </div>
+                                        <div
+                                            className={`w-9 h-9 rounded-full flex items-center justify-center transition focus:outline-none ${glassEffectClassMobile} hover:bg-gradient-to-r hover:from-[#016FAE] hover:to-[#4FA3FF] active:bg-gradient-to-r active:from-[#016FAE] active:to-[#4FA3FF]`}
+                                            aria-label={`Open ${project.title}`}
+                                        >
+                                            <span className="text-white text-lg transform -rotate-45">→</span>
+                                        </div>
+                                    </div>
+                                </CardElement>
+                            );
+                        })}
                     </motion.div>
                     <motion.div
                         className="text-center mt-10"
