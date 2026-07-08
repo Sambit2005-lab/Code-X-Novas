@@ -102,9 +102,8 @@ const Works = () => {
     };
 
     useEffect(() => {
-        const fetchProjectsAndCategories = async () => {
+        const fetchCategories = async () => {
             try {
-                // Fetch categories
                 const catSnap = await getDocs(collection(db, "categories"));
                 const catList = catSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 if (catList.length > 0) {
@@ -115,8 +114,13 @@ const Works = () => {
                     });
                     setCategories(["All", ...catList.map(c => c.name)]);
                 }
+            } catch (err) {
+                console.error("Error loading categories: ", err);
+            }
+        };
 
-                // Fetch projects
+        const fetchProjects = async () => {
+            try {
                 const snap = await getDocs(collection(db, "works"));
                 const list = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 if (list.length > 0) {
@@ -125,11 +129,13 @@ const Works = () => {
                     setProjectList(sortWorks(projectsData));
                 }
             } catch (err) {
-                console.error("Error loading works or categories: ", err);
+                console.error("Error loading works: ", err);
                 setProjectList(sortWorks(projectsData));
             }
         };
-        fetchProjectsAndCategories();
+
+        fetchCategories();
+        fetchProjects();
     }, []);
 
     const filteredProjects =
