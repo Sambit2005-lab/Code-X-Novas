@@ -45,13 +45,20 @@ export default function CareerPage() {
     const [showApplyModal, setShowApplyModal] = useState(false);
 
     useEffect(() => {
+        const isMobile = window.innerWidth < 1024;
         if (showApplyModal) {
-            document.body.style.overflow = "hidden";
+            if (isMobile) {
+                document.body.style.overflow = "hidden";
+            } else {
+                document.body.style.overflowY = "scroll";
+            }
         } else {
             document.body.style.overflow = "";
+            document.body.style.overflowY = "";
         }
         return () => {
             document.body.style.overflow = "";
+            document.body.style.overflowY = "";
         };
     }, [showApplyModal]);
     const [selectedPosition, setSelectedPosition] = useState("");
