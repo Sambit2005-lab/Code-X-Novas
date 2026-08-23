@@ -357,7 +357,7 @@ const About = () => {
                     </motion.div>
                 </section>
 
-                <section ref={sectionRef} className="relative h-[45vh] w-screen overflow-hidden mt-10">
+                <section ref={sectionRef} className="relative h-[52vh] min-h-[360px] w-screen overflow-hidden mt-10">
                     <div
                         className="absolute inset-0 w-full h-full bg-center bg-cover grayscale"
                         style={{ backgroundImage: `url(${aboutBg})` }}
@@ -369,43 +369,49 @@ const About = () => {
                             src={firstImg}
                             loading="lazy"
                             alt="Product Engineering"
-                            className="absolute w-[70%] h-auto object-contain"
+                            className="absolute w-[65%] h-auto object-contain"
                             style={getMobileImageStyle(0)}
                         />
                         <img
                             src={secondImg}
                             loading="lazy"
                             alt="AI Integrations"
-                            className="absolute w-[70%] h-auto object-contain"
+                            className="absolute w-[65%] h-auto object-contain"
                             style={getMobileImageStyle(1)}
                         />
                         <img
                             src={thirdImg}
                             loading="lazy"
                             alt="SaaS Infrastructure"
-                            className="absolute w-[70%] h-auto object-contain"
+                            className="absolute w-[65%] h-auto object-contain"
                             style={getMobileImageStyle(2)}
                         />
 
                         <p
-                            className="absolute bottom-8 text-white text-center w-full"
+                            className="absolute bottom-6 text-white text-center w-full"
                             style={{ ...getLabelStyle(0), fontFamily: "Sora", fontWeight: 500 }}
                         >
-                            Product Engineering
+                            <span className="bg-zinc-950/80 border border-white/15 px-5 py-2.5 rounded-full text-xs sm:text-sm inline-block tracking-wide shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+                                Product Engineering
+                            </span>
                         </p>
 
                         <p
-                            className="absolute bottom-8 text-white text-center w-full"
+                            className="absolute bottom-6 text-white text-center w-full"
                             style={{ ...getLabelStyle(1), fontFamily: "Sora", fontWeight: 500 }}
                         >
-                            AI Integrations
+                            <span className="bg-zinc-950/80 border border-white/15 px-5 py-2.5 rounded-full text-xs sm:text-sm inline-block tracking-wide shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+                                AI Integrations
+                            </span>
                         </p>
 
                         <p
-                            className="absolute bottom-8 text-white text-center w-full"
+                            className="absolute bottom-6 text-white text-center w-full"
                             style={{ ...getLabelStyle(2), fontFamily: "Sora", fontWeight: 500 }}
                         >
-                            Scalable SaaS Infrastructure
+                            <span className="bg-zinc-950/80 border border-white/15 px-5 py-2.5 rounded-full text-xs sm:text-sm inline-block tracking-wide shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+                                Scalable SaaS Infrastructure
+                            </span>
                         </p>
                     </div>
                 </section>
