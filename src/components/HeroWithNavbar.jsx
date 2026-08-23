@@ -54,16 +54,7 @@ export default function HeroWithNavbar() {
     const navigate = useNavigate();
 
     const handleNavClick = (id, path) => {
-        if (location.pathname === "/") {
-            if (id === "contact") {
-                const section = document.getElementById("contact");
-                if (section) section.scrollIntoView({ behavior: "smooth" });
-                return;
-            }
-            navigate(path);
-        } else {
-            navigate(path);
-        }
+        navigate(path);
     };
 
     useEffect(() => {

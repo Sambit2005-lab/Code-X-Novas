@@ -11,7 +11,7 @@ import ProductsPage from "./pages/Internal Pages/ProductsPage";
 import BlogsPage from "./pages/Internal Pages/BlogsPage";
 import CareerPage from "./pages/Internal Pages/CareerPage";
 import WorkPage from "./pages/Internal Pages/WorkPage";
-import Contact from "./pages/Contact";
+import ContactPage from "./pages/Internal Pages/ContactPage";
 import LegalPage from "./pages/LegalPage";
 import Hackathon from "./pages/Hackathon";
 import Admin from "./pages/Admin";
@@ -50,7 +50,7 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/works" element={<WorkPage />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route path="/terms" element={<LegalPage />} />
           <Route path="/privacy" element={<LegalPage />} />
           <Route path="/products" element={<ProductsPage />} />

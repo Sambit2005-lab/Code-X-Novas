@@ -9,17 +9,8 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   const handleNavClick = (id, path) => {
-    if (path === "/contact") {
-      const contactEl = typeof document !== "undefined" && document.getElementById("contact");
-      if (contactEl) {
-        contactEl.scrollIntoView({ behavior: "smooth", block: "start" });
-        setOpen(false);
-        return;
-      }
-      navigate(path);
-      return;
-    }
     navigate(path);
+    setOpen(false);
   };
 
   return (
