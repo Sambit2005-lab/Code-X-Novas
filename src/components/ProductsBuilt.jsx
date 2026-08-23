@@ -98,12 +98,12 @@ export default function ProductsBuilt() {
                 </div>
 
                 {/* Infinite Horizontal Cards Scroll Track */}
-                <div className="relative w-full py-8 overflow-hidden bg-white/30 border-y border-gray-200/50 backdrop-blur-[1px]">
+                <div className="relative w-full py-8 overflow-hidden bg-transparent border-y border-gray-200/40">
                     {/* Shadow overlay gradient left */}
-                    <div className="absolute left-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-r from-white via-white/80 to-transparent z-20 pointer-events-none" />
+                    <div className="absolute left-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-r from-white via-white/40 to-transparent z-20 pointer-events-none" />
                     
                     {/* Shadow overlay gradient right */}
-                    <div className="absolute right-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-l from-white via-white/80 to-transparent z-20 pointer-events-none" />
+                    <div className="absolute right-0 top-0 bottom-0 w-24 md:w-48 bg-gradient-to-l from-white via-white/40 to-transparent z-20 pointer-events-none" />
 
                     {/* Marquee Card container */}
                     <div className="flex gap-6 animate-infinite-card-scroll w-max px-8">
@@ -113,7 +113,7 @@ export default function ProductsBuilt() {
                                 <div
                                     key={idx}
                                     onClick={() => navigate("/products")}
-                                    className={`w-[290px] h-[250px] bg-white border border-gray-150 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-gray-200 transition-all duration-300 flex flex-col justify-between relative overflow-hidden cursor-pointer select-none group shrink-0`}
+                                    className={`w-[290px] h-[250px] bg-transparent border border-gray-250/70 rounded-3xl p-6 hover:border-[#2352A5]/50 transition-all duration-300 flex flex-col justify-between relative overflow-hidden cursor-pointer select-none group shrink-0`}
                                 >
                                     {/* Accent blur shine on hover */}
                                     <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${product.color} opacity-0 group-hover:opacity-[0.03] blur-lg rounded-full transition-all duration-500 pointer-events-none`} />
@@ -135,7 +135,7 @@ export default function ProductsBuilt() {
                                         </p>
                                     </div>
 
-                                    <div className="flex items-center text-[11px] font-bold text-[#2352A5] group-hover:text-[#02A7FD] transition-colors gap-1 mt-auto pt-3 border-t border-gray-50">
+                                    <div className="flex items-center text-[11px] font-bold text-[#2352A5] group-hover:text-[#02A7FD] transition-colors gap-1 mt-auto pt-3 border-t border-gray-150">
                                         Learn More <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                                     </div>
                                 </div>
