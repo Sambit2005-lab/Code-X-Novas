@@ -412,7 +412,7 @@ export default function CareerPage() {
                                 initial={{ scale: 0.95, y: 20 }}
                                 animate={{ scale: 1, y: 0 }}
                                 exit={{ scale: 0.95, y: 20 }}
-                                className="w-full max-w-lg bg-zinc-950/95 border border-white/10 rounded-2xl p-5 sm:p-8 backdrop-blur-xl shadow-2xl relative text-white max-h-[90vh] overflow-y-auto scrollbar-thin scrollbar-thumb-white/10"
+                                className="w-full max-w-lg md:max-w-3xl bg-zinc-950/95 border border-white/10 rounded-2xl p-5 sm:p-8 backdrop-blur-xl shadow-2xl relative text-white max-h-[90vh] overflow-y-auto scrollbar-thin scrollbar-thumb-white/10"
                             >
                                 <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-blue-500/40 to-transparent" />
                                 
