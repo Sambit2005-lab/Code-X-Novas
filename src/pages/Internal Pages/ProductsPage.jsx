@@ -22,7 +22,7 @@ import Contact from "../Contact";
 export default function ProductsPage() {
     const [showBlur, setShowBlur] = useState(true);
     const [currentFrame, setCurrentFrame] = useState(0);
-    const [activeProduct, setActiveProduct] = useState("sas"); // "sas" or "vidya"
+    const [activeProduct, setActiveProduct] = useState("sas"); // "sas", "vidya" or "classivo"
     const contactRef = useRef(null);
 
     const frames = [
@@ -115,7 +115,41 @@ export default function ProductsPage() {
         exploreText: "Explore VidyaOS 360"
     };
 
-    const currentProduct = activeProduct === "sas" ? sasData : vidyaData;
+    const classivoData = {
+        title: "Classivo 360",
+        subtitle: "Coaching Institute Management Platform",
+        tagline: "Run Your Coaching Institute. Smarter.",
+        bannerText: "A complete digital management platform for coaching institutes to manage students, batches, fees, attendance, tests, faculty, and parent communication — all in one place. Classivo 360 helps coaching institutes replace spreadsheets, registers, scattered WhatsApp messages, and manual processes with one simple, connected platform.",
+        features: [
+            { title: "Student Management", desc: "Manage student profiles, admissions, records, and complete student information from one dashboard." },
+            { title: "Batch Management", desc: "Create and manage batches, schedules, subjects, and student assignments effortlessly." },
+            { title: "Fee Management", desc: "Track fee collection, installments, pending payments, payment history, and fee defaulters." },
+            { title: "Attendance Management", desc: "Mark and monitor student attendance batch-wise with complete attendance records." },
+            { title: "Test & Performance Management", desc: "Conduct tests, record marks, track performance, and monitor student progress." },
+            { title: "Faculty Management", desc: "Manage faculty profiles, attendance, working days, and payroll-related information." },
+            { title: "Parent Communication", desc: "Keep parents informed through attendance alerts, fee reminders, test results, and important updates." },
+            { title: "Owner Dashboard", desc: "Get a real-time overview of students, collections, attendance, pending fees, faculty presence, and institute activity." },
+            { title: "Student Dashboard", desc: "Give students access to attendance, upcoming classes, test results, performance, fees, study material, and announcements." },
+            { title: "Faculty Dashboard", desc: "Provide teachers with everything they need to manage attendance, marks, assignments, classes, and student performance." },
+            { title: "Institute Website", desc: "Build a professional online presence with institute information, courses, batches, faculty, results, notices, and enquiry forms." },
+        ],
+        why: [
+            { title: "Save Time", desc: "Reduce paperwork and manual administrative work." },
+            { title: "Simple to Use", desc: "Designed specifically for coaching institutes." },
+            { title: "Affordable", desc: "Professional institute management without expensive enterprise software." },
+            { title: "Connected", desc: "Students, faculty, parents, and management stay connected through one ecosystem." },
+            { title: "Scalable", desc: "Suitable for small coaching centres as well as growing multi-batch institutes." },
+            { title: "Real-Time Insights", desc: "Know what’s happening in your institute through a centralized dashboard." },
+        ],
+        idealFor: ["Coaching Institutes", "Competitive Exam Coaching Centres", "Tuition Centres", "Training Institutes", "Skill Development Centres", "Multi-Batch Coaching Centres"],
+        usp: "A complete Coaching Institute Management Platform that connects students, batches, fees, attendance, tests, faculty, parents, and institute management in one unified digital ecosystem. From Admission to Performance — Everything in One Place.",
+        footerInfo: "Classivo 360 helps institutes reduce administrative workload, improve parent communication, track student performance, and run daily operations more efficiently.",
+        link: "https://classivo.codexnovas.in/",
+        linkText: "classivo.codexnovas.in",
+        exploreText: "Explore Classivo 360"
+    };
+
+    const currentProduct = activeProduct === "sas" ? sasData : activeProduct === "vidya" ? vidyaData : classivoData;
 
     return (
         <motion.div
@@ -195,9 +229,9 @@ export default function ProductsPage() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.3 }}
                         >
-                            {["sas", "vidya"].map((tab) => {
+                            {["sas", "vidya", "classivo"].map((tab) => {
                                 const isSelected = activeProduct === tab;
-                                const text = tab === "sas" ? "SAS 360" : "VidyaOS 360";
+                                const text = tab === "sas" ? "SAS 360" : tab === "vidya" ? "VidyaOS 360" : "Classivo 360";
                                 return (
                                     <button
                                         key={tab}
