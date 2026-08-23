@@ -1,228 +1,372 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { School, UserCheck, BookOpen, Users, ArrowRight } from "lucide-react";
+import { School, UserCheck, BookOpen, Users, ArrowRight, ShieldCheck, TrendingUp, Calendar, MessageSquare, Plus } from "lucide-react";
 
 export default function ProductsBuilt() {
     const navigate = useNavigate();
+    const [activeTab, setActiveTab] = useState(0);
 
-    const productList = [
+    const products = [
         {
             title: "VidyaOS 360",
-            subtitle: "School OS",
-            desc: "A unified digital ecosystem for schools to manage administration, teachers, students, parents, academics, fees, and communication.",
-            bullets: [
-                "Administration & Academics",
-                "Fee & Attendance Tracking",
-                "Dynamic School Website"
-            ],
+            subtitle: "School Digital Management Platform",
+            desc: "A unified digital ecosystem for schools to manage administration, teachers, students, parents, academics, fees, examinations, and communication in one connected interface.",
             icon: School,
-            color: "from-blue-500 to-indigo-600",
-            lightBg: "bg-blue-50/60 text-blue-600 border-blue-100",
-            hoverGlow: "group-hover:shadow-blue-500/15"
+            color: "from-blue-600 to-indigo-600",
+            badge: "Complete School OS",
+            link: "/products",
+            mockup: (
+                <div className="w-full h-full bg-slate-950 p-6 flex flex-col justify-between font-mono text-xs text-slate-300">
+                    {/* Header bar */}
+                    <div className="flex justify-between items-center pb-4 border-b border-slate-800">
+                        <div className="flex items-center gap-2">
+                            <span className="w-2.5 h-2.5 rounded-full bg-red-500" />
+                            <span className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
+                            <span className="w-2.5 h-2.5 rounded-full bg-green-500" />
+                            <span className="text-slate-400 font-semibold ml-2">VidyaOS Admin Portal v1.2</span>
+                        </div>
+                        <span className="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2 py-0.5 rounded text-[10px]">Academic Year 2026</span>
+                    </div>
+
+                    {/* Stats Grid */}
+                    <div className="grid grid-cols-3 gap-4 my-4">
+                        <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-3">
+                            <div className="text-[10px] text-slate-500">TOTAL STUDENTS</div>
+                            <div className="text-lg font-bold text-white mt-1">1,420</div>
+                            <div className="text-[9px] text-green-400 flex items-center gap-0.5 mt-0.5"><TrendingUp size={10} /> +12% this year</div>
+                        </div>
+                        <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-3">
+                            <div className="text-[10px] text-slate-500">FEE COLLECTIONS</div>
+                            <div className="text-lg font-bold text-white mt-1">94.2%</div>
+                            <div className="text-[9px] text-slate-400 mt-0.5">Defaulters flagged</div>
+                        </div>
+                        <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-3">
+                            <div className="text-[10px] text-slate-500">TEACHERS ACTIVE</div>
+                            <div className="text-lg font-bold text-white mt-1">86 / 90</div>
+                            <div className="text-[9px] text-green-400 mt-0.5">4 Class substitutions active</div>
+                        </div>
+                    </div>
+
+                    {/* Recent activities log */}
+                    <div className="bg-slate-900/40 border border-slate-800/80 rounded-xl p-4 flex-1 flex flex-col justify-between">
+                        <span className="text-slate-400 font-semibold text-[10px] uppercase tracking-wider mb-2 block">System Log & Status</span>
+                        <div className="space-y-2 text-[11px]">
+                            <div className="flex justify-between text-slate-400">
+                                <span>• Fee receipt generated - ID #99831</span>
+                                <span className="text-slate-600">2 mins ago</span>
+                            </div>
+                            <div className="flex justify-between text-slate-400">
+                                <span>• substituted: Grade 10 Math (Mrs. Roy)</span>
+                                <span className="text-slate-600">12 mins ago</span>
+                            </div>
+                            <div className="flex justify-between text-slate-400">
+                                <span>• Parent circular dispatched via Whatsapp</span>
+                                <span className="text-slate-600">1 hr ago</span>
+                            </div>
+                        </div>
+                        <div className="flex gap-2 mt-4">
+                            <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-1.5 rounded transition text-[10px] flex items-center gap-1"><Plus size={12} /> Add Student</button>
+                            <button className="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-3 py-1.5 rounded transition text-[10px]">Print Report Card</button>
+                        </div>
+                    </div>
+                </div>
+            )
         },
         {
             title: "SAS 360",
-            subtitle: "AI Attendance",
-            desc: "A smart attendance platform that uses AI-powered classroom recognition to automate roll calls without costly biometric hardware.",
-            bullets: [
-                "AI Photo Recognition",
-                "Zero Hardware Required",
-                "Instant Parent Notifications"
-            ],
+            subtitle: "AI-Powered Attendance Automation",
+            desc: "A smart classroom attendance manager that automates student presence checkups in seconds using high-performance AI photograph recognition.",
             icon: UserCheck,
             color: "from-cyan-500 to-blue-500",
-            lightBg: "bg-cyan-50/60 text-cyan-600 border-cyan-100",
-            hoverGlow: "group-hover:shadow-cyan-500/15"
+            badge: "AI Roll Call Engine",
+            link: "/products",
+            mockup: (
+                <div className="w-full h-full bg-slate-950 p-6 flex flex-col justify-between font-mono text-xs text-slate-300">
+                    {/* Header */}
+                    <div className="flex justify-between items-center pb-4 border-b border-slate-800">
+                        <div className="flex items-center gap-2">
+                            <span className="w-2.5 h-2.5 rounded-full bg-red-500" />
+                            <span className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
+                            <span className="w-2.5 h-2.5 rounded-full bg-green-500" />
+                            <span className="text-slate-400 font-semibold ml-2">SAS 360 Face Recognition Engine</span>
+                        </div>
+                        <span className="flex items-center gap-1 bg-green-500/10 text-green-400 border border-green-500/20 px-2 py-0.5 rounded text-[10px]"><ShieldCheck size={10} /> Active</span>
+                    </div>
+
+                    {/* Camera view screen mockup */}
+                    <div className="relative border border-slate-800 rounded-xl my-4 overflow-hidden bg-slate-900/40 aspect-[2/1] flex items-center justify-center">
+                        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,255,255,0.05)_1px,transparent_1px)] bg-[size:100%_8px] pointer-events-none" />
+                        
+                        {/* Target Grid lines */}
+                        <div className="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-cyan-500" />
+                        <div className="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-cyan-500" />
+                        <div className="absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 border-cyan-500" />
+                        <div className="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-cyan-500" />
+
+                        <div className="text-center">
+                            <div className="text-cyan-400 font-bold tracking-widest text-[11px] mb-1 animate-pulse">CLASSROOM_RECOGNITION_ACTIVE</div>
+                            <div className="text-[10px] text-slate-500">Processing Photograph Frame #42...</div>
+                        </div>
+                    </div>
+
+                    {/* AI Results */}
+                    <div className="flex justify-between items-center bg-slate-900 border border-slate-800 rounded-xl p-3">
+                        <div>
+                            <div className="text-[9px] text-slate-500">MATCH ACCURACY</div>
+                            <div className="text-base font-bold text-white">99.2% Correct</div>
+                        </div>
+                        <div>
+                            <div className="text-[9px] text-slate-500">STUDENTS DETECTED</div>
+                            <div className="text-base font-bold text-white">42 Present / 45 Total</div>
+                        </div>
+                        <button className="bg-cyan-600 hover:bg-cyan-700 text-white font-bold px-3 py-1.5 rounded transition text-[10px]">Verify Attendance</button>
+                    </div>
+                </div>
+            )
         },
         {
             title: "Classivo 360",
-            subtitle: "Coaching Platform",
-            desc: "One platform to manage students, batches, fees, attendance, tests, faculty and parent communication for coaching institutes.",
-            bullets: [
-                "Batch & Faculty Schedules",
-                "Defaulter Fee Tracking",
-                "Real-Time Owner Analytics"
-            ],
+            subtitle: "Coaching Institute Management Platform",
+            desc: "An all-in-one institutional operations manager that links students, batches, fees, tests, faculty schedules, and parent alerts under a centralized ecosystem.",
             icon: BookOpen,
             color: "from-indigo-500 to-purple-600",
-            lightBg: "bg-indigo-50/60 text-indigo-600 border-indigo-100",
-            hoverGlow: "group-hover:shadow-indigo-500/15"
+            badge: "Coaching Dashboard",
+            link: "/products",
+            mockup: (
+                <div className="w-full h-full bg-slate-950 p-6 flex flex-col justify-between font-mono text-xs text-slate-300">
+                    {/* Header */}
+                    <div className="flex justify-between items-center pb-4 border-b border-slate-800">
+                        <div className="flex items-center gap-2">
+                            <span className="w-2.5 h-2.5 rounded-full bg-red-500" />
+                            <span className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
+                            <span className="w-2.5 h-2.5 rounded-full bg-green-500" />
+                            <span className="text-slate-400 font-semibold ml-2">Classivo 360 Admin</span>
+                        </div>
+                        <span className="text-purple-400 bg-purple-500/10 border border-purple-500/20 px-2.5 py-0.5 rounded text-[10px]">6 Active Batches</span>
+                    </div>
+
+                    {/* Schedule block */}
+                    <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 my-4">
+                        <span className="text-[10px] text-slate-500 block mb-3 font-semibold uppercase flex items-center gap-1.5"><Calendar size={12} /> Today's Batch Schedule</span>
+                        <div className="space-y-3">
+                            <div className="flex justify-between items-center border-l-2 border-purple-500 pl-3">
+                                <div>
+                                    <div className="font-bold text-white">JEE Advanced Focus Batch</div>
+                                    <div className="text-[10px] text-slate-500">Instructor: Prof. Verma • Physics</div>
+                                </div>
+                                <span className="bg-slate-800 px-2 py-1 rounded text-white text-[10px]">04:30 PM</span>
+                            </div>
+                            <div className="flex justify-between items-center border-l-2 border-indigo-500 pl-3">
+                                <div>
+                                    <div className="font-bold text-white">NEET Biology Quick Batch</div>
+                                    <div className="text-[10px] text-slate-500">Instructor: Dr. Sharma • Biology</div>
+                                </div>
+                                <span className="bg-slate-800 px-2 py-1 rounded text-white text-[10px]">06:00 PM</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Revenue collection tracker */}
+                    <div className="flex justify-between items-center bg-slate-900/60 border border-slate-800 rounded-xl p-3">
+                        <div>
+                            <div className="text-[9px] text-slate-500">COLLECTED THIS MONTH</div>
+                            <div className="text-base font-bold text-white">₹2.45 Lakhs</div>
+                        </div>
+                        <div>
+                            <div className="text-[9px] text-slate-500">PENDING INVOICES</div>
+                            <div className="text-base font-bold text-red-400">14 Invoices</div>
+                        </div>
+                        <button className="bg-purple-600 hover:bg-purple-700 text-white font-bold px-3.5 py-1.5 rounded transition text-[10px]">Send Reminders</button>
+                    </div>
+                </div>
+            )
         },
         {
             title: "Vrise Network",
-            subtitle: "Community Portal",
-            desc: "A modern community-driven platform designed to bring people together through interest-based groups, activities and connections.",
-            bullets: [
-                "Interest-Based Groups",
-                "Engagement & Feeds",
-                "Scale-Ready Infrastructure"
-            ],
+            subtitle: "Community & Social Engagement Platform",
+            desc: "A modern interest-based social forum module designed to bring people together through digital discussions, communities, and updates.",
             icon: Users,
             color: "from-purple-500 to-pink-500",
-            lightBg: "bg-purple-50/60 text-purple-600 border-purple-100",
-            hoverGlow: "group-hover:shadow-purple-500/15"
+            badge: "Engagement Portal",
+            link: "/products",
+            mockup: (
+                <div className="w-full h-full bg-slate-950 p-6 flex flex-col justify-between font-mono text-xs text-slate-300">
+                    {/* Header */}
+                    <div className="flex justify-between items-center pb-4 border-b border-slate-800">
+                        <div className="flex items-center gap-2">
+                            <span className="w-2.5 h-2.5 rounded-full bg-red-500" />
+                            <span className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
+                            <span className="w-2.5 h-2.5 rounded-full bg-green-500" />
+                            <span className="text-slate-400 font-semibold ml-2">Vrise Community Feed</span>
+                        </div>
+                        <span className="text-pink-400 bg-pink-500/10 border border-pink-500/20 px-2 py-0.5 rounded text-[10px]">420 Members</span>
+                    </div>
+
+                    {/* Chat feed mock */}
+                    <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 my-4 flex-1 flex flex-col justify-between">
+                        <span className="text-[10px] text-slate-500 block mb-3 font-semibold uppercase flex items-center gap-1.5"><MessageSquare size={12} /> Tech Creators Network</span>
+                        <div className="space-y-3">
+                            <div className="flex gap-2">
+                                <span className="bg-indigo-600 text-white text-[9px] w-6 h-6 rounded-full flex items-center justify-center font-bold">SP</span>
+                                <div>
+                                    <span className="font-bold text-white text-[11px]">Sambit Pradhan</span>
+                                    <p className="text-slate-400 text-[10px] mt-0.5">Let's coordinate the product launch next Monday at 6 PM.</p>
+                                </div>
+                            </div>
+                            <div className="flex gap-2">
+                                <span className="bg-pink-600 text-white text-[9px] w-6 h-6 rounded-full flex items-center justify-center font-bold">SS</span>
+                                <div>
+                                    <span className="font-bold text-white text-[11px]">Sahil Singh</span>
+                                    <p className="text-slate-400 text-[10px] mt-0.5">Done, invitation dispatched to all active subdomains.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="border-t border-slate-800 pt-3 mt-4 flex items-center justify-between text-[10px] text-slate-500">
+                            <span>Press enter to send message...</span>
+                            <button className="bg-pink-600 hover:bg-pink-700 text-white font-bold px-3 py-1 rounded transition">Send</button>
+                        </div>
+                    </div>
+                </div>
+            )
         }
     ];
 
-    const containerVariants = {
-        hidden: {},
-        visible: {
-            transition: {
-                staggerChildren: 0.1
-            }
-        }
-    };
-
-    const cardVariants = {
-        hidden: { y: 30, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1,
-            transition: { duration: 0.6, ease: "easeOut" }
-        }
-    };
+    const currentProd = products[activeTab];
 
     return (
-        <section className="relative w-full py-20 px-6 md:px-12 lg:px-16 bg-[#fafbfc] overflow-hidden font-sora">
-            {/* Soft decorative glow */}
-            <div className="absolute top-0 right-1/4 w-[600px] h-[300px] bg-gradient-to-br from-blue-50/30 to-indigo-50/20 rounded-full blur-[120px] pointer-events-none z-0" />
-
-            <div className="max-w-[1400px] mx-auto relative z-10">
+        <section className="relative w-full py-20 px-6 md:px-12 lg:px-20 bg-gradient-to-b from-[#fafbfc] to-white overflow-hidden font-sora">
+            <div className="max-w-[1300px] mx-auto relative z-10">
                 
-                {/* Header Section */}
-                <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16 pb-8 border-b border-gray-200/60">
-                    <div className="max-w-2xl text-left">
-                        <motion.h3 
-                            className="uppercase text-[#2352A5] font-semibold text-xs sm:text-sm tracking-[2px] mb-3"
-                            initial={{ opacity: 0, x: -10 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5 }}
-                        >
-                            Proprietary Ecosystem
-                        </motion.h3>
-
-                        <motion.h2 
-                            className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-950 leading-tight"
-                            initial={{ opacity: 0, y: 15 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.1 }}
-                        >
-                            Products Built by <span className="bg-gradient-to-r from-[#2352A5] to-[#02A7FD] bg-clip-text text-transparent">Code-X-Novas</span>
-                        </motion.h2>
-                    </div>
-
-                    <motion.div 
-                        className="max-w-md text-left lg:text-right"
-                        initial={{ opacity: 0, y: 15 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                    >
-                        <p className="text-sm sm:text-base text-gray-600 leading-relaxed font-normal">
-                            We identify real-world challenges, design practical solutions, and turn them into scalable technology products of our own.
-                        </p>
-                    </motion.div>
+                {/* Header */}
+                <div className="max-w-3xl text-left mb-16">
+                    <span className="uppercase text-[#2352A5] font-semibold text-xs sm:text-sm tracking-[2.5px] mb-3 block">
+                        Proprietary Ecosystem
+                    </span>
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-950 leading-tight">
+                        Products Built by <span className="bg-gradient-to-r from-[#2352A5] via-[#137DD1] to-[#02A7FD] bg-clip-text text-transparent">Code-X-Novas</span>
+                    </h2>
                 </div>
 
-                {/* 4-Column Card Grid Deck */}
-                <motion.div 
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-16"
-                    variants={containerVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.1 }}
-                >
-                    {productList.map((product, idx) => {
-                        const Icon = product.icon;
-                        return (
-                            <motion.div
-                                key={idx}
-                                variants={cardVariants}
-                                className={`bg-white border border-gray-150 rounded-[28px] p-7 transition-all duration-300 group flex flex-col justify-between relative overflow-hidden cursor-pointer hover:border-gray-200 hover:shadow-2xl ${product.hoverGlow}`}
-                                whileHover={{ y: -6 }}
+                {/* Dashboard-style Interactive Tab Switcher Layout */}
+                <div className="w-full bg-white border border-gray-150 rounded-3xl overflow-hidden shadow-xl shadow-gray-200/50 flex flex-col lg:flex-row items-stretch min-h-[580px]">
+                    
+                    {/* Left Index Sidebar (Tab controller) */}
+                    <div className="w-full lg:w-[40%] bg-[#fcfdfe] border-b lg:border-b-0 lg:border-r border-gray-150 p-6 sm:p-8 flex flex-col justify-between gap-8">
+                        <div className="space-y-4">
+                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-4">Select Platform Preview</span>
+                            {products.map((item, idx) => {
+                                const Icon = item.icon;
+                                const isSelected = activeTab === idx;
+                                return (
+                                    <button
+                                        key={idx}
+                                        onClick={() => setActiveTab(idx)}
+                                        className="w-full text-left p-4.5 rounded-2xl transition-all duration-300 flex items-center gap-4 relative overflow-hidden group focus:outline-none"
+                                        style={{
+                                            backgroundColor: isSelected ? "#fff" : "transparent",
+                                            boxShadow: isSelected ? "0 4px 20px rgba(0,0,0,0.05)" : "none",
+                                            border: isSelected ? "1px solid rgba(0,0,0,0.06)" : "1px solid transparent"
+                                        }}
+                                    >
+                                        <div className={`p-3 rounded-xl border ${isSelected ? item.lightColor : "bg-gray-100 text-gray-400 border-gray-150"} transition-all duration-300`}>
+                                            <Icon className="w-5 h-5" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <h3 className={`text-base font-bold transition-colors ${isSelected ? "text-gray-950" : "text-gray-500 group-hover:text-gray-900"}`}>
+                                                {item.title}
+                                            </h3>
+                                            <p className={`text-[11px] font-semibold tracking-wide uppercase transition-colors ${isSelected ? "text-[#2352A5]" : "text-gray-400 group-hover:text-gray-500"}`}>
+                                                {item.badge}
+                                            </p>
+                                        </div>
+                                    </button>
+                                );
+                            })}
+                        </div>
+
+                        {/* Direct Redirection Info */}
+                        <div className="bg-gradient-to-r from-blue-50 to-[#ECF7FF] rounded-2xl p-5 border border-blue-100/40 text-left">
+                            <span className="font-bold text-xs text-[#2352A5] uppercase tracking-wider block mb-1">Ecosystem Navigation</span>
+                            <p className="text-xs text-gray-500 leading-relaxed mb-4">
+                                Click below to access dedicated live subdomains, setup credentials, features, and platform matrices.
+                            </p>
+                            <button 
                                 onClick={() => navigate("/products")}
+                                className="text-xs font-bold text-[#2352A5] hover:text-[#02A7FD] transition-colors flex items-center gap-1.5"
                             >
-                                {/* Glow element on hover */}
-                                <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${product.color} opacity-0 group-hover:opacity-[0.04] blur-xl rounded-full transition-all duration-500 pointer-events-none`} />
+                                Access Full Product Dashboard <ArrowRight size={14} />
+                            </button>
+                        </div>
+                    </div>
 
+                    {/* Right Live Preview Panel */}
+                    <div className="w-full lg:w-[60%] p-6 sm:p-8 md:p-10 flex flex-col justify-between bg-white text-left relative">
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={activeTab}
+                                initial={{ opacity: 0, y: 15 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -15 }}
+                                transition={{ duration: 0.35 }}
+                                className="h-full flex flex-col justify-between gap-8"
+                            >
                                 <div>
-                                    {/* Icon with Soft Circle Background */}
-                                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border ${product.lightBg} mb-6 transition-all duration-300 group-hover:scale-110`}>
-                                        <Icon className="w-5 h-5" />
-                                    </div>
-
-                                    {/* Card Text Content */}
-                                    <h3 className="text-xl font-bold text-gray-900 mb-1 group-hover:text-[#2352A5] transition-colors leading-tight">
-                                        {product.title}
-                                    </h3>
-                                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
-                                        {product.subtitle}
+                                    <span className="bg-gray-100 border border-gray-200 text-gray-600 px-3 py-1 rounded-full text-xs font-semibold inline-block mb-4">
+                                        Ecosystem Highlight
+                                    </span>
+                                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 leading-snug">
+                                        {currentProd.title} – <span className="text-gray-500 font-medium">{currentProd.subtitle}</span>
+                                    </h2>
+                                    <p className="text-sm sm:text-base text-gray-600 leading-relaxed max-w-xl font-normal">
+                                        {currentProd.desc}
                                     </p>
-                                    <p className="text-xs sm:text-sm text-gray-500 leading-relaxed mb-6 font-normal">
-                                        {product.desc}
-                                    </p>
-
-                                    {/* Bullets lists */}
-                                    <ul className="space-y-2 mb-6 border-t border-gray-50 pt-5 text-left">
-                                        {product.bullets.map((bullet, bIdx) => (
-                                            <li key={bIdx} className="text-xs text-gray-600 flex items-center gap-2">
-                                                <span className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${product.color}`} />
-                                                {bullet}
-                                            </li>
-                                        ))}
-                                    </ul>
                                 </div>
 
-                                <div className="flex items-center text-xs font-bold text-[#2352A5] group-hover:text-[#02A7FD] transition-colors gap-1.5 mt-auto pt-4 border-t border-gray-50">
-                                    Explore Product <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                                {/* Mockup frame visualization wrapper */}
+                                <div className="border border-slate-800 bg-slate-950 rounded-2xl overflow-hidden shadow-2xl relative w-full h-[320px]">
+                                    {currentProd.mockup}
+                                </div>
+
+                                <div className="flex items-center justify-between border-t border-gray-100 pt-6 mt-2">
+                                    <p className="text-xs text-gray-400 tracking-wide font-normal">
+                                        Click details to learn about modules, Pricing, and Subdomains.
+                                    </p>
+                                    <button
+                                        onClick={() => navigate(currentProd.link)}
+                                        className={`flex items-center gap-1.5 text-sm font-bold bg-gradient-to-r ${currentProd.color} bg-clip-text text-transparent hover:opacity-90`}
+                                    >
+                                        Learn More <ArrowRight size={16} className={`${currentProd.textColor}`} />
+                                    </button>
                                 </div>
                             </motion.div>
-                        );
-                    })}
-                </motion.div>
+                        </AnimatePresence>
+                    </div>
+
+                </div>
 
                 {/* Bottom CTA Block */}
-                <div className="border-t border-gray-200/60 pt-16 text-center max-w-2xl mx-auto flex flex-col items-center">
-                    <motion.p 
-                        className="text-xs sm:text-sm font-semibold text-[#2352A5] uppercase tracking-[2px] mb-3"
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5 }}
-                    >
+                <div className="border-t border-gray-100 pt-16 text-center max-w-2xl mx-auto flex flex-col items-center">
+                    <p className="text-xs sm:text-sm font-semibold text-[#2352A5] uppercase tracking-[2.5px] mb-3">
                         Built for real problems. Designed for real users.
-                    </motion.p>
-
-                    <motion.h4 
-                        className="text-lg sm:text-2xl font-bold text-gray-950 mb-8 leading-snug"
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                    >
+                    </p>
+                    <h4 className="text-lg sm:text-2xl font-bold text-gray-950 mb-8 leading-snug">
                         From idea to product — built, deployed, and continuously improved by Code-X-Novas.
-                    </motion.h4>
-
-                    <motion.button
+                    </h4>
+                    <button
                         onClick={() => navigate("/products")}
                         className="relative overflow-hidden px-8 py-3.5 rounded-full font-bold text-white text-sm tracking-wider shadow-md flex items-center gap-2 group"
                         style={{
                             background: "linear-gradient(90deg, #2352A5 0%, #137DD1 40%, #02A7FD 100%)"
                         }}
-                        initial={{ opacity: 0, y: 15 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.15 }}
                         whileHover={{ scale: 1.04, boxShadow: "0 10px 25px rgba(3, 104, 255, 0.25)" }}
                         whileTap={{ scale: 0.96 }}
                     >
                         Explore Our Products 
                         <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                    </motion.button>
+                    </button>
                 </div>
+
             </div>
         </section>
     );
