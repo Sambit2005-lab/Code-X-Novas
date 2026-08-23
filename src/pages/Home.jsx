@@ -7,6 +7,7 @@ import Works from "./Works";
 import Career from "./Career";
 import Blogs from "./Blogs";
 import Products from "./Products";
+import ProductsBuilt from "../components/ProductsBuilt";
 import ContactUs from "./Contact"
 
 export default function Home() {
@@ -22,12 +23,13 @@ export default function Home() {
                 url="https://codexnovas.in/"
             />
             <HeroWithNavbar />
+            <section id="products-built"><ProductsBuilt /></section>
             <section id="about"><About /></section>
             <section id="services"><Services /></section>
             <section id="works"><Works /></section>
             <section id="career"><Career /></section>
             <section id="blogs"><Blogs /></section>
-            <section id="products"><Products /></section>
+            <section id="testimonials"><Products /></section>
             <section id="contact"><ContactUs /></section>
         </motion.div>
     );

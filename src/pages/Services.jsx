@@ -194,7 +194,7 @@ const Services = () => {
                     <div className="flex flex-col items-center">
                         <div className="relative w-full mb-2">
                             <h2 className="text-black font-semibold text-3xl whitespace-nowrap text-center">
-                                Why choose us
+                                Why Code-X-Novas
                             </h2>
                             {/* full-width underline with small horizontal padding */}
                             <div
@@ -354,8 +354,8 @@ const Services = () => {
                                 className="absolute left-[-35px] top-[400px] h-[320px]"
                                 style={{ borderLeft: "2px solid #999999" }}
                             ></div>
-                            <span className="absolute -left-[230px] top-[150px] text-black font-semibold text-5xl tracking-wide -rotate-90 whitespace-nowrap">
-                                Why choose us
+                            <span className="absolute -left-[275px] top-[150px] text-black font-semibold text-5xl tracking-wide -rotate-90 whitespace-nowrap">
+                                Why Code-X-Novas
                             </span>
 
                             <motion.div

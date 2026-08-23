@@ -451,8 +451,14 @@ const Contact = () => {
                                 <li className="font-semibold text-sm text-gray-400 mb-2">
                                     Products
                                 </li>
-                                <li className="text-gray-600">
-                                    <a href="/products">SAS 360</a>
+                                <li className="text-gray-300">
+                                    <a href="/products" className="hover:text-white transition-colors">SAS 360</a>
+                                </li>
+                                <li className="text-gray-300">
+                                    <a href="/products" className="hover:text-white transition-colors">VidyaOS 360</a>
+                                </li>
+                                <li className="text-gray-300">
+                                    <a href="/products" className="hover:text-white transition-colors">Classivo 360</a>
                                 </li>
                             </ul>
                         </motion.div>
@@ -628,9 +634,25 @@ const Contact = () => {
                                 initial={{ x: -10, opacity: 0 }}
                                 whileInView={{ x: 0, opacity: 1 }}
                                 viewport={{ once: true }}
+                                transition={{ duration: 0.4, delay: 0.4 }}
+                            >
+                                <a href="/products" className="hover:text-white transition-colors">SAS 360</a>
+                            </motion.li>
+                            <motion.li
+                                initial={{ x: -10, opacity: 0 }}
+                                whileInView={{ x: 0, opacity: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.4, delay: 0.5 }}
+                            >
+                                <a href="/products" className="hover:text-white transition-colors">VidyaOS 360</a>
+                            </motion.li>
+                            <motion.li
+                                initial={{ x: -10, opacity: 0 }}
+                                whileInView={{ x: 0, opacity: 1 }}
+                                viewport={{ once: true }}
                                 transition={{ duration: 0.4, delay: 0.6 }}
                             >
-                                <a href="/products">SAS 360</a>
+                                <a href="/products" className="hover:text-white transition-colors">Classivo 360</a>
                             </motion.li>
                         </motion.ul>
                     </motion.div>

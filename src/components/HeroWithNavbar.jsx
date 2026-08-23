@@ -236,7 +236,7 @@ export default function HeroWithNavbar() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.7, delay: 0.3 }}
                         >
-                            From startup tools to enterprise systems – Code-X-Novas crafts scalable, AI-powered solutions that redefine productivity.
+                            From AI-powered products to education platforms and custom digital systems, Code-X-Novas builds technology designed for real-world use, growth, and impact.
                         </motion.p>
 
                         {/* Buttons */}
@@ -263,7 +263,7 @@ export default function HeroWithNavbar() {
                                 onClick={() => handleNavClick("contact", "/contact")}
                                 className="min-w-[180px] px-6 py-3 rounded-md text-[#1E5FB3] font-semibold text-[14px] border-[2px] border-[#1E5FB3] hover:bg-sky-50 transition-all bg-transparent"
                             >
-                                Partner With Us
+                                Build With Us.
                             </button>
                         </motion.div>
 
@@ -326,7 +326,7 @@ export default function HeroWithNavbar() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7, delay: 0.6 }}
                     >
-                        From startup tools to enterprise systems – Code-X-Novas crafts scalable, AI-powered solutions that redefine productivity
+                        From AI-powered products to education platforms and custom digital systems, Code-X-Novas builds technology designed for real-world use, growth, and impact.
                     </motion.p>
 
                     <motion.div
@@ -360,7 +360,7 @@ export default function HeroWithNavbar() {
                             whileHover={{ scale: 1.05, backgroundColor: "#e0f2fe" }}
                             whileTap={{ scale: 0.95 }}
                         >
-                            Partner With Us
+                            Build With Us.
                         </motion.button>
                     </motion.div>
                 </motion.div>
