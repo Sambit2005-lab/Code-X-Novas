@@ -23,7 +23,7 @@ export default function Home() {
                 url="https://codexnovas.in/"
             />
             <HeroWithNavbar />
-            <section id="products-built"><ProductsBuilt /></section>
+            {/* <section id="products-built"><ProductsBuilt /></section> */}
             <section id="about"><About /></section>
             <section id="services"><Services /></section>
             <section id="works"><Works /></section>
