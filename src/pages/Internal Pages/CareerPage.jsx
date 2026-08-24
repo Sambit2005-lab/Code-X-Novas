@@ -90,7 +90,9 @@ export default function CareerPage() {
         const fetchCareers = async () => {
             try {
                 const snap = await getDocs(collection(db, "careers"));
-                const list = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                const list = snap.docs
+                    .map(doc => ({ id: doc.id, ...doc.data() }))
+                    .sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0));
                 if (list.length > 0) {
                     setCareerList(list);
                 } else {

@@ -170,14 +170,14 @@ export default function Admin() {
     date: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric" }) + " · 5 min read"
   });
 
-  // Career Form Data
   const [careerForm, setCareerForm] = useState({
     title: "",
     img: "",
     desc: "Join our team to build high-performance tools.",
     requirements: "",
     status: "open",
-    customQuestions: []
+    customQuestions: [],
+    order: 0
   });
 
   // Team Form Data
@@ -505,6 +505,7 @@ export default function Admin() {
         });
         careersList = await Promise.all(promises);
       }
+      careersList.sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0));
       setCareers(careersList);
 
       // Contacts
@@ -948,7 +949,8 @@ export default function Admin() {
       desc: item.desc || "Join our team to build high-performance tools.",
       requirements: item.requirements || "",
       status: item.status || "open",
-      customQuestions: item.customQuestions || []
+      customQuestions: item.customQuestions || [],
+      order: item.order !== undefined ? Number(item.order) : 0
     });
     setShowFormModal(true);
   };
@@ -956,7 +958,7 @@ export default function Admin() {
   const openAddCareer = () => {
     setModalType("career");
     setEditId(null);
-    setCareerForm({ title: "", img: "", desc: "Join our team to build high-performance tools.", requirements: "", status: "open", customQuestions: [] });
+    setCareerForm({ title: "", img: "", desc: "Join our team to build high-performance tools.", requirements: "", status: "open", customQuestions: [], order: 0 });
     setShowFormModal(true);
   };
 
@@ -2286,6 +2288,17 @@ export default function Admin() {
                       <option value="open">Open</option>
                       <option value="closed">Closed</option>
                     </select>
+                  </div>
+                  <div>
+                    <label className="block text-gray-400 mb-1">Display Order (e.g. 1 for first, 2 for second, etc.)</label>
+                    <input
+                      type="number"
+                      required
+                      value={careerForm.order !== undefined ? careerForm.order : 0}
+                      onChange={(e) => setCareerForm({ ...careerForm, order: parseInt(e.target.value) || 0 })}
+                      placeholder="Smaller numbers appear first"
+                      className="w-full bg-black border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400"
+                    />
                   </div>
                   <div className="pt-2">
                     <label className="block text-gray-400 mb-1">Custom Application Questions</label>
