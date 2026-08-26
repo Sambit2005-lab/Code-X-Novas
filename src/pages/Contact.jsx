@@ -178,7 +178,7 @@ const Contact = () => {
                                 transition={{ duration: 0.5 }}
                             >
                                 <FiPhone className="text-xl text-white" />
-                                <span>+91 9348976663</span>
+                                <span>+91 7064193730</span>
                             </motion.li>
                             <motion.li 
                                 className="flex items-center space-x-4"

@@ -121,7 +121,7 @@ const LegalPage = () => {
                         <ul className="ml-5 sm:ml-6 space-y-1 mb-3 sm:mb-4 text-sm sm:text-base">
                             <li>📧 info@codexnovas.in</li>
                             <li>🌐 www.codexnovas.in</li>
-                            <li>📞 +91 9348976663</li>
+                             <li>📞 +91 7064193730</li>
                         </ul>
                     </>
                 )}
