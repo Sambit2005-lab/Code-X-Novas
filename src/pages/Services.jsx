@@ -1,6 +1,7 @@
 import React from "react";
 import { FiMonitor, FiSmartphone } from "react-icons/fi";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import RightElement from "../assets/Services/RightElement.png";
 import MapImage from "../assets/Services/Map.png";
 
@@ -88,6 +89,7 @@ const GradientHeading = ({ children }) => (
 );
 
 const Services = () => {
+    const navigate = useNavigate();
     const truncate = (s, n) => (s?.length <= n ? s : s.slice(0, n).trimEnd() + "...");
 
     return (
@@ -180,7 +182,10 @@ const Services = () => {
                                     <p className="text-gray-300 text-sm leading-relaxed">
                                         {truncate(service.desc, 140)}
                                     </p>
-                                    <button className="px-6 py-2 mt-6 rounded-md border border-white/30 text-sm text-white transition-all hover:bg-white hover:text-black">
+                                    <button 
+                                        onClick={() => navigate("/services")}
+                                        className="px-6 py-2 mt-6 rounded-md border border-white/30 text-sm text-white transition-all hover:bg-white hover:text-black"
+                                    >
                                         Learn More
                                     </button>
                                 </motion.div>
@@ -327,7 +332,10 @@ const Services = () => {
                                     <p className="text-gray-300 text-base leading-relaxed">
                                         {service.desc}
                                     </p>
-                                    <button className="px-6 py-2 mt-6 rounded-md border border-white/30 text-sm font-medium text-white bg-transparent transition-all duration-300 hover:bg-white hover:text-black">
+                                    <button 
+                                        onClick={() => navigate("/services")}
+                                        className="px-6 py-2 mt-6 rounded-md border border-white/30 text-sm font-medium text-white bg-transparent transition-all duration-300 hover:bg-white hover:text-black"
+                                    >
                                         Learn More
                                     </button>
                                 </motion.div>
