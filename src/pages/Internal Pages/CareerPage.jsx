@@ -560,6 +560,7 @@ export default function CareerPage() {
                                                     <label className="block text-gray-400 mb-1.5 uppercase font-mono tracking-wider">Portfolio URL</label>
                                                     <input
                                                         type="url"
+                                                        required
                                                         value={appForm.portfolioUrl}
                                                         onChange={(e) => setAppForm({ ...appForm, portfolioUrl: e.target.value })}
                                                         placeholder="https://github.com/..."
