@@ -194,6 +194,11 @@ export default function ProductsPage() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
         >
+            <style dangerouslySetInnerHTML={{__html: `
+                .scrollbar-none::-webkit-scrollbar {
+                    display: none;
+                }
+            `}} />
             <SEO
                 title="Our Products — Code X Novas | Digital Solutions & Platforms"
                 description="Explore Code X Novas products: innovative digital platforms, SaaS solutions, and custom tools designed to accelerate your business growth."
@@ -261,7 +266,11 @@ export default function ProductsPage() {
                         
                         {/* Premium Sliding Pill Tab Switcher */}
                         <motion.div 
-                            className="relative flex items-center bg-gray-50/80 backdrop-blur-md p-1.5 rounded-full border border-gray-200/60 shadow-inner self-start md:self-auto"
+                            className="relative flex items-center bg-gray-50/80 backdrop-blur-md p-1.5 rounded-full border border-gray-200/60 shadow-inner self-stretch md:self-auto overflow-x-auto scrollbar-none whitespace-nowrap max-w-full"
+                            style={{
+                                scrollbarWidth: "none",
+                                msOverflowStyle: "none"
+                            }}
                             initial={{ opacity: 0, y: 15 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.3 }}
@@ -273,7 +282,7 @@ export default function ProductsPage() {
                                     <button
                                         key={tab}
                                         onClick={() => setActiveProduct(tab)}
-                                        className="relative px-6 py-2.5 text-sm font-semibold rounded-full transition-colors duration-300 focus:outline-none z-10 font-sora"
+                                        className="relative px-6 py-2.5 text-sm font-semibold rounded-full transition-colors duration-300 focus:outline-none z-10 font-sora shrink-0"
                                         style={{
                                             color: isSelected ? "#fff" : "#555",
                                         }}
@@ -281,7 +290,7 @@ export default function ProductsPage() {
                                         {isSelected && (
                                             <motion.div
                                                 layoutId="active-product-pill"
-                                                className="absolute inset-0 bg-gradient-to-r from-[#2352A5] via-[#137DD1] to-[#02A7FD] rounded-full shadow-md z-[-1]"
+                                                className="absolute inset-0 bg-gradient-to-r from-[#2352A5] via-[#137DD1] to-[#02A7FD] rounded-full shadow-md z-[-1] min-w-full"
                                                 transition={{ type: "spring", stiffness: 380, damping: 30 }}
                                             />
                                         )}
