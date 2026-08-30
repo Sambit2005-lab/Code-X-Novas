@@ -264,9 +264,9 @@ export default function ProductsPage() {
                             </motion.h3>
                             
                             <motion.span 
-                                className="text-[10px] text-gray-400 font-medium font-mono uppercase tracking-wider md:hidden animate-pulse"
+                                className="text-[10px] text-black font-bold font-mono uppercase tracking-wider md:hidden animate-pulse"
                                 initial={{ opacity: 0 }}
-                                animate={{ opacity: 0.8 }}
+                                animate={{ opacity: 0.9 }}
                                 transition={{ delay: 0.4 }}
                             >
                                 ← Swipe Left/Right →
