@@ -252,9 +252,9 @@ export default function ProductsPage() {
 
                 <section className="relative z-10 pt-[95px] sm:pt-[140px] px-6 md:px-[2%] lg:px-[1.5%] max-w-[1300px] mx-auto">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-                        <div>
+                        <div className="flex items-center justify-between w-full mb-2">
                             <motion.h3
-                                className="uppercase mb-2 text-[#2352A5] font-[600] tracking-wider"
+                                className="uppercase text-[#2352A5] font-[600] tracking-wider"
                                 style={{ fontFamily: "Sora", fontSize: "15px" }}
                                 initial={{ opacity: 0, x: -30 }}
                                 animate={{ opacity: 1, x: 0 }}
@@ -262,6 +262,15 @@ export default function ProductsPage() {
                             >
                                 Products
                             </motion.h3>
+                            
+                            <motion.span 
+                                className="text-[10px] text-gray-400 font-medium font-mono uppercase tracking-wider md:hidden animate-pulse"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 0.8 }}
+                                transition={{ delay: 0.4 }}
+                            >
+                                ← Swipe Left/Right →
+                            </motion.span>
                         </div>
                         
                         {/* Premium Sliding Pill Tab Switcher */}
