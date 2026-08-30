@@ -149,7 +149,44 @@ export default function ProductsPage() {
         exploreText: "Explore Classivo 360"
     };
 
-    const currentProduct = activeProduct === "sas" ? sasData : activeProduct === "vidya" ? vidyaData : classivoData;
+    const workoutData = {
+        title: "4EverWorkout",
+        subtitle: "Smart Gym Management & Member Retention Platform",
+        tagline: "Run Your Gym. Automate Operations. Retain More Members.",
+        bannerText: "4EverWorkout is a complete digital management and member retention platform designed for modern gyms and fitness businesses. Manage members, memberships, fees, attendance, leads, trainers and daily operations from one centralized platform while using smart automation to improve member engagement and retention.",
+        features: [
+            { title: "Member Management", desc: "Manage complete member profiles, membership details, joining records and fitness information from one centralized system." },
+            { title: "Membership & Fee Management", desc: "Create membership plans, track payments, installments, pending fees and complete payment history." },
+            { title: "Attendance Management", desc: "Maintain digital attendance records and monitor member activity across your gym." },
+            { title: "Lead & Trial Management", desc: "Track new enquiries, trial members and follow-ups to convert more potential customers into active members." },
+            { title: "Automated WhatsApp Communication", desc: "Send automated welcome messages, payment reminders, membership expiry alerts and renewal notifications." },
+            { title: "Member Retention Engine", desc: "Identify inactive members through 3-day, 7-day and 14-day inactivity tracking and take action before they leave." },
+            { title: "Churn Risk Detection", desc: "Detect members who may be losing engagement and help your team take proactive retention actions." },
+            { title: "Fitness Progress Tracking", desc: "Track weight, fitness goals, progress updates and member transformation history." },
+            { title: "Trainer Dashboard", desc: "Give trainers access to relevant member information, attendance and engagement activities." },
+            { title: "Day-Wise Automation", desc: "Automate member engagement workflows from joining and onboarding to progress reminders and trainer follow-ups." },
+            { title: "AI Gym Owner Assistant", desc: "Ask natural questions about your gym operations, members, attendance, revenue and renewals." },
+            { title: "Business Analytics", desc: "Monitor revenue, attendance, pending payments, member retention and overall gym performance." },
+            { title: "Multi-Branch Management", desc: "Manage and monitor multiple gym branches through a centralized dashboard." }
+        ],
+        why: [
+            { title: "Reduce Administrative Work", desc: "Replace registers, spreadsheets and scattered records with one connected digital platform." },
+            { title: "Improve Member Retention", desc: "Identify inactive and high-risk members before they quietly stop coming." },
+            { title: "Automate Daily Follow-Ups", desc: "Reduce manual calls and repetitive follow-ups through smart automated communication." },
+            { title: "Increase Renewals", desc: "Send timely membership expiry and renewal reminders." },
+            { title: "Understand Your Gym Better", desc: "Get real-time visibility into members, attendance, collections and business performance." },
+            { title: "Built for Growing Gyms", desc: "Start with essential management tools and upgrade as your gym grows." }
+        ],
+        idealFor: ["Gyms", "Fitness Centres", "Personal Training Studios", "Multi-Branch Gym Businesses", "Fitness & Wellness Centres", "Strength & Conditioning Centres"],
+        usp: "A modern gym management platform that combines daily operations, fee management, automated communication, member retention intelligence, fitness progress tracking and AI-powered business insights in one unified ecosystem.",
+        footerInfo: "Don’t Just Manage Your Gym. Build Members Who Stay. 4EverWorkout helps gym owners reduce manual work, automate member communication, improve renewals, identify inactive members and run their fitness business with better visibility and control.",
+        link: "https://4everworkout.codexnovas.in/",
+        linkText: "4everworkout.codexnovas.in",
+        exploreText: "Explore 4EverWorkout",
+        status: "LIVE SOON"
+    };
+
+    const currentProduct = activeProduct === "sas" ? sasData : activeProduct === "vidya" ? vidyaData : activeProduct === "classivo" ? classivoData : workoutData;
 
     return (
         <motion.div
@@ -229,9 +266,9 @@ export default function ProductsPage() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.3 }}
                         >
-                            {["sas", "vidya", "classivo"].map((tab) => {
+                            {["sas", "vidya", "classivo", "workout"].map((tab) => {
                                 const isSelected = activeProduct === tab;
-                                const text = tab === "sas" ? "SAS 360" : tab === "vidya" ? "VidyaOS 360" : "Classivo 360";
+                                const text = tab === "sas" ? "SAS 360" : tab === "vidya" ? "VidyaOS 360" : tab === "classivo" ? "Classivo 360" : "4EverWorkout";
                                 return (
                                     <button
                                         key={tab}
@@ -482,10 +519,10 @@ export default function ProductsPage() {
                     >
                         <h2 className="text-[#2352A5] text-base sm:text-lg font-bold font-mono uppercase tracking-widest flex items-center gap-2 mb-2">
                             <span className="flex h-2 w-2 relative">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                                <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${currentProduct.status === "LIVE SOON" ? "bg-amber-400" : "bg-green-400"}`}></span>
+                                <span className={`relative inline-flex rounded-full h-2 w-2 ${currentProduct.status === "LIVE SOON" ? "bg-amber-500" : "bg-green-500"}`}></span>
                             </span>
-                            LIVE NOW
+                            {currentProduct.status || "LIVE NOW"}
                         </h2>
                         <a href={currentProduct.link} target="_blank" rel="noreferrer" className="text-lg sm:text-xl text-black hover:text-[#2352A5] transition-colors font-bold underline font-mono">
                             {currentProduct.linkText}
