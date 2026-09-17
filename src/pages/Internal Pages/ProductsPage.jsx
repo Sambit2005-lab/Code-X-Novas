@@ -195,8 +195,22 @@ export default function ProductsPage() {
             transition={{ duration: 0.6, ease: "easeOut" }}
         >
             <style dangerouslySetInnerHTML={{__html: `
-                .scrollbar-none::-webkit-scrollbar {
-                    display: none;
+                .custom-pill-scrollbar::-webkit-scrollbar {
+                    height: 5px;
+                }
+                .custom-pill-scrollbar::-webkit-scrollbar-track {
+                    background: rgba(35, 82, 165, 0.08);
+                    border-radius: 9999px;
+                    margin-left: 8px;
+                    margin-right: 8px;
+                }
+                .custom-pill-scrollbar::-webkit-scrollbar-thumb {
+                    background: linear-gradient(90deg, #2352A5, #02A7FD);
+                    border-radius: 9999px;
+                }
+                .custom-pill-scrollbar {
+                    scrollbar-width: thin;
+                    scrollbar-color: #2352A5 rgba(35, 82, 165, 0.08);
                 }
             `}} />
             <SEO
@@ -251,8 +265,8 @@ export default function ProductsPage() {
                 )}
 
                 <section className="relative z-10 pt-[95px] sm:pt-[140px] px-6 md:px-[2%] lg:px-[1.5%] max-w-[1300px] mx-auto">
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-                        <div className="flex items-center justify-between w-full mb-2">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                        <div className="flex items-center justify-between md:justify-start gap-4 w-full md:w-auto">
                             <motion.h3
                                 className="uppercase text-[#2352A5] font-[600] tracking-wider"
                                 style={{ fontFamily: "Sora", fontSize: "15px" }}
@@ -264,22 +278,18 @@ export default function ProductsPage() {
                             </motion.h3>
                             
                             <motion.span 
-                                className="text-[10px] text-black font-bold font-mono uppercase tracking-wider md:hidden animate-pulse"
+                                className="text-[11px] text-gray-800 font-bold font-mono uppercase tracking-wider flex items-center gap-1.5 bg-blue-50/90 px-3 py-1 rounded-full border border-blue-200/80 shadow-sm animate-pulse"
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 0.9 }}
                                 transition={{ delay: 0.4 }}
                             >
-                                ← Swipe Left/Right →
+                                <span className="text-[#2352A5]">←</span> Swipe / Scroll Left or Right <span className="text-[#2352A5]">→</span>
                             </motion.span>
                         </div>
                         
                         {/* Premium Sliding Pill Tab Switcher */}
                         <motion.div 
-                            className="relative flex items-center bg-gray-50/80 backdrop-blur-md p-1.5 rounded-full border border-gray-200/60 shadow-inner self-stretch md:self-auto overflow-x-auto scrollbar-none whitespace-nowrap max-w-full"
-                            style={{
-                                scrollbarWidth: "none",
-                                msOverflowStyle: "none"
-                            }}
+                            className="relative flex items-center bg-gray-50/90 backdrop-blur-md p-1.5 pb-2.5 rounded-2xl border border-gray-200/80 shadow-inner self-stretch md:self-auto overflow-x-auto custom-pill-scrollbar whitespace-nowrap max-w-full"
                             initial={{ opacity: 0, y: 15 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.3 }}
