@@ -27,7 +27,7 @@ export default function Navbar() {
         <img
           src={logo}
           loading="lazy"
-          alt="Code X Novas"
+          alt="Codexnovas"
           className="h-[32px] sm:h-[40px] md:h-[48px] lg:h-[56px] w-auto transition-all duration-300"
         />
       </Link>

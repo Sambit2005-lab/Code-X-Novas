@@ -18,7 +18,7 @@ export default function Home() {
             transition={{ duration: 0.6, ease: "easeOut" }}
         >
             <SEO
-                title="Code X Novas — Digital Product Studio | Web & Product Design"
+                title="Codexnovas — Digital Product Studio | Web & Product Design"
                 description="We build modern, fast websites and digital products that help startups and teams scale. Services: web design, product engineering, brand systems."
                 url="https://codexnovas.in/"
             />

@@ -214,8 +214,8 @@ export default function ProductsPage() {
                 }
             `}} />
             <SEO
-                title="Our Products — Code X Novas | Digital Solutions & Platforms"
-                description="Explore Code X Novas products: innovative digital platforms, SaaS solutions, and custom tools designed to accelerate your business growth."
+                title="Our Products — Codexnovas | Digital Solutions & Platforms"
+                description="Explore Codexnovas products: innovative digital platforms, SaaS solutions, and custom tools designed to accelerate your business growth."
                 url="https://codexnovas.in/products"
             />
             <Navbar />

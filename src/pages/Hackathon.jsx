@@ -172,7 +172,7 @@ export default function Hackathon() {
   return (
     <>
       <SEO
-        title="The Open Source Hackathon — Code-X-Novas"
+        title="The Open Source Hackathon — Codexnovas"
         description="Contribute to real projects. Get noticed by startup founders. Unlock internship opportunities, referrals, and real-world experience."
         url="https://www.codexnovas.in/hackathon"
       />
@@ -190,7 +190,7 @@ export default function Hackathon() {
         {/* Header */}
         <header className="sticky top-0 z-50 backdrop-blur-md bg-black/60 border-b border-white/5 px-3 sm:px-8 py-3.5 flex items-center justify-between">
           <div className="flex items-center gap-1.5 sm:gap-2 cursor-pointer" onClick={() => window.location.href = "/"}>
-            <img src={Logo} alt="Code-X-Novas" className="h-6 sm:h-8" />
+            <img src={Logo} alt="Codexnovas" className="h-6 sm:h-8" />
             <span className="text-[10px] sm:text-sm tracking-wider font-mono text-cyan-400 bg-cyan-950/50 border border-cyan-800/50 px-1.5 sm:px-2 py-0.5 rounded">
               HACKATHON
             </span>
@@ -341,7 +341,7 @@ export default function Hackathon() {
             
             <div className="text-center mb-12">
               <h2 className="text-sm font-mono tracking-widest text-cyan-400 uppercase">Impact Metrics</h2>
-              <p className="text-3xl sm:text-4xl font-bold mt-2">Why Code-X-Novas?</p>
+              <p className="text-3xl sm:text-4xl font-bold mt-2">Why Codexnovas?</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -404,7 +404,7 @@ export default function Hackathon() {
                 {
                   icon: <Zap className="text-cyan-400" size={24} />,
                   title: "Fast-Track Hiring",
-                  desc: "Exceptional performers may bypass standard hiring rounds for future opportunities at Code-X-Novas.",
+                  desc: "Exceptional performers may bypass standard hiring rounds for future opportunities at Codexnovas.",
                   pill: "Careers"
                 },
                 {
@@ -416,7 +416,7 @@ export default function Hackathon() {
                 {
                   icon: <Sparkles className="text-cyan-400" size={24} />,
                   title: "Product Builder Recognition",
-                  desc: "Outstanding contributors will be highlighted across Code-X-Novas platforms and community channels.",
+                  desc: "Outstanding contributors will be highlighted across Codexnovas platforms and community channels.",
                   pill: "Recognition"
                 },
                 {
@@ -440,7 +440,7 @@ export default function Hackathon() {
                 {
                   icon: <Share2 className="text-cyan-400" size={24} />,
                   title: "Innovation Showcase",
-                  desc: "Selected projects and contributors will be featured on the Code-X-Novas website and social media platforms.",
+                  desc: "Selected projects and contributors will be featured on the Codexnovas website and social media platforms.",
                   pill: "Showcase"
                 },
                 {
@@ -508,7 +508,7 @@ export default function Hackathon() {
                   Become a Campus Ambassador
                 </h2>
                 <p className="mt-4 text-gray-400 leading-relaxed">
-                  Bring opportunities, hackathon access, and elite engineering mentorship directly to your campus. Be the bridge between Code-X-Novas and your university.
+                  Bring opportunities, hackathon access, and elite engineering mentorship directly to your campus. Be the bridge between Codexnovas and your university.
                 </p>
 
                 <div className="mt-8">
@@ -531,7 +531,7 @@ export default function Hackathon() {
                     "Early access to internship shortlists & core releases",
                     "Official Leadership Certificate signed by founders",
                     "1-on-1 interaction & mentoring with industry founders",
-                    "Special recognition & feature on Code-X-Novas platforms",
+                    "Special recognition & feature on Codexnovas platforms",
                     "Private Ambassador community for networking & referrals"
                   ].map((benefit, idx) => (
                     <li key={idx} className="flex items-start gap-3 text-gray-300">
@@ -804,7 +804,7 @@ export default function Hackathon() {
         {/* Footer */}
         <footer className="border-t border-white/5 py-8 mt-12 bg-black">
           <div className="max-w-7xl mx-auto px-4 text-center text-xs text-gray-600 font-mono space-y-2">
-            <p>© Code-X-Novas 2026. Empowering developers to build the next generation of products.</p>
+            <p>© Codexnovas 2026. Empowering developers to build the next generation of products.</p>
           </div>
         </footer>
       </div>

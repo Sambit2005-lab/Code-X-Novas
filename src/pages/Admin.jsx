@@ -336,7 +336,7 @@ export default function Admin() {
             "service_5hqfkmn",
             "template_zfp7e0s",
             {
-              from_name: "Code-X-Novas Security",
+              from_name: "Codexnovas Security",
               from_email: "code.x.novas@gmail.com",
               to_name: "Admin",
               message: `Your admin login OTP verification code is: ${otp}. Please enter this code to complete your login. This code is valid for 10 minutes.`,
@@ -543,7 +543,7 @@ export default function Admin() {
             name: "Sambit Pradhan",
             role: "Founder & CEO",
             education: "B.Tech, IIIT Bhubaneswar",
-            bio: "Sambit Pradhan is the Founder & CEO of Code-X-Novas. He leads product innovation, SaaS development, AI initiatives, strategic partnerships, and long-term company vision. Passionate about solving real-world problems through technology, he focuses on building scalable products that create measurable impact.",
+            bio: "Sambit Pradhan is the Founder & CEO of Codexnovas. He leads product innovation, SaaS development, AI initiatives, strategic partnerships, and long-term company vision. Passionate about solving real-world problems through technology, he focuses on building scalable products that create measurable impact.",
             achievements: [
               "Represented India at the AI Festival, Dubai",
               "Recognized among India’s Top 75 Emerging Startups",
@@ -566,7 +566,7 @@ export default function Admin() {
             name: "Sahil Singh",
             role: "Head of Business Development & Human Resources",
             education: "BBA, IIM Bangalore",
-            bio: "Sahil Singh leads business development, strategic partnerships, client relations, recruitment, and organizational growth initiatives at Code-X-Novas. He plays a key role in expanding business opportunities while building and managing high-performing teams.",
+            bio: "Sahil Singh leads business development, strategic partnerships, client relations, recruitment, and organizational growth initiatives at Codexnovas. He plays a key role in expanding business opportunities while building and managing high-performing teams.",
             achievements: [],
             skills: [
               "Business Development",
@@ -597,8 +597,8 @@ export default function Admin() {
         const defaultTimeline = [
           {
             year: "2024",
-            title: "Founded Code-X-Novas",
-            events: ["Founded Code-X-Novas"]
+            title: "Founded Codexnovas",
+            events: ["Founded Codexnovas"]
           },
           {
             year: "2025",
@@ -1038,7 +1038,7 @@ export default function Admin() {
 
         <div className="w-full max-w-md bg-white/[0.02] border border-white/10 rounded-2xl p-8 backdrop-blur-md relative z-10 shadow-2xl">
           <div className="flex flex-col items-center mb-8">
-            <img src={Logo} alt="Code-X-Novas" className="h-10 mb-4" />
+            <img src={Logo} alt="Codexnovas" className="h-10 mb-4" />
             <h2 className="text-xl font-bold font-mono tracking-wider text-cyan-400">ADMIN CONTROL CENTER</h2>
             <p className="text-xs text-gray-500 mt-1 font-mono">
               {showOtpScreen ? "Two-Factor Authentication Required" : "Enter credentials to gain system access"}
@@ -1212,7 +1212,7 @@ export default function Admin() {
       {/* Header bar */}
       <header className="sticky top-0 z-40 bg-black/80 backdrop-blur-md border-b border-white/5 px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <img src={Logo} alt="Code-X-Novas" className="h-8" />
+          <img src={Logo} alt="Codexnovas" className="h-8" />
           <span className="text-xs font-mono bg-cyan-950/80 border border-cyan-800/80 text-cyan-400 px-2 py-0.5 rounded tracking-widest">
             SYSTEM ENGINE
           </span>

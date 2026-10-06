@@ -163,7 +163,7 @@ export default function ServicesPage() {
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <SEO
-        title="Our Services — Code X Novas | Web, App & AI Development"
+        title="Our Services — Codexnovas | Web, App & AI Development"
         description="Expert web development, mobile apps, AI solutions, UI/UX design, custom LMS platforms, and e-commerce services. We build digital products that drive results."
         url="https://codexnovas.in/services"
       />
@@ -236,7 +236,7 @@ export default function ServicesPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.4, ease: "easeOut" }}
           >
-            At Code-X-Novas - a product and service based tech company, we believe that technology
+            At Codexnovas - a product and service based tech company, we believe that technology
             is more than just code-it's a catalyst for innovation, growth, and meaningful impact. We are
             a passionate team of developers, designers, and thinkers driven by curiosity, creativity,
             and a commitment to excellence.

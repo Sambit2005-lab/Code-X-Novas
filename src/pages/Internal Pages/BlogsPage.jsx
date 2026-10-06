@@ -229,8 +229,8 @@ export default function BlogsPage() {
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <SEO
-        title="Blogs — Code X Novas | Tech Insights & Industry Trends"
-        description="Read the latest articles on web development, AI, design, and digital transformation. Expert insights and best practices from the Code X Novas team."
+        title="Blogs — Codexnovas | Tech Insights & Industry Trends"
+        description="Read the latest articles on web development, AI, design, and digital transformation. Expert insights and best practices from the Codexnovas team."
         url="https://codexnovas.in/blogs"
       />
       <Navbar />

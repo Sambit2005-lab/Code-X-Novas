@@ -73,7 +73,7 @@ export default function ProductsBuilt() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.15 }}
                     >
-                        Products Built by <span className="bg-gradient-to-r from-[#2352A5] to-[#02A7FD] bg-clip-text text-transparent">Code-X-Novas</span>
+                        Products Built by <span className="bg-gradient-to-r from-[#2352A5] to-[#02A7FD] bg-clip-text text-transparent">Codexnovas</span>
                     </motion.h2>
 
                     <motion.p 
@@ -93,7 +93,7 @@ export default function ProductsBuilt() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.4 }}
                     >
-                        At Code-X-Novas, we identify real-world problems, design practical solutions, and turn them into scalable technology products. Our products are built to solve challenges across education, productivity, attendance, communities, and digital operations.
+                        At Codexnovas, we identify real-world problems, design practical solutions, and turn them into scalable technology products. Our products are built to solve challenges across education, productivity, attendance, communities, and digital operations.
                     </motion.p>
                 </div>
 
@@ -161,7 +161,7 @@ export default function ProductsBuilt() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
                     >
-                        From idea to product — built, deployed, and continuously improved by Code-X-Novas.
+                        From idea to product — built, deployed, and continuously improved by Codexnovas.
                     </motion.p>
 
                     <motion.h4 

@@ -135,7 +135,7 @@ export default function HeroWithNavbar() {
                     <img
                         src={logo}
                         loading="lazy"
-                        alt="Code X Novas"
+                        alt="Codexnovas"
                         className="h-[32px] sm:h-[40px] md:h-[48px] lg:h-[56px] w-auto transition-all duration-300"
                     />
                 </Link>
@@ -227,7 +227,7 @@ export default function HeroWithNavbar() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.7, delay: 0.3 }}
                         >
-                            From AI-powered products to education platforms and custom digital systems, Code-X-Novas builds technology designed for real-world use, growth, and impact.
+                            From AI-powered products to education platforms and custom digital systems, Codexnovas builds technology designed for real-world use, growth, and impact.
                         </motion.p>
 
                         {/* Buttons */}
@@ -317,7 +317,7 @@ export default function HeroWithNavbar() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7, delay: 0.6 }}
                     >
-                        From AI-powered products to education platforms and custom digital systems, Code-X-Novas builds technology designed for real-world use, growth, and impact.
+                        From AI-powered products to education platforms and custom digital systems, Codexnovas builds technology designed for real-world use, growth, and impact.
                     </motion.p>
 
                     <motion.div

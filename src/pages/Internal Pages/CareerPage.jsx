@@ -183,8 +183,8 @@ export default function CareerPage() {
             transition={{ duration: 0.6, ease: "easeOut" }}
         >
             <SEO
-                title="Careers — Code X Novas | Join Our Team"
-                description="Explore career opportunities at Code X Novas. We're hiring UI/UX designers, developers, and business professionals. Build the future with us."
+                title="Careers — Codexnovas | Join Our Team"
+                description="Explore career opportunities at Codexnovas. We're hiring UI/UX designers, developers, and business professionals. Build the future with us."
                 url="https://codexnovas.in/career"
             />
             <Navbar />
@@ -257,7 +257,7 @@ export default function CareerPage() {
     "
                         style={{ fontFamily: "Sora" }}
                     >
-                        Join the Code-X-Novas <br className="hidden sm:block" /> Family
+                        Join the Codexnovas <br className="hidden sm:block" /> Family
                     </motion.h1>
 
                     <motion.p
@@ -608,7 +608,7 @@ export default function CareerPage() {
                                                 <textarea
                                                     value={appForm.coverNote}
                                                     onChange={(e) => setAppForm({ ...appForm, coverNote: e.target.value })}
-                                                    placeholder="Why do you want to join Code-X-Novas?"
+                                                    placeholder="Why do you want to join Codexnovas?"
                                                     rows="3"
                                                     className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-2 text-white placeholder-gray-600 focus:outline-none focus:border-[#4FA3FF] resize-none"
                                                 />

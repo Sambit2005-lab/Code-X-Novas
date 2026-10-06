@@ -26,7 +26,7 @@ const LegalPage = () => {
                 {isPrivacy && (
                     <>
                         <p className="mb-3 sm:mb-4">
-                            At <strong>Code-X-Novas</strong>, your privacy is our top priority.
+                            At <strong>Codexnovas</strong>, your privacy is our top priority.
                             This Privacy Policy outlines how we collect, use, and protect your
                             personal information when you visit our website or engage with our
                             services.
@@ -129,7 +129,7 @@ const LegalPage = () => {
                 {isTerms && (
                     <>
                         <p className="mb-3 sm:mb-4">
-                            Welcome to Code-X-Novas ("we," "our," or "us"). By accessing or
+                            Welcome to Codexnovas ("we," "our," or "us"). By accessing or
                             using our website and services, you agree to comply with and be
                             bound by these Terms and Conditions. Please read them carefully
                             before using our platform.
@@ -149,7 +149,7 @@ const LegalPage = () => {
                             2. Services
                         </div>
                         <p className="mb-3 sm:mb-4">
-                            Code-X-Novas provides web and app development, AI &amp; ML
+                            Codexnovas provides web and app development, AI &amp; ML
                             solutions, UI/UX design, custom LMS, and e-commerce solutions. We
                             reserve the right to modify, suspend, or discontinue any service
                             at any time without prior notice.
@@ -160,7 +160,7 @@ const LegalPage = () => {
                         </div>
                         <p className="mb-3 sm:mb-4">
                             All content, designs, code, graphics, and materials available on
-                            our website are the exclusive property of Code-X-Novas. You may
+                            our website are the exclusive property of Codexnovas. You may
                             not copy, reproduce, or distribute any content without written
                             permission from us.
                         </p>
@@ -187,7 +187,7 @@ const LegalPage = () => {
                             6. Limitation of Liability
                         </div>
                         <p className="mb-3 sm:mb-4">
-                            While we strive for excellence, Code-X-Novas shall not be liable
+                            While we strive for excellence, Codexnovas shall not be liable
                             for any indirect, incidental, or consequential damages arising
                             from the use or inability to use our services or website.
                         </p>

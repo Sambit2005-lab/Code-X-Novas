@@ -151,7 +151,7 @@ const About = () => {
                                 We're not an agency. We're a product-driven innovation studio.
                                 <br />
                                 <br />
-                                Code-X-Novas is a product and service-based technology company building real-world solutions across AI, Education, Web, Mobile, and SaaS.
+                                Codexnovas is a product and service-based technology company building real-world solutions across AI, Education, Web, Mobile, and SaaS.
                             </motion.p>
                         </div>
                     </motion.div>
@@ -337,7 +337,7 @@ const About = () => {
                         >
                             We're not an agency. We're a product-driven innovation studio.
                             <br />
-                            Code-X-Novas is a product and service-based technology company building real-world solutions across AI, Education, Web, Mobile, and SaaS.
+                            Codexnovas is a product and service-based technology company building real-world solutions across AI, Education, Web, Mobile, and SaaS.
                         </motion.p>
 
                         <motion.img

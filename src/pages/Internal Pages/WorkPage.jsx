@@ -230,7 +230,7 @@ export default function WorkPage() {
             transition={{ duration: 0.6, ease: "easeOut" }}
         >
             <SEO
-                title="Our Work — Code X Novas | Portfolio & Case Studies"
+                title="Our Work — Codexnovas | Portfolio & Case Studies"
                 description="View our portfolio of web apps, mobile solutions, and digital products. See how we've helped businesses scale with innovative technology."
                 url="https://codexnovas.in/works"
             />

@@ -11,16 +11,16 @@ import { Helmet } from 'react-helmet'
  * - author (string)
  */
 export default function SEO({
-    title = 'Code X Novas — Digital Product Studio',
-    description = 'Code X Novas builds beautiful, performant websites and digital experiences that convert. We specialize in web apps, design systems and brand-aware engineering.',
+    title = 'Codexnovas — Digital Product Studio',
+    description = 'Codexnovas builds beautiful, performant websites and digital experiences that convert. We specialize in web apps, design systems and brand-aware engineering.',
     url = 'https://codexnovas.in/',
     image = 'https://codexnovas.in/og-image.png',
-    author = 'Code X Novas',
+    author = 'Codexnovas',
 }) {
     const structuredData = {
         '@context': 'https://schema.org',
         '@type': 'Organization',
-        name: 'Code X Novas',
+        name: 'Codexnovas',
         url,
         logo: image,
     }

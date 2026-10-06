@@ -100,8 +100,8 @@ const Contact = () => {
     return (
         <>
             <SEO
-                title="Contact Us — Code X Novas | Let's Build Together"
-                description="Get in touch with Code X Novas. Let's discuss your project, explore partnership opportunities, or answer your questions about our services."
+                title="Contact Us — Codexnovas | Let's Build Together"
+                description="Get in touch with Codexnovas. Let's discuss your project, explore partnership opportunities, or answer your questions about our services."
                 url="https://codexnovas.in/contact"
             />
             <section
@@ -359,7 +359,7 @@ const Contact = () => {
                         <motion.img 
                             src={Logo} 
                             loading="lazy" 
-                            alt="CodeX Novas" 
+                            alt="Codexnovas" 
                             className="h-8 mb-4 -mt-8"
                             initial={{ scale: 0.8, opacity: 0 }}
                             whileInView={{ scale: 1, opacity: 1 }}
@@ -491,7 +491,7 @@ const Contact = () => {
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: 0.7 }}
                         >
-                            ©Code-X-Novas 2026 All Rights Reserved
+                            ©Codexnovas 2026 All Rights Reserved
                         </motion.p>
                         <motion.div 
                             className="flex ml-2 justify-between text-sm px-2 text-gray-400"
@@ -522,7 +522,7 @@ const Contact = () => {
                         <motion.img 
                             src={Logo} 
                             loading="lazy" 
-                            alt="CodeX Novas" 
+                            alt="Codexnovas" 
                             className="h-10 mb-5"
                             initial={{ scale: 0.8, opacity: 0 }}
                             whileInView={{ scale: 1, opacity: 1 }}
@@ -686,7 +686,7 @@ const Contact = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.8 }}
                     >
-                        ©Code-X-Novas 2026 All Rights Reserved
+                        ©Codexnovas 2026 All Rights Reserved
                     </motion.p>
                     <motion.div 
                         className="flex space-x-6"

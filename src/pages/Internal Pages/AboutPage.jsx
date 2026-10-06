@@ -17,7 +17,7 @@ const fallbackTeam = [
     name: "Sambit Pradhan",
     role: "Founder & CEO",
     education: "B.Tech, IIIT Bhubaneswar",
-    bio: "Sambit Pradhan is the Founder & CEO of Code-X-Novas. He leads product innovation, SaaS development, AI initiatives, strategic partnerships, and long-term company vision. Passionate about solving real-world problems through technology, he focuses on building scalable products that create measurable impact.",
+    bio: "Sambit Pradhan is the Founder & CEO of Codexnovas. He leads product innovation, SaaS development, AI initiatives, strategic partnerships, and long-term company vision. Passionate about solving real-world problems through technology, he focuses on building scalable products that create measurable impact.",
     achievements: [
       "Represented India at the AI Festival, Dubai",
       "Recognized among India’s Top 75 Emerging Startups",
@@ -40,7 +40,7 @@ const fallbackTeam = [
     name: "Sahil Singh",
     role: "Head of Business Development & Human Resources",
     education: "BBA, IIM Bangalore",
-    bio: "Sahil Singh leads business development, strategic partnerships, client relations, recruitment, and organizational growth initiatives at Code-X-Novas. He plays a key role in expanding business opportunities while building and managing high-performing teams.",
+    bio: "Sahil Singh leads business development, strategic partnerships, client relations, recruitment, and organizational growth initiatives at Codexnovas. He plays a key role in expanding business opportunities while building and managing high-performing teams.",
     achievements: [],
     skills: [
       "Business Development",
@@ -60,8 +60,8 @@ const fallbackTeam = [
 const fallbackTimeline = [
   {
     year: "2024",
-    title: "Founded Code-X-Novas",
-    events: ["Founded Code-X-Novas"]
+    title: "Founded Codexnovas",
+    events: ["Founded Codexnovas"]
   },
   {
     year: "2025",
@@ -195,8 +195,8 @@ export default function AboutPage() {
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <SEO
-        title="About Us — Code X Novas | Digital Product Studio"
-        description="Learn about Code X Novas: our mission, values, team, and approach to building exceptional digital products. We create websites and apps that make a difference."
+        title="About Us — Codexnovas | Digital Product Studio"
+        description="Learn about Codexnovas: our mission, values, team, and approach to building exceptional digital products. We create websites and apps that make a difference."
         url="https://codexnovas.in/about"
       />
       <Navbar />
@@ -280,7 +280,7 @@ export default function AboutPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.7 }}
           >
-            At Code-X-Novas, we believe in transforming ideas into impactful
+            At Codexnovas, we believe in transforming ideas into impactful
             digital solutions. Our focus is on delivering high-quality,
             innovative, and budget-friendly technology products while building
             long-term relationships with our clients.
@@ -904,7 +904,7 @@ export default function AboutPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              Meet The Team Behind Code-X-Novas
+              Meet The Team Behind Codexnovas
             </motion.h2>
             <motion.p
               className="text-[15px] sm:text-[17px] text-[#555] max-w-[800px] mx-auto leading-relaxed"
