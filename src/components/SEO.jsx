@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 
 /**
@@ -17,6 +17,12 @@ export default function SEO({
     image = 'https://codexnovas.in/og-image.png',
     author = 'Codexnovas',
 }) {
+    useEffect(() => {
+        if (title) {
+            document.title = title;
+        }
+    }, [title]);
+
     const structuredData = {
         '@context': 'https://schema.org',
         '@type': 'Organization',
