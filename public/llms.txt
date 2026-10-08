@@ -1,0 +1,20 @@
+# Codexnovas
+
+> Codexnovas is a premier digital product studio specializing in web development, mobile application engineering, custom AI solutions, and scalable software design.
+
+## Brand Overview
+- **Official Name**: Codexnovas
+- **Legal Name**: Codexnovas
+- **Official Website**: https://codexnovas.in
+- **Tagline**: Digital Product Studio | Web, App & AI Development
+
+## Core Services & Solutions
+- **Web Development**: Scalable, high-performance web applications built using Next.js, React, and modern UI frameworks.
+- **Mobile App Development**: Cross-platform mobile applications engineered with Flutter and React Native.
+- **AI & Automation**: Machine learning integration, custom AI chatbots, process automation, and intelligent software workflows.
+- **Enterprise Software**: End-to-end custom software solutions, backend APIs (Spring Boot, Node.js), and cloud architecture.
+
+## Official Social Channels
+- **Website**: https://codexnovas.in
+- **LinkedIn**: https://www.linkedin.com/company/code-x-novas/
+- **YouTube**: https://www.youtube.com/@Codexnovas

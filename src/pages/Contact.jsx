@@ -412,7 +412,7 @@ const Contact = () => {
                                 <FaInstagram />
                             </motion.a>
                             <motion.a
-                                href="https://youtube.com/@code-x-novas?si=5JWCRETLXGoSgqJ0"
+                                href="https://www.youtube.com/@Codexnovas"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-10 h-10 flex items-center justify-center rounded-full bg-[#0F2030] text-blue-400"
@@ -576,7 +576,7 @@ const Contact = () => {
                                 <FaInstagram className="text-2xl" />
                             </motion.a>
                             <motion.a
-                                href="https://youtube.com/@code-x-novas?si=5JWCRETLXGoSgqJ0"
+                                href="https://www.youtube.com/@Codexnovas"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-800 text-blue-600 hover:bg-gray-700 transition"

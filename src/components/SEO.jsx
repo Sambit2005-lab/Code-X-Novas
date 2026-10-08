@@ -27,6 +27,9 @@ export default function SEO({
         '@context': 'https://schema.org',
         '@type': 'Organization',
         name: 'Codexnovas',
+        legalName: 'Codexnovas',
+        alternateName: ['Codexnovas'],
+        description: 'Codexnovas builds beautiful, performant websites, mobile apps, and custom AI solutions.',
         url,
         logo: image,
     }
