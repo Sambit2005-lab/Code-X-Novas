@@ -11,8 +11,8 @@ import { Helmet } from 'react-helmet'
  * - author (string)
  */
 export default function SEO({
-    title = 'Codexnovas — Digital Product Studio',
-    description = 'Codexnovas builds beautiful, performant websites and digital experiences that convert. We specialize in web apps, design systems and brand-aware engineering.',
+    title = 'Codexnovas — Next-Gen Tech Company',
+    description = 'Codexnovas is a next-generation technology company building high-performance web applications, cross-platform mobile software, custom artificial intelligence solutions, and scalable enterprise systems.',
     url = 'https://codexnovas.in/',
     image = 'https://codexnovas.in/og-image.png',
     author = 'Codexnovas',
@@ -29,7 +29,7 @@ export default function SEO({
         name: 'Codexnovas',
         legalName: 'Codexnovas',
         alternateName: ['Codexnovas'],
-        description: 'Codexnovas builds beautiful, performant websites, mobile apps, and custom AI solutions.',
+        description: 'Codexnovas is a next-generation technology company building high-performance web applications, cross-platform mobile software, custom artificial intelligence solutions, and scalable enterprise systems.',
         url,
         logo: image,
     }
